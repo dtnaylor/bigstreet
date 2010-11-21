@@ -9,28 +9,15 @@ public class DBConnector {
 	private Connection con;
 
 	public DBConnector(String address, String username, String password, String database) {
-		try {
-			con = DriverManager.getConnection("jdbc:sqlserver:" + address 
-					+ ";user=" + username 
-					+ ";password=" + password 
-					+ ";database=" + database);
 		
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	
 		//at some point call con.close()
 	}
 	
 	public void close() {
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
+
 	
 	public HashMap<Integer, Diagnosis> getDiagnoses() {
 		HashMap<Integer, Diagnosis> diagnoses = new HashMap<Integer, Diagnosis>();
@@ -121,7 +108,7 @@ public class DBConnector {
 					
 					if (code_o == null) code_o = "-1";
 				
-					outcomes.add(new Outcome(name_o, Integer.parseInt(code_o), def_o, major_interventions, suggested_interventions, optional_interventions));
+					//outcomes.add(new Outcome(name_o, Integer.parseInt(code_o), def_o, major_interventions, suggested_interventions, optional_interventions));
 				}
 				rs_o.close();
 				stmt_o.close();

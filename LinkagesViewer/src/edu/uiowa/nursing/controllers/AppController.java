@@ -20,6 +20,7 @@ import edu.uiowa.nursing.models.NNNGraph;
 import edu.uiowa.nursing.models.NNNNode;
 import edu.uiowa.nursing.models.NodeType;
 import edu.uiowa.nursing.views.MainWindow;
+import edu.uiowa.nursing.configuration.*;
 
 public abstract class AppController {
 
@@ -28,8 +29,6 @@ public abstract class AppController {
 	public static Dimension GRAPH_SIZE = new Dimension(1500, 768);
 	
 	private static MainWindow mainWindow;
-	
-	private static String dbAddress, dbUsername, dbPassword, dbDatabase;
 	
 	private static HashMap<Integer, Diagnosis> diagnoses;
 	
@@ -88,9 +87,8 @@ public abstract class AppController {
 	
 	//***** METHODS *****//
 	public static void main(String[] args) {
-		
-		// Read conf file
-		getDBInfo();
+		// Open connection to database
+		DBConnection.openConnection();
 		
 		// Get diagnosis data
 		diagnoses = (new XMLParser()).parseDocument();
@@ -153,31 +151,5 @@ public abstract class AppController {
 		addDiagnosisToDisplay(diagnoses.get(searchResultCodes.get(searchResultIndex)));
 	}
 	
-	private static void getDBInfo()
-	{
-		try {
-			  String homeDir = System.getProperty("user.home");
-		      BufferedReader input =  new BufferedReader(new FileReader(homeDir + "/Documents/nnndb.conf"));
-		      try {
-		        String line = null;
-		        while (( line = input.readLine()) != null){
-		        	String[] splitLine = line.split("=");
-		        	if(splitLine[0].equals("address"))
-		        		dbAddress = splitLine[1];
-		        	else if (splitLine[0].equals("username"))
-		        		dbUsername = splitLine[1];
-		        	else if (splitLine[0].equals("password"))
-		        		dbPassword = splitLine[1];
-		        	else if (splitLine[0].equals("database"))
-		        		dbDatabase = splitLine[1];
-		        }
-		      }
-		      finally {
-		        input.close();
-		      }
-		    }
-		    catch (IOException ex){
-		      ex.printStackTrace();
-		    }
-	}
+	
 }
