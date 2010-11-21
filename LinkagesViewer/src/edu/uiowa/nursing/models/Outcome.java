@@ -112,9 +112,9 @@ public class Outcome {
 		List<Intervention> interventions = new ArrayList<Intervention>();
 		
 		String sql = new StringBuffer()
-			.append("SELECT id, isnull(name_current,name_2005) as name, nic_code, [definition], [type]")
-			.append("FROM [dbo].[interventions] i JOIN [dbo].[diagnosis_outcome_interventions] doi")
-			.append("ON i.id = doi.intervention_id")
+			.append("SELECT id, isnull(name_current,name_2005) as name, nic_code, [definition], [type] ")
+			.append("FROM [dbo].[interventions] i JOIN [dbo].[diagnosis_outcome_interventions] doi ")
+			.append("ON i.id = doi.intervention_id ")
 			.append("WHERE diagnosis_id = " + parentID + " and outcome_id = " + id)
 			.toString();
 		

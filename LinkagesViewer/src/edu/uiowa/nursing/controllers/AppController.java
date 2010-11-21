@@ -4,6 +4,9 @@ import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,8 +16,6 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
-import edu.uiowa.nursing.XMLParser;
-import edu.uiowa.nursing.models.DBConnector;
 import edu.uiowa.nursing.models.Diagnosis;
 import edu.uiowa.nursing.models.NNNGraph;
 import edu.uiowa.nursing.models.NNNNode;
@@ -34,6 +35,7 @@ public abstract class AppController {
 	
 	public static DefaultListModel searchResults = new DefaultListModel();
 	private static HashMap<Integer, Integer> searchResultCodes = new HashMap<Integer, Integer>();
+	private static HashMap<Integer, Diagnosis> searchResultObjects = new HashMap<Integer, Diagnosis>();
 	
 	private static NNNGraph graphToDisplay;
 	private static NNNNode currentNode;
@@ -83,17 +85,12 @@ public abstract class AppController {
 		
 		//TODO: Do this for outcomes & interventions too
 	}
-	
-	
+
 	//***** METHODS *****//
 	public static void main(String[] args) {
 		// Open connection to database
 		DBConnection.openConnection();
-		
-		// Get diagnosis data
-		diagnoses = (new XMLParser()).parseDocument();
-		//diagnoses = (new DBConnector(dbAddress, dbUsername, dbPassword, dbDatabase)).getDiagnoses();
-		
+
 		mainWindow = new MainWindow();
 		mainWindow.setVisible(true);
 	}
@@ -129,26 +126,34 @@ public abstract class AppController {
 		searchResults.clear();
 		searchResultCodes.clear();
 		
-		// Add new results
-		for (int code : AppController.getDiagnoses().keySet())
-		{
-			Diagnosis d = AppController.getDiagnoses().get(code);
-			if(d.getName().toLowerCase().contains(text.toLowerCase()))
-			{
-				searchResults.addElement(d.getName());
-				searchResultCodes.put(searchResults.size() - 1, code);
+		try {
+			String query = "SELECT id, nanda_code, isnull(name_current,name_2005) as name, definition FROM DIAGNOSES WHERE NAME_CURRENT LIKE ? or NAME_2005 LIKE ?";
+			PreparedStatement search_ps = DBConnection.connection.prepareStatement(query);
+			search_ps.setString(1,"%"+text+"%");
+			search_ps.setString(2,"%"+text+"%");
+			ResultSet rs = search_ps.executeQuery();
+			while (rs.next()) {
+				searchResults.addElement(rs.getString("name"));
+				searchResultObjects.put(searchResults.size() - 1, new Diagnosis(
+																	rs.getInt("id"),
+																	rs.getString("name"),
+																	rs.getString("nanda_code"),
+																	rs.getString("definition")));
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 
 	public static void displayDiagnosis(int searchResultIndex)
 	{
-		setDiagnosisToDisplay(diagnoses.get(searchResultCodes.get(searchResultIndex)));
+		setDiagnosisToDisplay(searchResultObjects.get(searchResultIndex));
 	}
 	
 	public static void addDiagnosis(int searchResultIndex)
 	{
-		addDiagnosisToDisplay(diagnoses.get(searchResultCodes.get(searchResultIndex)));
+		addDiagnosisToDisplay(searchResultObjects.get(searchResultIndex));
 	}
 	
 	

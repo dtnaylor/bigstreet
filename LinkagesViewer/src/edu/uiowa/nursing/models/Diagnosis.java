@@ -1,6 +1,7 @@
 package edu.uiowa.nursing.models;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class Diagnosis {
 		this.name = name;
 		this.code = code;
 		this.definition = definition;
-		this.outcomes = outcomes;
+		this.outcomes = new ArrayList<Outcome>();
 	}
 	
 	//***** METHODS *****//
@@ -55,40 +56,28 @@ public class Diagnosis {
 		if (this.outcomes.size() == 0) {
 			try {
 				String query = new StringBuffer()
-					.append("SELECT id, noc_code, isnull(name_current,name_2005) FROM [dbo].[outcomes] o")
-					.append("JOIN diagnosis_outcomes do")
-					.append("ON o.id = do.outcome_id")
-					.append("WHERE do.diagnosis_id=")
+					.append("SELECT id, noc_code, isnull(name_current,name_2005) as name, definition FROM [dbo].[outcomes] o ")
+					.append("JOIN diagnosis_outcomes do ")
+					.append("ON o.id = do.outcome_id ")
+					.append("WHERE do.diagnosis_id=")					
 					.append(this.id.toString())
 					.toString();
+				System.out.println(query);
 				
 				ResultSet rs = DBConnection.connection.createStatement().executeQuery(query);
-				while (rs.next()) {
-					this.outcomes.add(Outcome(rs.getString("name"),
-											  rs.sgetString()))
-				}
-				
+				// public Outcome(int id, int parentID, String name, String code, String definition)
+				while (rs.next()) 
+					this.outcomes.add(new Outcome(rs.getInt("id"),
+											  this.id,
+											  rs.getString("name"),
+											  rs.getString("noc_code"),
+											  rs.getString("definition"))); 
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.exit(1);
 			}
 		}
-
-			    while (rs_d.next()) {
-			    	int id_d = rs_d.getInt("id");
-			    	String name_d = rs_d.getString("name");
-			    	String def_d = rs_d.getString("definition");
-			    	String code_d = rs_d.getString("nanda_code");
-			    	
-			    	//System.out.println(name_d + id_d);
-			    	
-			    	// Get outcomes
-			    	List<Outcome> outcomes = new ArrayList<Outcome>();
-			    	String SQL_o = "SELECT * FROM linkagesbook_outcomes_corrected WHERE diagnosis_id=" + id_d;
-				    Statement stmt_o;
-					stmt_o = con.createStatement();
-					ResultSet rs_o = stmt_o.executeQuery(SQL_o);
-				
-			
-		}
-		return outcomes;
+		return this.outcomes;
 	}
 	
 	public void addOutcome(Outcome outcome)
