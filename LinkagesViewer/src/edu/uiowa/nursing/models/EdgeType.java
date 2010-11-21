@@ -1,0 +1,8 @@
+package edu.uiowa.nursing.models;
+
+public enum EdgeType {
+	MAJOR_INTERVENTION,
+	SUGGESTED_INTERVENTION,
+	OPTIONAL_INTERVENTION,
+	OUTCOME
+}
