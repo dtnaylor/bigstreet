@@ -1,5 +1,6 @@
 package edu.uiowa.nursing.models;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -84,19 +85,26 @@ public class Diagnosis {
 		outcomes.add(outcome);
 	}
 	
-	public List<Diagnosis> getCorrelatedDiagnoses()
-	{
+	public List<Diagnosis> getCorrelatedDiagnoses() {
 		//If we haven't already pulled this info from the DB, get it now
-		if(correlatedDiagnoses == null)
-		{
-			//TODO: do this for real
+		if (correlatedDiagnoses == null) {
 			correlatedDiagnoses = new ArrayList<Diagnosis>();
-			for (int i = 1; i < 10; i++)
-			{
-				correlatedDiagnoses.add(AppController.getDiagnoses().get(i));
+			try {
+				String query = "SELECT id, nanda_code, isnull(name_current,name_2005) as name, definition FROM diagnoses d join correlations_between_diagnoses cbd on d.id = cbd.diagnosis_id_b WHERE cbd.diagnosis_id_a = ? order by correlation desc";
+				PreparedStatement search_ps = DBConnection.connection.prepareStatement(query);
+				search_ps.setInt(1, this.id);
+				ResultSet rs = search_ps.executeQuery();
+				while (rs.next()) {
+					correlatedDiagnoses.add(new Diagnosis(rs.getInt("id"),
+														  rs.getString("name"),
+														  rs.getString("nanda_code"),
+														  rs.getString("definition")));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.exit(1);
 			}
 		}
-		
 		return correlatedDiagnoses;
 	}
 	
