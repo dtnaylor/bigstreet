@@ -62,7 +62,6 @@ public class Diagnosis {
 					.append("WHERE do.diagnosis_id=")					
 					.append(this.id.toString())
 					.toString();
-				System.out.println(query);
 				
 				ResultSet rs = DBConnection.connection.createStatement().executeQuery(query);
 				// public Outcome(int id, int parentID, String name, String code, String definition)
