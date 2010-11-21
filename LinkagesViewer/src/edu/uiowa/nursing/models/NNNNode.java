@@ -28,7 +28,7 @@ public class NNNNode {// extends NNNGraphElement {
 	
 	//***** DATA MEMBERS *****//
 	private String name;
-	private int code;
+	private String code;
 	private String description;
 	private NodeType type;
 	private boolean selected;
@@ -38,7 +38,7 @@ public class NNNNode {// extends NNNGraphElement {
 	
 	
 	//***** CONSTRUCTORS *****//
-	public NNNNode(String name, int code, String description, NodeType type)
+	public NNNNode(String name, String code, String description, NodeType type)
 	{
 		this.name = name;
 		this.code = code;
@@ -59,7 +59,7 @@ public class NNNNode {// extends NNNGraphElement {
 		return name;
 	}
 	
-	public int getCode()
+	public String getCode()
 	{
 		return code;
 	}

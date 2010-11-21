@@ -131,7 +131,7 @@ public class Outcome {
 				
 				if (code == null) code = "-1";
 				
-				interventions.add(new Intervention(Integer.parseInt(id), name, Integer.parseInt(code), definition));
+				interventions.add(new Intervention(Integer.parseInt(id), name, code, definition));
 			}
 			rs.close();
 			stmt.close();

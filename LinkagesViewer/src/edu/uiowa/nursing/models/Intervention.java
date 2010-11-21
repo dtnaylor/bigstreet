@@ -4,11 +4,11 @@ public class Intervention {
 	//***** DATA MEMBERS *****//
 	private int id;
 	private String name;
-	private int code;
+	private String code;
 	private String definition;
 	
 	//***** CONSTRUCTORS *****//
-	public Intervention(int id, String name, int code, String definition)
+	public Intervention(int id, String name, String code, String definition)
 	{
 		this.id = id;
 		this.name = name;
@@ -22,7 +22,7 @@ public class Intervention {
 		return name;
 	}
 	
-	public int getCode()
+	public String getCode()
 	{
 		return code;
 	}
