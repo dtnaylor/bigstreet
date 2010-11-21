@@ -1,6 +1,7 @@
 package edu.uiowa.nursing.models;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +27,9 @@ public class Outcome {
 		this.name = name;
 		this.code = code;
 		this.definition = definition;
-		this.majorInterventions = new ArrayList<Intervention>();
-		this.suggestedInterventions = new ArrayList<Intervention>();
-		this.optionalInterventions = new ArrayList<Intervention>();
+		this.majorInterventions = getInterventionsFromDB(EdgeType.MAJOR_INTERVENTION);
+		this.suggestedInterventions = getInterventionsFromDB(EdgeType.SUGGESTED_INTERVENTION);
+		this.optionalInterventions = getInterventionsFromDB(EdgeType.OPTIONAL_INTERVENTION);
 	}
 	
 	
@@ -114,25 +115,31 @@ public class Outcome {
 			.append("SELECT id, isnull(name_current,name_2005) as name, nic_code, [definition], [type]")
 			.append("FROM [dbo].[interventions] i JOIN [dbo].[diagnosis_outcome_interventions] doi")
 			.append("ON i.id = doi.intervention_id")
-			.append("WHERE diagnosis_id = %i and outcome_id = %i")
+			.append("WHERE diagnosis_id = " + parentID + " and outcome_id = " + id)
 			.toString();
 		
-		Statement stmt_i;
-		stmt_i = DBConnection.connection.createStatement();
-		ResultSet rs = stmt_i.executeQuery(sql);
+		Statement stmt;
+		try {
+			stmt = DBConnection.connection.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
 			
-		while (rs.next()) {
-			String id = rs.getString("id");
-			String name = rs.getString("name");
-			String code = rs.getString("nic_code");
-			String definition = rs.getString("definition");
-			
-			if (code == null) code = "-1";
-			
-			interventions.add(new Intervention(name, Integer.parseInt(code)));
+			while (rs.next()) {
+				String id = rs.getString("id");
+				String name = rs.getString("name");
+				String code = rs.getString("nic_code");
+				String definition = rs.getString("definition");
+				
+				if (code == null) code = "-1";
+				
+				interventions.add(new Intervention(Integer.parseInt(id), name, Integer.parseInt(code), definition));
+			}
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		rs.close();
-		stmt_i.close();
 		
+		return interventions;
 	}
 }
