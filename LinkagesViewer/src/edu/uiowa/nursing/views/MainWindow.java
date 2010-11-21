@@ -199,7 +199,8 @@ public class MainWindow extends JFrame {
 	//***** METHODS *****//
 	public void displayNodeInfo(NNNNode node)
 	{
-		String infoString = node.getName().toUpperCase() + "  (" + node.getCode() + "):  " + node.getDescription();
+		String infoString = "<strong>" + node.getName().toUpperCase() 
+			+ "</strong>  (" + node.getCode() + "): <br>" + node.getDescription();
 		Utilities.wrapLabelText(lblNodeInfo, infoString);
 	}
 	
