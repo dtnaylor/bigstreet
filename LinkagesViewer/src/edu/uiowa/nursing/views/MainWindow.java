@@ -198,6 +198,7 @@ public class MainWindow extends JFrame {
 	//***** METHODS *****//
 	public void displayNodeInfo(NNNNode node)
 	{
+<<<<<<< HEAD
 		String infoString = node.getName().toUpperCase() + "  (" + node.getCode() + "):  " + node.getDescription();
 		switch (node.getType()) {
 		case DIAGNOSIS:
@@ -213,6 +214,10 @@ public class MainWindow extends JFrame {
 		}
 	
 		
+=======
+		String infoString = "<strong>" + node.getName().toUpperCase() 
+			+ "</strong>  (" + node.getCode() + "): <br>" + node.getDescription();
+>>>>>>> a2ce068148cd4e463c1fb0c9ba12109f64fac005
 		Utilities.wrapLabelText(lblNodeInfo, infoString);
 	}
 	

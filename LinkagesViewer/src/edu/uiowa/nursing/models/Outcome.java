@@ -8,13 +8,9 @@ import java.util.List;
 
 import edu.uiowa.nursing.configuration.DBConnection;
 
-public class Outcome {
+public class Outcome extends NNNObject {
 	//***** DATA MEMBERS *****//
-	private int id;
 	private int parentID;
-	private String name;
-	private String code;
-	private String definition;
 	private List<Intervention> majorInterventions;
 	private List<Intervention> suggestedInterventions;
 	private List<Intervention> optionalInterventions;
@@ -34,21 +30,6 @@ public class Outcome {
 	
 	
 	//***** METHODS *****//
-	public String getName()
-	{
-		return name;
-	}
-	
-	public String getCode()
-	{
-		return code;
-	}
-	
-	public String getDefinition()
-	{
-		return definition;
-	}
-	
 	public List<Intervention> getMajorInterventions()
 	{
 		return majorInterventions;
@@ -96,17 +77,19 @@ public class Outcome {
 	
 	private List<Intervention> getInterventionsFromDB(EdgeType type)
 	{
-		String typeString;
+		String typeString = "major";
 		switch(type)
 		{
 			case MAJOR_INTERVENTION:
 				typeString = "major";
+				break;
 			case SUGGESTED_INTERVENTION:
 				typeString = "suggested";
+				break;
 			case OPTIONAL_INTERVENTION:
 				typeString = "optional";
+				break;
 		}
-		
 		
 		// Get major interventions
 		List<Intervention> interventions = new ArrayList<Intervention>();
@@ -115,7 +98,7 @@ public class Outcome {
 			.append("SELECT id, isnull(name_current,name_2005) as name, nic_code, [definition], [type] ")
 			.append("FROM [dbo].[interventions] i JOIN [dbo].[diagnosis_outcome_interventions] doi ")
 			.append("ON i.id = doi.intervention_id ")
-			.append("WHERE diagnosis_id = " + parentID + " and outcome_id = " + id)
+			.append("WHERE diagnosis_id = " + parentID + " and outcome_id = " + id + " and [type] = '" + typeString + "'")
 			.toString();
 		
 		Statement stmt;

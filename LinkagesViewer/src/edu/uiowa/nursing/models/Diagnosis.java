@@ -10,12 +10,9 @@ import java.util.List;
 import edu.uiowa.nursing.configuration.DBConnection;
 import edu.uiowa.nursing.controllers.AppController;
 
-public class Diagnosis {
+public class Diagnosis extends NNNObject {
 	//***** DATA MEMBERS *****//
-	private Integer id; 
-	private String name;
-	private String code;
-	private String definition;
+	
 	private List<Outcome> outcomes;
 	private List<Diagnosis> correlatedDiagnoses;
 	
@@ -30,21 +27,6 @@ public class Diagnosis {
 	}
 	
 	//***** METHODS *****//
-	public String getName()
-	{
-		return this.name;
-	}
-	
-	public String getCode()
-	{
-		return this.code;
-	}
-	
-	public String getDefinition()
-	{
-		return this.definition;
-	}
-	
 	public List<Outcome> getOutcomes()
 	{
 		/*  assume that the list of outcomes will never be empty

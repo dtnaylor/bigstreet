@@ -323,11 +323,11 @@ public class NNNGraph {
 		AppController.graphUpdated();
 	}
 
-	public void updateCorrelatedNodes(int numToShow)
+	public void updateCorrelatedNodes()
 	{
 		correlatedDiagnoses.clear();  //TODO: Remove these from graph!!!
 		for (Diagnosis d : displayedDiagnoses){
-			for (int i = 0; i < Math.min(numToShow, d.getCorrelatedDiagnoses().size()); i++)
+			for (int i = 0; i < Math.min(d.getNumCorrelatedNodesToShow(), d.getCorrelatedDiagnoses().size()); i++)
 			{
 				Diagnosis correlated = d.getCorrelatedDiagnoses().get(i);
 				if (!correlatedDiagnoses.contains(correlated))
@@ -404,7 +404,7 @@ public class NNNGraph {
 		if (existingNodes.containsKey(diagnosis.getName())) return;
 		
 		//Add diagnosis node
-		NNNNode diagnosisNode = new NNNNode(diagnosis.getName(), diagnosis.getCode(), diagnosis.getDefinition(), NodeType.DIAGNOSIS);
+		NNNNode diagnosisNode = new NNNNode(diagnosis);
 		g.addVertex(diagnosisNode);
 		existingNodes.put(diagnosisNode.getName(), diagnosisNode);
 		
@@ -419,7 +419,7 @@ public class NNNGraph {
 			}
 			else
 			{
-				outcomeNode = new NNNNode(o.getName(), o.getCode(), o.getDefinition(), NodeType.OUTCOME);
+				outcomeNode = new NNNNode(o);
 				existingNodes.put(o.getName(), outcomeNode);
 			}
 			
@@ -446,7 +446,7 @@ public class NNNGraph {
 					}
 					else
 					{
-						interventionNode = new NNNNode(h.getName(), h.getCode(), "", NodeType.INTERVENTION);
+						interventionNode = new NNNNode(h);
 						existingNodes.put(h.getName(), interventionNode);
 					}
 					

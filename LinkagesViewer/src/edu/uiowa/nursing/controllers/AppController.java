@@ -72,18 +72,12 @@ public abstract class AppController {
 		mainWindow.displayNodeInfo(node);
 	}
 	
-	public static int getNumCorrelatedNodesToShow()
-	{
-		return numCorrelatedNodesToShow;
-	}
 	
 	public static void setNumCorrelatedNodesToShow(int num)
 	{
-		numCorrelatedNodesToShow = num;
+		currentNode.setNumCorrelatedNodesToShow(num);
 		
-		graphToDisplay.updateCorrelatedNodes(num);
-		
-		//TODO: Do this for outcomes & interventions too
+		graphToDisplay.updateCorrelatedNodes();
 	}
 
 	//***** METHODS *****//
@@ -156,5 +150,11 @@ public abstract class AppController {
 		addDiagnosisToDisplay(searchResultObjects.get(searchResultIndex));
 	}
 	
+	
+	//TODO: remove me!
+	public static int getNumCorrelatedNodesToShow()
+	{
+		return 0;
+	}
 	
 }

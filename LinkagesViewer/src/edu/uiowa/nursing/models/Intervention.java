@@ -1,11 +1,8 @@
 package edu.uiowa.nursing.models;
 
-public class Intervention {
+public class Intervention extends NNNObject {
 	//***** DATA MEMBERS *****//
-	private int id;
-	private String name;
-	private String code;
-	private String definition;
+
 	
 	//***** CONSTRUCTORS *****//
 	public Intervention(int id, String name, String code, String definition)
@@ -17,18 +14,5 @@ public class Intervention {
 	}
 	
 	//***** METHODS *****//
-	public String getName()
-	{
-		return name;
-	}
-	
-	public String getCode()
-	{
-		return code;
-	}
-	
-	public String getDefinition()
-	{
-		return definition;
-	}
+
 }

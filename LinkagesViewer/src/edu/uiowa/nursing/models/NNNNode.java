@@ -27,10 +27,7 @@ public class NNNNode {// extends NNNGraphElement {
 	}
 	
 	//***** DATA MEMBERS *****//
-	private String name;
-	private String code;
-	private String description;
-	private NodeType type;
+	private NNNObject nnnObject;
 	private boolean selected;
 	private List<NNNNode> selectedPredecessors;
 	private NNNNode mostRecentlySelectedPredecessor; // (when I was selected, that is)
@@ -38,15 +35,12 @@ public class NNNNode {// extends NNNGraphElement {
 	
 	
 	//***** CONSTRUCTORS *****//
-	public NNNNode(String name, String code, String description, NodeType type)
+	public NNNNode(NNNObject nnnObject)
 	{
-		this.name = name;
-		this.code = code;
-		this.description = description;
-		this.type = type;
+		this.nnnObject = nnnObject;
 		this.selected = false;
 		this.selectedPredecessors = new ArrayList<NNNNode>();
-		if(type == NodeType.DIAGNOSIS)
+		if(getType() == NodeType.DIAGNOSIS)
 			selectionColor = nextDiagnosisColor();
 		else
 			selectionColor = Color.BLACK;
@@ -56,22 +50,39 @@ public class NNNNode {// extends NNNGraphElement {
 	//***** PROPERTIES *****//
 	public String getName()
 	{
-		return name;
+		return nnnObject.getName();
 	}
 	
 	public String getCode()
 	{
-		return code;
+		return nnnObject.getCode();
 	}
 	
 	public String getDescription()
 	{
-		return description;
+		return nnnObject.getDefinition();
 	}
 	
 	public NodeType getType()
 	{
-		return type;
+		if (nnnObject instanceof Diagnosis)
+			return NodeType.DIAGNOSIS;
+		else if (nnnObject instanceof Outcome)
+			return NodeType.OUTCOME;
+		else if (nnnObject instanceof Intervention)
+			return NodeType.INTERVENTION;
+		
+		return NodeType.DIAGNOSIS; //We should never get here
+	}
+	
+	public int getNumCorrelatedNodesToShow()
+	{
+		return nnnObject.getNumCorrelatedNodesToShow();
+	}
+	
+	public void setNumCorrelatedNodesToShow(int numToShow)
+	{
+		nnnObject.setNumCorrelatedNodesToShow(numToShow);
 	}
 	
 	
@@ -110,7 +121,7 @@ public class NNNNode {// extends NNNGraphElement {
 		// Set my selection color to my most recently selected
 		// predecessor's color (unless I'm a diagnosis, in which
 		// case a color was assigned to me when I was created.)
-		if (this.type != NodeType.DIAGNOSIS)
+		if (getType() != NodeType.DIAGNOSIS)
 			selectionColor = mostRecentlySelectedPredecessor.getSelectionColor();
 		
 		// Tell all immediate successors that I've been selected
@@ -123,7 +134,7 @@ public class NNNNode {// extends NNNGraphElement {
 	private void deselect(Graph<NNNNode, NNNEdge> g)
 	{
 		// Set my selection color to black
-		if (this.type != NodeType.DIAGNOSIS)
+		if (getType() != NodeType.DIAGNOSIS)
 			selectionColor = Color.BLACK;
 		
 		// Tell all immediate successors that I've been deselected
@@ -158,7 +169,7 @@ public class NNNNode {// extends NNNGraphElement {
 	{
 		if(selected)
 			return RenderMode.SELECTED;
-		else if(!selectedPredecessors.isEmpty() || type == NodeType.DIAGNOSIS)
+		else if(!selectedPredecessors.isEmpty() || getType() == NodeType.DIAGNOSIS)
 			return RenderMode.GHOSTED;
 		else
 			return RenderMode.INVISIBLE;
@@ -182,6 +193,6 @@ public class NNNNode {// extends NNNGraphElement {
 	
 	public String toString()
 	{
-		return this.name;
+		return getName();
 	}
 }
