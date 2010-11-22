@@ -72,6 +72,10 @@ public abstract class AppController {
 		mainWindow.displayNodeInfo(node);
 	}
 	
+	public static NNNNode getCurrentNode() {
+		return currentNode;
+	}
+	
 	
 	public static void setNumCorrelatedNodesToShow(int num)
 	{

@@ -53,6 +53,10 @@ public class NNNNode {// extends NNNGraphElement {
 		return nnnObject.getName();
 	}
 	
+	public NNNObject getNNNObject() {
+		return nnnObject;
+	}
+	
 	public String getCode()
 	{
 		return nnnObject.getCode();

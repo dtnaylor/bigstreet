@@ -24,6 +24,7 @@ public class Diagnosis extends NNNObject {
 		this.code = code;
 		this.definition = definition;
 		this.outcomes = new ArrayList<Outcome>();
+		this.numCorrelatedNodesToShow = 0;
 	}
 	
 	//***** METHODS *****//
@@ -65,6 +66,21 @@ public class Diagnosis extends NNNObject {
 	public void addOutcome(Outcome outcome)
 	{
 		outcomes.add(outcome);
+	}
+	
+	public int getNumberOfCorrelatedNodes() {
+		try {
+			String query = "select count(*) as count FROM correlations_between_diagnoses where diagnosis_id_a = ?";
+			PreparedStatement search_ps = DBConnection.connection.prepareStatement(query);
+			search_ps.setInt(1, this.id);
+			ResultSet rs = search_ps.executeQuery();
+			rs.next();
+			return rs.getInt("count");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.exit(1);
+			return 0;
+		}
 	}
 	
 	public List<Diagnosis> getCorrelatedDiagnoses() {

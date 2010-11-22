@@ -34,4 +34,8 @@ public abstract class NNNObject {
 	{
 		this.numCorrelatedNodesToShow = numToShow;
 	}
+	
+	public int getNumberOfCorrelatedNodes() {
+		return 0;
+	}
 }

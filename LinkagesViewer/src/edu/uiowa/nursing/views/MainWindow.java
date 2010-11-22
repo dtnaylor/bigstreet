@@ -117,8 +117,13 @@ public class MainWindow extends JFrame {
 		searchPanel.add(displayButtonsPanel, BorderLayout.SOUTH);
 		
 		// Correlations
-		tbarCorrelated = new JSlider(JSlider.HORIZONTAL, 0, 20, AppController.getNumCorrelatedNodesToShow());
+		tbarCorrelated = new JSlider(JSlider.HORIZONTAL, 0, 0, AppController.getNumCorrelatedNodesToShow());
+		tbarCorrelated.setPaintTicks(true);
+		tbarCorrelated.setMajorTickSpacing(1);
+		tbarCorrelated.setSnapToTicks(true);
+		tbarCorrelated.setVisible(false);
 		lblCorrelated = new JLabel("Select a node to find others.");
+		lblCorrelated.setVisible(false);
 		lblCorrelated.setAlignmentX(RIGHT_ALIGNMENT);
 		
 		// Node info
@@ -200,11 +205,18 @@ public class MainWindow extends JFrame {
 	{
 		String infoString = "<strong>" + node.getName().toUpperCase() 
 			+ "</strong>  (" + node.getCode() + "): <br>" + node.getDescription();
+		int curnum = node.getNNNObject().getNumCorrelatedNodesToShow();
+		tbarCorrelated.setValue(curnum);
 		switch (node.getType()) {
 		case DIAGNOSIS:
-			lblCorrelated.setText("Show correlated diagnoses: ");
+			lblCorrelated.setVisible(true);
+			tbarCorrelated.setVisible(true);
+			int num = node.getNNNObject().getNumberOfCorrelatedNodes(); 
+			lblCorrelated.setText("Show correlated diagnoses: "+curnum+"/"+num);
+			tbarCorrelated.setMaximum(num);
 			break;
 		case OUTCOME:
+			lblCorrelated.setVisible(true);
 			lblCorrelated.setText("Show correlated outcomes: ");
 			break;
 		case INTERVENTION:
@@ -372,8 +384,20 @@ public class MainWindow extends JFrame {
 		    JSlider source = (JSlider)e.getSource();
 		    if (!source.getValueIsAdjusting()) {
 		    	AppController.setNumCorrelatedNodesToShow(source.getValue());
-		        lblCorrelated.setText("Show correlated nodes: " + tbarCorrelated.getValue());
-		    }
+			    switch (AppController.getCurrentNode().getType()) {
+					case DIAGNOSIS:
+						int num = AppController.getCurrentNode().getNNNObject().getNumberOfCorrelatedNodes(); 
+						lblCorrelated.setText("Show correlated diagnoses: " + tbarCorrelated.getValue() +"/"+num);
+						break;
+					case OUTCOME:
+						lblCorrelated.setText("Show correlated outcomes: ");
+						break;
+					case INTERVENTION:
+						lblCorrelated.setText("Show correlated interventions: ");
+						break;
+		    	
+			    }
+			}
 		}
-	}	
+	}
 }
