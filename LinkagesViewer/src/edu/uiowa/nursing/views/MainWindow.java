@@ -37,6 +37,7 @@ import edu.uiowa.nursing.controllers.AppController;
 import edu.uiowa.nursing.models.Diagnosis;
 import edu.uiowa.nursing.models.NNNGraph;
 import edu.uiowa.nursing.models.NNNNode;
+import edu.uiowa.nursing.models.NodeType;
 
 public class MainWindow extends JFrame {
 	// GUI elements
@@ -117,7 +118,7 @@ public class MainWindow extends JFrame {
 		
 		// Correlations
 		tbarCorrelated = new JSlider(JSlider.HORIZONTAL, 0, 20, AppController.getNumCorrelatedNodesToShow());
-		lblCorrelated = new JLabel("Show correlated nodes: " + AppController.getNumCorrelatedNodesToShow());
+		lblCorrelated = new JLabel("Select a node to find others.");
 		lblCorrelated.setAlignmentX(RIGHT_ALIGNMENT);
 		
 		// Node info
@@ -168,8 +169,6 @@ public class MainWindow extends JFrame {
 		panelToolbar.add(panelNodeInfo);
 		panelToolbar.add(panelControls);
 		
-		
-		
 		// Attach action listeners
 		tbxSearch.addActionListener(new search());
 		btnSearch.addActionListener(new search());
@@ -200,6 +199,20 @@ public class MainWindow extends JFrame {
 	public void displayNodeInfo(NNNNode node)
 	{
 		String infoString = node.getName().toUpperCase() + "  (" + node.getCode() + "):  " + node.getDescription();
+		switch (node.getType()) {
+		case DIAGNOSIS:
+			lblCorrelated.setText("Show correlated diagnoses: ");
+			break;
+		case OUTCOME:
+			lblCorrelated.setText("Show correlated outcomes: ");
+			break;
+		case INTERVENTION:
+			lblCorrelated.setText("Show correlated interventions: ");
+			break;
+		
+		}
+	
+		
 		Utilities.wrapLabelText(lblNodeInfo, infoString);
 	}
 	
