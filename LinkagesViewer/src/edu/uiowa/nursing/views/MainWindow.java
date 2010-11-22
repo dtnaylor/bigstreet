@@ -198,8 +198,8 @@ public class MainWindow extends JFrame {
 	//***** METHODS *****//
 	public void displayNodeInfo(NNNNode node)
 	{
-<<<<<<< HEAD
-		String infoString = node.getName().toUpperCase() + "  (" + node.getCode() + "):  " + node.getDescription();
+		String infoString = "<strong>" + node.getName().toUpperCase() 
+			+ "</strong>  (" + node.getCode() + "): <br>" + node.getDescription();
 		switch (node.getType()) {
 		case DIAGNOSIS:
 			lblCorrelated.setText("Show correlated diagnoses: ");
@@ -212,12 +212,6 @@ public class MainWindow extends JFrame {
 			break;
 		
 		}
-	
-		
-=======
-		String infoString = "<strong>" + node.getName().toUpperCase() 
-			+ "</strong>  (" + node.getCode() + "): <br>" + node.getDescription();
->>>>>>> a2ce068148cd4e463c1fb0c9ba12109f64fac005
 		Utilities.wrapLabelText(lblNodeInfo, infoString);
 	}
 	
