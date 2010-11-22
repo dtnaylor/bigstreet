@@ -3,12 +3,10 @@ package edu.uiowa.nursing.models;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.uiowa.nursing.configuration.DBConnection;
-import edu.uiowa.nursing.controllers.AppController;
 
 public class Diagnosis extends NNNObject {
 	//***** DATA MEMBERS *****//

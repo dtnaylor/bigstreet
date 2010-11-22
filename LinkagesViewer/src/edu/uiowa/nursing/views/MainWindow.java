@@ -117,7 +117,7 @@ public class MainWindow extends JFrame {
 		searchPanel.add(displayButtonsPanel, BorderLayout.SOUTH);
 		
 		// Correlations
-		tbarCorrelated = new JSlider(JSlider.HORIZONTAL, 0, 0, AppController.getNumCorrelatedNodesToShow());
+		tbarCorrelated = new JSlider(JSlider.HORIZONTAL, 0, 0, 0);
 		tbarCorrelated.setPaintTicks(true);
 		tbarCorrelated.setMajorTickSpacing(1);
 		tbarCorrelated.setSnapToTicks(true);

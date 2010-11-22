@@ -40,8 +40,6 @@ public abstract class AppController {
 	private static NNNGraph graphToDisplay;
 	private static NNNNode currentNode;
 	
-	private static int numCorrelatedNodesToShow = 0;
-	
 	//***** PROPERTIES *****//
 	public static HashMap<Integer, Diagnosis> getDiagnoses() {
 		return diagnoses;
@@ -156,13 +154,6 @@ public abstract class AppController {
 	public static void addDiagnosis(int searchResultIndex)
 	{
 		addDiagnosisToDisplay(searchResultObjects.get(searchResultIndex));
-	}
-	
-	
-	//TODO: remove me!
-	public static int getNumCorrelatedNodesToShow()
-	{
-		return 0;
 	}
 	
 }
