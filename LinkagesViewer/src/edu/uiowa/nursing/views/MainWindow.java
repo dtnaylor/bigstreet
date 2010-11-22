@@ -56,7 +56,6 @@ public class MainWindow extends JFrame {
 	
 	// Display buttons panel
 	private JPanel displayButtonsPanel;
-	private JButton btnDisplay;
 	private JButton btnAdd;
 	
 	// Correlated nodes
@@ -75,6 +74,7 @@ public class MainWindow extends JFrame {
 	private JButton btnZoomOut;
 	private JButton btnTranslation;
 	private JButton btnSelection;
+	private JButton btnRemove;
 	private JButton btnClear;
 	private JButton btnScreenShot;
 	private JPanel panelControls;
@@ -100,14 +100,12 @@ public class MainWindow extends JFrame {
 		
 		listResults = new JList((ListModel) AppController.searchResults);
 		listResultsScrollPane = new JScrollPane(listResults);
-		btnDisplay = new JButton("Display");
 		btnAdd = new JButton("Add");
 		
 		displayButtonsPanel = new JPanel();
 		displayButtonsPanel.setLayout(new BoxLayout(displayButtonsPanel, BoxLayout.LINE_AXIS));
 		displayButtonsPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
 		displayButtonsPanel.add(Box.createHorizontalGlue());
-		displayButtonsPanel.add(btnDisplay);
 		displayButtonsPanel.add(btnAdd);
 		
 		searchPanel = new JPanel(new BorderLayout());
@@ -140,18 +138,21 @@ public class MainWindow extends JFrame {
 		ImageIcon zoomOutIcon = createImageIcon("images/zoom_out.png");
 		ImageIcon translationIcon = createImageIcon("images/arrows.png");
 		ImageIcon selectionIcon = createImageIcon("images/pointer.png");
+		ImageIcon removeIcon = createImageIcon("images/remove.png");
 		ImageIcon clearIcon = createImageIcon("images/eraser.png");
 		ImageIcon cameraIcon = createImageIcon("images/camera.png");
 		btnZoomIn = new JButton(zoomInIcon);
 		btnZoomOut = new JButton(zoomOutIcon);
 		btnTranslation = new JButton(translationIcon);
 		btnSelection = new JButton(selectionIcon);
+		btnRemove = new JButton(removeIcon);
 		btnClear = new JButton(clearIcon);
 		btnScreenShot = new JButton(cameraIcon);
 		btnZoomIn.setToolTipText("Zoom In");
 		btnZoomOut.setToolTipText("Zoom Out");
 		btnTranslation.setToolTipText("Translation Mode");
 		btnSelection.setToolTipText("Selection Mode");
+		btnRemove.setToolTipText("Remove Diagnosis");
 		btnClear.setToolTipText("Clear Screen");
 		btnScreenShot.setToolTipText("Save Screen Shot");
 		panelControls = new JPanel();
@@ -160,6 +161,7 @@ public class MainWindow extends JFrame {
 		panelControls.add(btnZoomOut);
 		panelControls.add(btnTranslation);
 		panelControls.add(btnSelection);
+		panelControls.add(btnRemove);
 		panelControls.add(btnClear);
 		panelControls.add(btnScreenShot);
 		
@@ -178,7 +180,6 @@ public class MainWindow extends JFrame {
 		tbxSearch.addActionListener(new search());
 		btnSearch.addActionListener(new search());
 		
-		btnDisplay.addActionListener(new btnDisplay_click());
 		btnAdd.addActionListener(new btnAdd_click());
 		
 		tbarCorrelated.addChangeListener(new tbarCorrelated_stateChanged());
@@ -187,6 +188,7 @@ public class MainWindow extends JFrame {
 		btnZoomOut.addActionListener(new btnZoomOut_click());
 		btnTranslation.addActionListener(new btnTranslation_click());
 		btnSelection.addActionListener(new btnSelection_click());
+		btnRemove.addActionListener(new btnRemove_click());
 		btnClear.addActionListener(new btnClear_click());
 		btnScreenShot.addActionListener(new btnScreenShot_click());
 		
@@ -276,53 +278,17 @@ public class MainWindow extends JFrame {
 		
 	}
 	
-	private class btnDisplay_click implements ActionListener
-	{
-
-		public void actionPerformed(ActionEvent e) {
-			try {
-				
-				boolean display = true;
-				for (int i : listResults.getSelectedIndices())
-				{
-					if (display)
-					{
-						AppController.displayDiagnosis(i);
-						display = false;
-					}
-					else
-					{
-						AppController.addDiagnosis(i);
-					}
-				}
-
-				// Display graph
-				MainWindow.this.update();
-				
-			} catch (Exception e1) {
-				e1.printStackTrace();
-				JOptionPane.showMessageDialog(null, e1.toString(), "Error Displaying Graph", JOptionPane.ERROR_MESSAGE);
-			}
-		}
-	}
 	
 	private class btnAdd_click implements ActionListener
 	{
 
 		public void actionPerformed(ActionEvent e) {
-			if(graphView == null) return;
-			
 			try {
 				
 				for (int i : listResults.getSelectedIndices())
 				{
 					AppController.addDiagnosis(i);
-				}
-				
-
-				// Display graph
-				//MainWindow.this.displayGraph();
-				
+				}				
 			} catch (Exception e1) {
 				e1.printStackTrace();
 				JOptionPane.showMessageDialog(null, e1.toString(), "Error Displaying Graph", JOptionPane.ERROR_MESSAGE);
@@ -359,6 +325,14 @@ public class MainWindow extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 			AppController.setMouseMode(ModalGraphMouse.Mode.PICKING);
+		}
+	}
+	
+	private class btnRemove_click implements ActionListener
+	{
+
+		public void actionPerformed(ActionEvent e) {
+			clear();
 		}
 	}
 	

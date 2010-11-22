@@ -54,11 +54,6 @@ public abstract class AppController {
 		AppController.graphToDisplay = new NNNGraph(diagnosesToDisplay);
 	}
 	
-	public static void setDiagnosisToDisplay(Diagnosis diagnosis)
-	{
-		AppController.graphToDisplay = new NNNGraph(diagnosis);
-	}
-	
 	public static void addDiagnosisToDisplay(Diagnosis diagnosis)
 	{
 		AppController.graphToDisplay.addDiagnoses(Arrays.asList(diagnosis));
@@ -93,6 +88,8 @@ public abstract class AppController {
 
 		mainWindow = new MainWindow();
 		mainWindow.setVisible(true);
+		
+		graphToDisplay = new NNNGraph();
 	}
 	
 	public static void graphUpdated()
@@ -113,6 +110,16 @@ public abstract class AppController {
 	public static void zoomOut()
 	{
 		graphToDisplay.zoomOut();
+	}
+	
+	public static void removeSelectedNode()
+	{
+		// Right now we can only remove diagnoses
+		if (currentNode.getType() == NodeType.DIAGNOSIS)
+		{
+			graphToDisplay.removeDiagnoses(Arrays.asList((Diagnosis)currentNode.getNNNObject()));
+			currentNode = null;
+		}
 	}
 	
 	public static void saveScreenShot(String path)
@@ -144,11 +151,6 @@ public abstract class AppController {
 			e.printStackTrace();
 			System.exit(1);
 		}
-	}
-
-	public static void displayDiagnosis(int searchResultIndex)
-	{
-		setDiagnosisToDisplay(searchResultObjects.get(searchResultIndex));
 	}
 	
 	public static void addDiagnosis(int searchResultIndex)

@@ -66,9 +66,9 @@ public class NNNGraph {
 		addDiagnoses(diagnoses);		
 	}
 	
-	public NNNGraph(Diagnosis diagnosis)
+	public NNNGraph()
 	{
-		this(Arrays.asList(diagnosis));
+		this(new ArrayList<Diagnosis>());
 	}
 
 	//***** METHODS *****//
@@ -332,6 +332,21 @@ public class NNNGraph {
 		
 		AppController.graphUpdated();
 	}
+	
+	public void removeDiagnoses(List<Diagnosis> diagnosesToRemove)
+	{		
+		for (Diagnosis d : diagnosesToRemove)
+		{
+			if (!displayedDiagnoses.contains(d))
+				return;
+			else
+				displayedDiagnoses.remove(d); // Add to diagnoses so it's not removed if we stop showing correlated diagnoses			
+			if (correlatedDiagnoses.contains(d)) return;  // we don't need to redraw the graph
+			removeDiagnosis(d);
+		}
+		
+		AppController.graphUpdated();
+	}
 
 	public void updateCorrelatedNodes()
 	{
@@ -472,5 +487,10 @@ public class NNNGraph {
 				}
 			}
 		}
+	}
+
+	private void removeDiagnosis(Diagnosis diagnosis)
+	{
+		//TODO: implement
 	}
 }
