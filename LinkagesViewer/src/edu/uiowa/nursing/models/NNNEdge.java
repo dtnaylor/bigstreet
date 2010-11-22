@@ -26,13 +26,13 @@ public class NNNEdge {// extends NNNGraphElement {
 	
 	public RenderMode getRenderMode()
 	{
-		if(startNode.getRenderMode() == RenderMode.GHOSTED)
+		if(!startNode.getVisible() && startNode.getRenderMode() != RenderMode.INVISIBLE)
 			return RenderMode.GHOSTED;
 		
-		if(startNode.getRenderMode() == RenderMode.SELECTED)
+		if(startNode.getVisible())
 		{
-			if(endNode.getRenderMode() == RenderMode.SELECTED)
-				return RenderMode.SELECTED;
+			if(endNode.getVisible())
+				return RenderMode.VISIBLE;
 			else
 				return RenderMode.GHOSTED;
 		}

@@ -68,7 +68,11 @@ public abstract class AppController {
 	
 	public static void setCurrentNode(NNNNode node)
 	{
+		if (currentNode != null)
+			currentNode.deselect();
 		currentNode = node;
+		currentNode.select();
+		
 		mainWindow.displayNodeInfo(node);
 	}
 	
