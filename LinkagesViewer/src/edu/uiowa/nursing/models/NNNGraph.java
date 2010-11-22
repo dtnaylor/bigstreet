@@ -99,7 +99,7 @@ public class NNNGraph {
 			public Paint transform(NNNNode n) { 
 				Color color;
 				
-				if(n.getRenderMode() == RenderMode.SELECTED)
+				if(n.getRenderMode() == RenderMode.VISIBLE)
 				{
 					switch(n.getType())
 					{
@@ -116,6 +116,10 @@ public class NNNGraph {
 							color = Color.BLACK;
 							break;
 					}
+				}
+				else if (n.getRenderMode() == RenderMode.SELECTED)
+				{
+					color = new Color(0.0f, 0.5f, 1.0f, 1.0f);
 				}
 				else if(n.getRenderMode() == RenderMode.GHOSTED)
 				{
@@ -170,7 +174,7 @@ public class NNNGraph {
 					
 					switch(e.getRenderMode())
 					{
-						case SELECTED:
+						case VISIBLE:
 							color = e.getSelectionColor();
 							break;
 						case CORRELATED:
@@ -199,6 +203,9 @@ public class NNNGraph {
 					switch(n.getRenderMode())
 					{
 						case SELECTED:
+							color = n.getSelectionColor();
+							break;
+						case VISIBLE:
 							color = n.getSelectionColor();
 							break;
 						case CORRELATED:
@@ -252,6 +259,9 @@ public class NNNGraph {
 					switch(n.getRenderMode())
 					{
 						case SELECTED:
+							attributes.put(TextAttribute.FOREGROUND, new Color(0.0f, 0.5f, 1.0f, 1.0f));
+							break;
+						case VISIBLE:
 							attributes.put(TextAttribute.FOREGROUND, new Color(0.0f, 0.0f, 0.0f, 1.0f));
 							break;
 						case CORRELATED:

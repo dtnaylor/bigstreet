@@ -28,6 +28,7 @@ public class NNNNode {// extends NNNGraphElement {
 	
 	//***** DATA MEMBERS *****//
 	private NNNObject nnnObject;
+	private boolean visible;
 	private boolean selected;
 	private List<NNNNode> selectedPredecessors;
 	private NNNNode mostRecentlySelectedPredecessor; // (when I was selected, that is)
@@ -38,6 +39,7 @@ public class NNNNode {// extends NNNGraphElement {
 	public NNNNode(NNNObject nnnObject)
 	{
 		this.nnnObject = nnnObject;
+		this.visible = false;
 		this.selected = false;
 		this.selectedPredecessors = new ArrayList<NNNNode>();
 		if(getType() == NodeType.DIAGNOSIS)
@@ -65,6 +67,11 @@ public class NNNNode {// extends NNNGraphElement {
 	public String getDescription()
 	{
 		return nnnObject.getDefinition();
+	}
+	
+	public boolean getVisible()
+	{
+		return this.visible;
 	}
 	
 	public NodeType getType()
@@ -97,24 +104,27 @@ public class NNNNode {// extends NNNGraphElement {
 		if(getRenderMode() == RenderMode.INVISIBLE)
 			return;
 		
-		// Toggle whether or not this node is selected
-		selected = !selected;
-		
-		
-		final VisualizationViewer<NNNNode,NNNEdge> vv =
-            (VisualizationViewer<NNNNode,NNNEdge>)e.getSource();
-		
-		Graph<NNNNode, NNNEdge> g = vv.getGraphLayout().getGraph();
-		
-		if(selected)
-			select(g);
-		else
-			deselect(g);
-		
-		AppController.setCurrentNode(this);
+		if (e.getButton() == MouseEvent.BUTTON3)
+		{
+			// Toggle whether or not this node is selected
+			visible = !visible;
+			
+			final VisualizationViewer<NNNNode,NNNEdge> vv =
+	            (VisualizationViewer<NNNNode,NNNEdge>)e.getSource();
+			
+			Graph<NNNNode, NNNEdge> g = vv.getGraphLayout().getGraph();
+			
+			if(visible)
+				makeVisible(g);
+			else
+				makeInvisible(g);
+		} 
+		else if (e.getButton() == MouseEvent.BUTTON1){
+			AppController.setCurrentNode(this);
+		}
 	}
 	
-	private void select(Graph<NNNNode, NNNEdge> g)
+	private void makeVisible(Graph<NNNNode, NNNEdge> g)
 	{
 		// Save which of my predecessor nodes was selected
 		// most recently (so we have an idea of what "selection
@@ -135,7 +145,7 @@ public class NNNNode {// extends NNNGraphElement {
 		}
 	}
 	
-	private void deselect(Graph<NNNNode, NNNEdge> g)
+	private void makeInvisible(Graph<NNNNode, NNNEdge> g)
 	{
 		// Set my selection color to black
 		if (getType() != NodeType.DIAGNOSIS)
@@ -146,6 +156,16 @@ public class NNNNode {// extends NNNGraphElement {
 		{
 			node.predecessorDeselected(this, g);
 		}
+	}
+	
+	public void select()
+	{
+		selected = true;
+	}
+	
+	public void deselect()
+	{
+		selected = false;
 	}
 	
 	protected void predecessorSelected(NNNNode node, Graph<NNNNode, NNNEdge> g)
@@ -164,15 +184,17 @@ public class NNNNode {// extends NNNGraphElement {
 		
 		if(selectedPredecessors.isEmpty())
 		{
-			selected = false;
-			deselect(g);
+			visible = false;
+			makeInvisible(g);
 		}
 	}
 	
 	public RenderMode getRenderMode()
 	{
-		if(selected)
+		if (selected)
 			return RenderMode.SELECTED;
+		else if(visible)
+			return RenderMode.VISIBLE;
 		else if(!selectedPredecessors.isEmpty() || getType() == NodeType.DIAGNOSIS)
 			return RenderMode.GHOSTED;
 		else

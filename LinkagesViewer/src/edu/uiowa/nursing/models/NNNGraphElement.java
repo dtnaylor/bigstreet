@@ -24,8 +24,8 @@ public class NNNGraphElement {
 	//***** METHODS *****//
 	public RenderMode getRenderMode() 
 	{
-		if(renderModeCounts.get(RenderMode.SELECTED) > 0)
-			return RenderMode.SELECTED;
+		if(renderModeCounts.get(RenderMode.VISIBLE) > 0)
+			return RenderMode.VISIBLE;
 		else if(renderModeCounts.get(RenderMode.GHOSTED) > 0)
 			return RenderMode.GHOSTED;
 		else if(renderModeCounts.get(RenderMode.CORRELATED) > 0)
@@ -36,17 +36,17 @@ public class NNNGraphElement {
 	
 	public boolean getSelected()
 	{
-		return renderModeCounts.get(RenderMode.SELECTED) > 0;
+		return renderModeCounts.get(RenderMode.VISIBLE) > 0;
 	}
 	
 	public void incrementSelected()
 	{
-		renderModeCounts.put(RenderMode.SELECTED, renderModeCounts.get(RenderMode.SELECTED) + 1);
+		renderModeCounts.put(RenderMode.VISIBLE, renderModeCounts.get(RenderMode.VISIBLE) + 1);
 	}
 	
 	public void decrementSelected()
 	{
-		renderModeCounts.put(RenderMode.SELECTED, renderModeCounts.get(RenderMode.SELECTED) - 1);
+		renderModeCounts.put(RenderMode.VISIBLE, renderModeCounts.get(RenderMode.VISIBLE) - 1);
 	}
 	
 	public void incrementConnected()
