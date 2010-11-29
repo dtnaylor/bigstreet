@@ -218,11 +218,14 @@ public class MainWindow extends JFrame {
 			tbarCorrelated.setMaximum(num);
 			break;
 		case OUTCOME:
-			lblCorrelated.setVisible(true);
-			lblCorrelated.setText("Show correlated outcomes: ");
+			lblCorrelated.setVisible(false);
+			tbarCorrelated.setVisible(false);
+			//lblCorrelated.setText("Show correlated outcomes: ");
 			break;
 		case INTERVENTION:
-			lblCorrelated.setText("Show correlated interventions: ");
+			lblCorrelated.setVisible(false);
+			tbarCorrelated.setVisible(false);
+			//lblCorrelated.setText("Show correlated interventions: ");
 			break;
 		
 		}
