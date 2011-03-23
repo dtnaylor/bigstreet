@@ -30,6 +30,7 @@ import org.apache.commons.collections15.Transformer;
 import edu.uci.ics.jung.algorithms.layout.DAGLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.SpringLayout;
+import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.util.Context;
@@ -46,29 +47,27 @@ import edu.uiowa.nursing.views.NNNVertexLabelRenderer;
 
 public class NNNGraph {
 	//***** DATA MEMBERS *****//
-	private Graph<NNNNode, NNNEdge> g;
-	private List<Diagnosis> displayedDiagnoses;
-	private List<Diagnosis> correlatedDiagnoses;
+	private Graph<GraphNode, GraphEdge> g;
+	private Hashtable<String, GraphNode> diagnoses;
+	private Hashtable<String, GraphNode> outcomes;
+	private Hashtable<String, GraphNode> interventions;
 	
-	VisualizationViewer<NNNNode,NNNEdge> vv;
+	//private List<Diagnosis> displayedDiagnoses;
+	//private List<Diagnosis> correlatedDiagnoses;
+	
+	VisualizationViewer<GraphNode,GraphEdge> vv;
 	DefaultModalGraphMouse graphMouse;
 	ViewScalingControl zoomControl;
 
 	//***** CONSTRUCTORS *****//
-	public NNNGraph(List<Diagnosis> diagnoses)
+	public NNNGraph()
 	{
 		// Graph<V, E> where V is the type of the vertices 
 		// and E is the type of the edges 
-		g = new DirectedSparseMultigraph<NNNNode, NNNEdge>();
-		displayedDiagnoses = new ArrayList<Diagnosis>();
-		correlatedDiagnoses = new ArrayList<Diagnosis>();
-
-		addDiagnoses(diagnoses);		
-	}
-	
-	public NNNGraph()
-	{
-		this(new ArrayList<Diagnosis>());
+		g = new DirectedSparseMultigraph<GraphNode, GraphEdge>();
+		diagnoses = new Hashtable<String, GraphNode>();
+		outcomes = new Hashtable<String, GraphNode>();
+		interventions = new Hashtable<String, GraphNode>();		
 	}
 
 	//***** METHODS *****//
@@ -76,30 +75,41 @@ public class NNNGraph {
 	// PUBLIC
 	public VisualizationViewer getView()
 	{
+		// Set up the vertex position transformer
+		Transformer<GraphNode, Point2D> vertexPositionTransformer = 
+			new Transformer<GraphNode, Point2D>(){
+
+				public Point2D transform(GraphNode node) {
+					return node.getLocation();
+				}
+		
+		};
+		
+		
 		// The Layout<V, E> is parameterized by the vertex and edge types 
-		Layout<NNNNode, NNNEdge> layout = new DAGLayout(g);
-		((SpringLayout) layout).setForceMultiplier(10);
-		((SpringLayout) layout).setRepulsionRange(15);
+		Layout<GraphNode, GraphEdge> layout = new StaticLayout(g, vertexPositionTransformer);//new DAGLayout(g);
+		//((SpringLayout) layout).setForceMultiplier(10);
+		//((SpringLayout) layout).setRepulsionRange(15);
 		layout.setSize(new Dimension(AppController.GRAPH_SIZE)); // sets the initial size of the space
 		
 		
 		// The BasicVisualizationServer<V,E> is parameterized by the edge types 
-		vv = new VisualizationViewer<NNNNode,NNNEdge>(layout); 
+		vv = new VisualizationViewer<GraphNode, GraphEdge>(layout); 
 		vv.setPreferredSize(new Dimension(AppController.WINDOW_SIZE)); //Sets the viewing area size
 		
 		// Rotate so diagnoses are on top
-		Dimension d = layout.getSize();
-    	Point2D center = new Point2D.Double(d.width/2, d.height/2);
-    	vv.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.LAYOUT).rotate(Math.PI / 2.0, center);
+		//Dimension d = layout.getSize();
+    	//Point2D center = new Point2D.Double(d.width/2, d.height/2);
+    	//vv.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.LAYOUT).rotate(Math.PI / 2.0, center);
 		
 		
 		
 		// Setup up a new vertex to paint transformer... 
-		Transformer<NNNNode,Paint> vertexPaintTransformer = new Transformer<NNNNode,Paint>() {
-			public Paint transform(NNNNode n) { 
+		Transformer<GraphNode,Paint> vertexPaintTransformer = new Transformer<GraphNode,Paint>() {
+			public Paint transform(GraphNode n) { 
 				Color color;
 				
-				if(n.getRenderMode() == RenderMode.VISIBLE)
+				if(n.getRenderMode() == RenderMode.NORMAL)
 				{
 					switch(n.getType())
 					{
@@ -121,14 +131,6 @@ public class NNNGraph {
 				{
 					color = new Color(0.0f, 0.5f, 1.0f, 1.0f);
 				}
-				else if(n.getRenderMode() == RenderMode.GHOSTED)
-				{
-					color = new Color(0.0f, 0.0f, 0.0f, 0.1f);
-				}
-				else if (n.getRenderMode() == RenderMode.INVISIBLE)
-				{
-					color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
-				}
 				else
 				{
 					color = Color.BLACK;
@@ -148,9 +150,9 @@ public class NNNGraph {
 		final Stroke optionalInterventionEdgeStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, optionalInterventionDash, 0.0f);
 		
 		
-		Transformer<NNNEdge, Stroke> edgeStrokeTransformer = 
-			new Transformer<NNNEdge, Stroke>() { 
-				public Stroke transform(NNNEdge e) {
+		Transformer<GraphEdge, Stroke> edgeStrokeTransformer = 
+			new Transformer<GraphEdge, Stroke>() { 
+				public Stroke transform(GraphEdge e) {
 					switch(e.getType())
 					{
 						case OUTCOME:
@@ -167,24 +169,18 @@ public class NNNGraph {
 				}
 			};
 			
-		Transformer<NNNEdge, Paint> edgeDrawPaintTransformer = 
-			new Transformer<NNNEdge, Paint>() { 
-				public Paint transform(NNNEdge e) {
+		Transformer<GraphEdge, Paint> edgeDrawPaintTransformer = 
+			new Transformer<GraphEdge, Paint>() { 
+				public Paint transform(GraphEdge e) {
 					Color color;
 					
 					switch(e.getRenderMode())
 					{
-						case VISIBLE:
-							color = e.getSelectionColor();
-							break;
-						case CORRELATED:
-							color = Color.BLACK; //TODO: change me
+						case NORMAL:
+							color = Color.BLACK;
 							break;
 						case GHOSTED:
-							color = new Color(0.0f, 0.0f, 0.0f, 0.05f);
-							break;
-						case INVISIBLE:
-							color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+							color = new Color(0.0f, 0.0f, 0.0f, 0.1f);
 							break;
 						default:
 							color = Color.BLACK;
@@ -195,28 +191,13 @@ public class NNNGraph {
 				}
 			};
 			
-		Transformer<NNNNode, Paint> vertexDrawPaintTransformer = 
-			new Transformer<NNNNode, Paint>() { 
-				public Paint transform(NNNNode n) {
+		Transformer<GraphNode, Paint> vertexDrawPaintTransformer = 
+			new Transformer<GraphNode, Paint>() { 
+				public Paint transform(GraphNode n) {
 					Color color;
 					
 					switch(n.getRenderMode())
 					{
-						case SELECTED:
-							color = n.getSelectionColor();
-							break;
-						case VISIBLE:
-							color = n.getSelectionColor();
-							break;
-						case CORRELATED:
-							color = Color.BLACK; //TODO: change me
-							break;
-						case GHOSTED:
-							color = new Color(0.0f, 0.0f, 0.0f, 0.05f);
-							break;
-						case INVISIBLE:
-							color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
-							break;
 						default:
 							color = Color.BLACK;
 							break;
@@ -226,9 +207,9 @@ public class NNNGraph {
 				}
 			};
 			
-		Transformer<NNNNode, String> nodeLabelTransformer = 
-			new Transformer<NNNNode, String>() { 
-				public String transform(NNNNode n) {
+		Transformer<GraphNode, String> nodeLabelTransformer = 
+			new Transformer<GraphNode, String>() { 
+				public String transform(GraphNode n) {
 					String label;
 					
 					switch(n.getType())
@@ -251,9 +232,9 @@ public class NNNGraph {
 				}
 			};
 			
-		Transformer<NNNNode, Font> nodeFontTransformer = 
-			new Transformer<NNNNode, Font>() { 
-				public Font transform(NNNNode n) {
+		Transformer<GraphNode, Font> nodeFontTransformer = 
+			new Transformer<GraphNode, Font>() { 
+				public Font transform(GraphNode n) {
 					HashMap<TextAttribute, Object> attributes = new HashMap<TextAttribute, Object>();
 					
 					switch(n.getRenderMode())
@@ -261,17 +242,8 @@ public class NNNGraph {
 						case SELECTED:
 							attributes.put(TextAttribute.FOREGROUND, new Color(0.0f, 0.5f, 1.0f, 1.0f));
 							break;
-						case VISIBLE:
+						case NORMAL:
 							attributes.put(TextAttribute.FOREGROUND, new Color(0.0f, 0.0f, 0.0f, 1.0f));
-							break;
-						case CORRELATED:
-							attributes.put(TextAttribute.FOREGROUND, new Color(0.0f, 0.0f, 0.0f, 1.0f)); //TODO: change me
-							break;
-						case GHOSTED:
-							attributes.put(TextAttribute.FOREGROUND, new Color(0.0f, 0.0f, 0.0f, 0.15f));
-							break;
-						case INVISIBLE:
-							attributes.put(TextAttribute.FOREGROUND, new Color(0.0f, 0.0f, 0.0f, 0.0f));
 							break;
 						default:
 							attributes.put(TextAttribute.FOREGROUND, new Color(0.0f, 0.0f, 0.0f, 1.0f));
@@ -283,10 +255,10 @@ public class NNNGraph {
 			};
 
 		class NNNVertexPredicate<V,E> 
-	    	implements Predicate<Context<Graph<NNNNode, NNNEdge>, NNNNode>> {
+	    	implements Predicate<Context<Graph<GraphNode, GraphEdge>, GraphNode>> {
 
-	        public boolean evaluate(Context<Graph<NNNNode,NNNEdge>,NNNNode> c) {
-	            return ((NNNNode)c.element).getRenderMode() != RenderMode.INVISIBLE;
+	        public boolean evaluate(Context<Graph<GraphNode,GraphEdge>,GraphNode> c) {
+	            return true;//((GraphNode)c.element).getRenderMode() != RenderMode.INVISIBLE;
 	        }
 	        
 	    }
@@ -299,8 +271,8 @@ public class NNNGraph {
 		vv.getRenderContext().setArrowDrawPaintTransformer(edgeDrawPaintTransformer);
 		vv.getRenderContext().setArrowFillPaintTransformer(edgeDrawPaintTransformer);
 		vv.getRenderContext().setVertexFontTransformer(nodeFontTransformer);
-		vv.getRenderContext().setVertexIncludePredicate(new NNNVertexPredicate<NNNNode, NNNEdge>());
-		vv.getRenderer().setVertexLabelRenderer(new NNNVertexLabelRenderer<NNNNode, NNNEdge>());
+		vv.getRenderContext().setVertexIncludePredicate(new NNNVertexPredicate<GraphNode, GraphEdge>());
+		vv.getRenderer().setVertexLabelRenderer(new NNNVertexLabelRenderer<GraphNode, GraphEdge>());
 		vv.getRenderer().getVertexLabelRenderer().setPosition(Position.AUTO);
 		
 		
@@ -318,53 +290,7 @@ public class NNNGraph {
 		return vv;
 	}
 	
-	public void addDiagnoses(List<Diagnosis> diagnosesToAdd)
-	{		
-		for (Diagnosis d : diagnosesToAdd)
-		{
-			if (displayedDiagnoses.contains(d))
-				return;
-			else
-				displayedDiagnoses.add(d); // Add to diagnoses so it's not removed if we stop showing correlated diagnoses			
-			if (correlatedDiagnoses.contains(d)) return;  // we don't need to redraw the graph
-			addDiagnosis(d);
-		}
-		
-		AppController.graphUpdated();
-	}
 	
-	public void removeDiagnoses(List<Diagnosis> diagnosesToRemove)
-	{		
-		for (Diagnosis d : diagnosesToRemove)
-		{
-			if (!displayedDiagnoses.contains(d))
-				return;
-			else
-				displayedDiagnoses.remove(d); // Add to diagnoses so it's not removed if we stop showing correlated diagnoses			
-			if (correlatedDiagnoses.contains(d)) return;  // we don't need to redraw the graph
-			removeDiagnosis(d);
-		}
-		
-		AppController.graphUpdated();
-	}
-
-	public void updateCorrelatedNodes()
-	{
-		correlatedDiagnoses.clear();  //TODO: Remove these from graph!!!
-		for (Diagnosis d : displayedDiagnoses){
-			for (int i = 0; i < Math.min(d.getNumCorrelatedNodesToShow(), d.getCorrelatedDiagnoses().size()); i++)
-			{
-				Diagnosis correlated = d.getCorrelatedDiagnoses().get(i);
-				if (!correlatedDiagnoses.contains(correlated))
-				{
-					correlatedDiagnoses.add(correlated);
-					addDiagnosis(correlated);
-				}
-			}
-		}
-		
-		AppController.graphUpdated();
-	}
 	
 	public void setMouseMode(ModalGraphMouse.Mode mode)
 	{
@@ -416,81 +342,202 @@ public class NNNGraph {
 	    }catch(Exception e){e.printStackTrace();}
 	}
 	
-	// PRIVATE
-	private void addDiagnosis(Diagnosis diagnosis)
+	public void addDiagnosis(Diagnosis diagnosis)
 	{
-		// Get a list of names of nodes already in the graph
-		Hashtable existingNodes = new Hashtable<String, NNNNode>();
-		for (NNNNode n : g.getVertices())
+		if (!diagnoses.containsKey(diagnosis.code))
 		{
-			existingNodes.put(n.getName(), n);
+			// Add a node to the graph
+			GraphNode newNode = new GraphNode(diagnosis);
+			diagnoses.put(diagnosis.code, newNode);
+			
+			g.addVertex(newNode);
+			AppController.graphUpdated();
+			
+			// Check to see if diagnosis should be connected
+			// to any outcomes already present in the graph
+			for (Outcome o : diagnosis.getOutcomes()){
+				if (outcomes.containsKey(o.code)){
+					GraphNode outcomeNode = (GraphNode) outcomes.get(o.code);
+					g.addEdge(new GraphEdge(EdgeType.OUTCOME, RenderMode.GHOSTED, newNode, outcomeNode), newNode, outcomeNode);
+				}
+			}
+			
+			//for testing; remove:
+			for (Outcome o : diagnosis.getOutcomes()){
+				addOutcome(o);
+			}
 		}
-		
-		if (existingNodes.containsKey(diagnosis.getName())) return;
-		
-		//Add diagnosis node
-		NNNNode diagnosisNode = new NNNNode(diagnosis);
-		g.addVertex(diagnosisNode);
-		existingNodes.put(diagnosisNode.getName(), diagnosisNode);
-		
-		//Add outcomes
-		for (Outcome o : diagnosis.getOutcomes())
+	}
+	
+	public void addOutcome(Outcome outcome)
+	{
+		if (!outcomes.containsKey(outcome.code))
 		{
-			// Get a NNNNode representing Outcome o
-			NNNNode outcomeNode;
-			if (existingNodes.containsKey(o.getName()))
-			{
-				outcomeNode = (NNNNode) existingNodes.get(o.getName());
+			// Add node to graph
+			GraphNode newNode = new GraphNode(outcome);
+			outcomes.put(outcome.code, newNode);
+			
+			g.addVertex(newNode);
+			AppController.graphUpdated();
+			
+			// Check to see if outcome should be connected
+			// to any diagnoses already present in the graph
+			for (Object obj : diagnoses.values()){
+				GraphNode diagnosisNode = (GraphNode)obj;
+				for (Outcome o : ((Diagnosis)diagnosisNode.getNNNObject()).getOutcomes()){
+					if (o.code == outcome.code){
+						RenderMode renderMode;
+						if (diagnosisNode.getSelected())
+							renderMode = RenderMode.NORMAL;
+						else
+							renderMode = RenderMode.GHOSTED;
+						
+						g.addEdge(new GraphEdge(EdgeType.OUTCOME, renderMode, diagnosisNode, newNode), diagnosisNode, newNode);
+					}
+				}
 			}
-			else
-			{
-				outcomeNode = new NNNNode(o);
-				existingNodes.put(o.getName(), outcomeNode);
-			}
 			
-			// Add outcomeNode as a vertex in g
-			if(!g.containsVertex(outcomeNode))
-				g.addVertex(outcomeNode);
-			
-			// Add an edge between diagnosisNode and outcomeNode
-			g.addEdge(new NNNEdge(EdgeType.OUTCOME, diagnosisNode, outcomeNode), diagnosisNode, outcomeNode);
-			
-			
-			//Add interventions
+			// Check to see if outcome should be connected
+			// to any interventions already present in the graph
 			for (EdgeType t : EdgeType.values())
 			{
 				if(t == EdgeType.OUTCOME) continue; //We only want interventions
 				
-				for (Intervention h : o.getInterventions(t))
+				for (Intervention i : outcome.getInterventions(t))
 				{
-					//Get a NNNNode representing Intervention h
-					NNNNode interventionNode;
-					if(existingNodes.containsKey(h.getName()))
-					{
-						interventionNode = (NNNNode) existingNodes.get(h.getName());
-					}
-					else
-					{
-						interventionNode = new NNNNode(h);
-						existingNodes.put(h.getName(), interventionNode);
+					if (interventions.containsKey(i.code)){
+						GraphNode interventionNode = (GraphNode) interventions.get(i.code);
+						g.addEdge(new GraphEdge(t, RenderMode.GHOSTED, newNode, interventionNode), newNode, interventionNode);
 					}
 					
-					// Add interventionNode as a vertex in g
-					if(!g.getVertices().contains(interventionNode))
-						g.addVertex(interventionNode);
-					
-					if(!g.getSuccessors(outcomeNode).contains(interventionNode))
+					// For testing; remove:
+					addIntervention(i);
+				}
+			}
+			
+		}
+		else
+		{
+			((GraphNode)outcomes.get(outcome.code)).addNNNObject(outcome);
+		}
+	}
+	
+	public void addIntervention(Intervention intervention)
+	{
+		if (!interventions.containsKey(intervention.code))
+		{
+			// Add node to graph
+			GraphNode newNode = new GraphNode(intervention);
+			interventions.put(intervention.code, newNode);
+			
+			g.addVertex(newNode);
+			AppController.graphUpdated();
+			
+			// Check to see if intervention should be connected
+			// to any outcomes already present in the graph
+			for (Object obj : outcomes.values()){
+				GraphNode outcomeNode = (GraphNode)obj;
+				for (NNNObject nnnObj : outcomeNode.getNNNObjects()){
+					Outcome o = (Outcome)nnnObj;
+					for (EdgeType t : EdgeType.values())
 					{
-						// Add an edge between outcomeNode and interventionNode
-						g.addEdge(new NNNEdge(t, outcomeNode, interventionNode), outcomeNode, interventionNode);
+						if(t == EdgeType.OUTCOME) continue; //We only want interventions
+						
+						for (Intervention i : o.getInterventions(t))
+						{
+							if (i.code == intervention.code){
+								RenderMode renderMode;
+								if (outcomeNode.getSelected())
+									renderMode = RenderMode.NORMAL;
+								else
+									renderMode = RenderMode.GHOSTED;
+								
+								g.addEdge(new GraphEdge(t, renderMode, outcomeNode, newNode), outcomeNode, newNode);
+							}
+						}
 					}
 				}
 			}
+			
+		}
+		else
+		{
+			// necessary?
+			((GraphNode)interventions.get(intervention.code)).addNNNObject(intervention);
 		}
 	}
+	
+	
+//	private void oldaddDiagnosis(Diagnosis diagnosis)
+//	{
+//		// Get a list of names of nodes already in the graph
+//		Hashtable existingNodes = new Hashtable<String, GraphNode>();
+//		for (GraphNode n : g.getVertices())
+//		{
+//			existingNodes.put(n.getName(), n);
+//		}
+//		
+//		if (existingNodes.containsKey(diagnosis.getName())) return;
+//		
+//		//Add diagnosis node
+//		GraphNode diagnosisNode = new GraphNode(diagnosis);
+//		g.addVertex(diagnosisNode);
+//		existingNodes.put(diagnosisNode.getName(), diagnosisNode);
+//		
+//		//Add outcomes
+//		for (Outcome o : diagnosis.getOutcomes())
+//		{
+//			// Get a GraphNode representing Outcome o
+//			GraphNode outcomeNode;
+//			if (existingNodes.containsKey(o.getName()))
+//			{
+//				outcomeNode = (GraphNode) existingNodes.get(o.getName());
+//			}
+//			else
+//			{
+//				outcomeNode = new GraphNode(o);
+//				existingNodes.put(o.getName(), outcomeNode);
+//			}
+//			
+//			// Add outcomeNode as a vertex in g
+//			if(!g.containsVertex(outcomeNode))
+//				g.addVertex(outcomeNode);
+//			
+//			// Add an edge between diagnosisNode and outcomeNode
+//			g.addEdge(new GraphEdge(EdgeType.OUTCOME, diagnosisNode, outcomeNode), diagnosisNode, outcomeNode);
+//			
+//			
+//			//Add interventions
+//			for (EdgeType t : EdgeType.values())
+//			{
+//				if(t == EdgeType.OUTCOME) continue; //We only want interventions
+//				
+//				for (Intervention h : o.getInterventions(t))
+//				{
+//					//Get a GraphNode representing Intervention h
+//					GraphNode interventionNode;
+//					if(existingNodes.containsKey(h.getName()))
+//					{
+//						interventionNode = (GraphNode) existingNodes.get(h.getName());
+//					}
+//					else
+//					{
+//						interventionNode = new GraphNode(h);
+//						existingNodes.put(h.getName(), interventionNode);
+//					}
+//					
+//					// Add interventionNode as a vertex in g
+//					if(!g.getVertices().contains(interventionNode))
+//						g.addVertex(interventionNode);
+//					
+//					if(!g.getSuccessors(outcomeNode).contains(interventionNode))
+//					{
+//						// Add an edge between outcomeNode and interventionNode
+//						g.addEdge(new GraphEdge(t, outcomeNode, interventionNode), outcomeNode, interventionNode);
+//					}
+//				}
+//			}
+//		}
+//	}
 
-	private void removeDiagnosis(Diagnosis diagnosis)
-	{
-		//TODO: implement
-	}
 }

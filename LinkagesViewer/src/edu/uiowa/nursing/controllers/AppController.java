@@ -17,9 +17,10 @@ import javax.swing.DefaultListModel;
 
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uiowa.nursing.models.Diagnosis;
+import edu.uiowa.nursing.models.GraphNode;
 import edu.uiowa.nursing.models.NNNGraph;
-import edu.uiowa.nursing.models.NNNNode;
 import edu.uiowa.nursing.models.NodeType;
+import edu.uiowa.nursing.models.Outcome;
 import edu.uiowa.nursing.views.MainWindow;
 import edu.uiowa.nursing.configuration.*;
 
@@ -27,7 +28,7 @@ public abstract class AppController {
 
 	//***** DATA MEMBERS *****//
 	public static Dimension WINDOW_SIZE = new Dimension(1024, 768);
-	public static Dimension GRAPH_SIZE = new Dimension(1500, 768);
+	public static Dimension GRAPH_SIZE = new Dimension(1024, 768);
 	
 	private static MainWindow mainWindow;
 	
@@ -38,7 +39,8 @@ public abstract class AppController {
 	private static HashMap<Integer, Diagnosis> searchResultObjects = new HashMap<Integer, Diagnosis>();
 	
 	private static NNNGraph graphToDisplay;
-	private static NNNNode currentNode;
+	//private static GraphNode currentNode;
+	private static List<GraphNode> selectedNodes;
 	
 	//***** PROPERTIES *****//
 	public static HashMap<Integer, Diagnosis> getDiagnoses() {
@@ -51,35 +53,45 @@ public abstract class AppController {
 	
 	public static void setDiagnosesToDisplay(List<Diagnosis> diagnosesToDisplay)
 	{
-		AppController.graphToDisplay = new NNNGraph(diagnosesToDisplay);
+		//AppController.graphToDisplay = new NNNGraph(diagnosesToDisplay);
 	}
 	
 	public static void addDiagnosisToDisplay(Diagnosis diagnosis)
 	{
-		AppController.graphToDisplay.addDiagnoses(Arrays.asList(diagnosis));
+		AppController.graphToDisplay.addDiagnosis(diagnosis);
 	}
 	
-	public static void setCurrentNode(NNNNode node)
+	public static void setSelectedNode(GraphNode node)
 	{
-		if (currentNode != null)
-			currentNode.deselect();
-		currentNode = node;
-		currentNode.select();
+		if (selectedNodes == null) selectedNodes = new ArrayList<GraphNode>();
 		
+		if (!selectedNodes.isEmpty())
+		{
+			for (GraphNode n : selectedNodes){
+				n.setSelected(false);
+			}
+		}
+		
+		selectedNodes.clear();
+		selectedNodes.add(node);
+		node.setSelected(true);
 		mainWindow.displayNodeInfo(node);
 	}
 	
-	public static NNNNode getCurrentNode() {
-		return currentNode;
-	}
-	
-	
-	public static void setNumCorrelatedNodesToShow(int num)
+	public static void addSelectedNode(GraphNode node)
 	{
-		currentNode.setNumCorrelatedNodesToShow(num);
+		if (selectedNodes == null) selectedNodes = new ArrayList<GraphNode>();
 		
-		graphToDisplay.updateCorrelatedNodes();
+		selectedNodes.add(node);
+		node.setSelected(true);
+		
+		mainWindow.displayNodeInfo("Multiple selections");
 	}
+	
+	public static List<GraphNode> getSelectedNodes() {
+		return selectedNodes;
+	}
+	
 
 	//***** METHODS *****//
 	public static void main(String[] args) {
@@ -112,15 +124,15 @@ public abstract class AppController {
 		graphToDisplay.zoomOut();
 	}
 	
-	public static void removeSelectedNode()
-	{
-		// Right now we can only remove diagnoses
-		if (currentNode.getType() == NodeType.DIAGNOSIS)
-		{
-			graphToDisplay.removeDiagnoses(Arrays.asList((Diagnosis)currentNode.getNNNObject()));
-			currentNode = null;
-		}
-	}
+//	public static void removeSelectedNode()
+//	{
+//		// Right now we can only remove diagnoses
+//		if (currentNode.getType() == NodeType.DIAGNOSIS)
+//		{
+//			graphToDisplay.removeDiagnoses(Arrays.asList((Diagnosis)currentNode.getNNNObject()));
+//			currentNode = null;
+//		}
+//	}
 	
 	public static void saveScreenShot(String path)
 	{

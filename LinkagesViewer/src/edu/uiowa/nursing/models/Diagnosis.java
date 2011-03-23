@@ -22,7 +22,6 @@ public class Diagnosis extends NNNObject {
 		this.code = code;
 		this.definition = definition;
 		this.outcomes = new ArrayList<Outcome>();
-		this.numCorrelatedNodesToShow = 0;
 	}
 	
 	//***** METHODS *****//

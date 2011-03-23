@@ -7,7 +7,6 @@ public abstract class NNNObject {
 	protected String name;
 	protected String code;
 	protected String definition;
-	protected int numCorrelatedNodesToShow;
 	
 	//***** METHODS *****//
 	public String getName()
@@ -23,16 +22,6 @@ public abstract class NNNObject {
 	public String getDefinition()
 	{
 		return this.definition;
-	}
-	
-	public int getNumCorrelatedNodesToShow()
-	{
-		return this.numCorrelatedNodesToShow;
-	}
-	
-	public void setNumCorrelatedNodesToShow(int numToShow)
-	{
-		this.numCorrelatedNodesToShow = numToShow;
 	}
 	
 	public int getNumberOfCorrelatedNodes() {

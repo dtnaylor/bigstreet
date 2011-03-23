@@ -35,8 +35,8 @@ import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uiowa.nursing.Utilities;
 import edu.uiowa.nursing.controllers.AppController;
 import edu.uiowa.nursing.models.Diagnosis;
+import edu.uiowa.nursing.models.GraphNode;
 import edu.uiowa.nursing.models.NNNGraph;
-import edu.uiowa.nursing.models.NNNNode;
 import edu.uiowa.nursing.models.NodeType;
 
 public class MainWindow extends JFrame {
@@ -203,19 +203,19 @@ public class MainWindow extends JFrame {
 	
 	
 	//***** METHODS *****//
-	public void displayNodeInfo(NNNNode node)
+	public void displayNodeInfo(GraphNode node)
 	{
 		String infoString = "<strong>" + node.getName().toUpperCase() 
 			+ "</strong>  (" + node.getCode() + "): <br>" + node.getDescription();
-		int curnum = node.getNNNObject().getNumCorrelatedNodesToShow();
+		int curnum = 0;//node.getNNNObject().getNumCorrelatedNodesToShow();
 		tbarCorrelated.setValue(curnum);
 		switch (node.getType()) {
 		case DIAGNOSIS:
 			lblCorrelated.setVisible(true);
 			tbarCorrelated.setVisible(true);
-			int num = node.getNNNObject().getNumberOfCorrelatedNodes(); 
-			lblCorrelated.setText("Show correlated diagnoses: "+curnum+"/"+num);
-			tbarCorrelated.setMaximum(num);
+			//int num = node.getNNNObject().getNumberOfCorrelatedNodes(); 
+			//lblCorrelated.setText("Show correlated diagnoses: "+curnum+"/"+num);
+			//tbarCorrelated.setMaximum(num);
 			break;
 		case OUTCOME:
 			lblCorrelated.setVisible(false);
@@ -229,7 +229,12 @@ public class MainWindow extends JFrame {
 			break;
 		
 		}
-		Utilities.wrapLabelText(lblNodeInfo, infoString);
+		displayNodeInfo(infoString);
+	}
+	
+	public void displayNodeInfo(String text)
+	{
+		Utilities.wrapLabelText(lblNodeInfo, text);
 	}
 	
 	public void clear()
@@ -255,6 +260,8 @@ public class MainWindow extends JFrame {
 		
 		// Redraw window so graph shows up
 		MainWindow.this.validate();
+		
+		System.out.println("here");
 	}
 	
 	
@@ -360,20 +367,20 @@ public class MainWindow extends JFrame {
 		public void stateChanged(ChangeEvent e) {
 		    JSlider source = (JSlider)e.getSource();
 		    if (!source.getValueIsAdjusting()) {
-		    	AppController.setNumCorrelatedNodesToShow(source.getValue());
-			    switch (AppController.getCurrentNode().getType()) {
-					case DIAGNOSIS:
-						int num = AppController.getCurrentNode().getNNNObject().getNumberOfCorrelatedNodes(); 
-						lblCorrelated.setText("Show correlated diagnoses: " + tbarCorrelated.getValue() +"/"+num);
-						break;
-					case OUTCOME:
-						lblCorrelated.setText("Show correlated outcomes: ");
-						break;
-					case INTERVENTION:
-						lblCorrelated.setText("Show correlated interventions: ");
-						break;
+		    	//AppController.setNumCorrelatedNodesToShow(source.getValue());
+//			    switch (AppController.getSelectedNodes().getType()) {
+//					case DIAGNOSIS:
+//						int num = 0;//AppController.getCurrentNode().getNNNObject().getNumberOfCorrelatedNodes(); 
+//						lblCorrelated.setText("Show correlated diagnoses: " + tbarCorrelated.getValue() +"/"+num);
+//						break;
+//					case OUTCOME:
+//						lblCorrelated.setText("Show correlated outcomes: ");
+//						break;
+//					case INTERVENTION:
+//						lblCorrelated.setText("Show correlated interventions: ");
+//						break;
 		    	
-			    }
+//			    }
 			}
 		}
 	}
