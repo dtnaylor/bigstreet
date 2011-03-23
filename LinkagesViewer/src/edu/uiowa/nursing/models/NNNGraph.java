@@ -115,9 +115,47 @@ public class NNNGraph {
 					{
 						case DIAGNOSIS:
 							color = new Color(0.0f, 0.0f, 0.5f, 0.8f);
+							
+							// Color correlated Diagnoses
+							if (AppController.getSelectedNodes().size() == 1)
+							{
+								// For now we can only handle selected diagnoses
+								NNNObject nnnObj = ((GraphNode)AppController.getSelectedNodes().get(0)).getNNNObject();
+								if (!(nnnObj instanceof Diagnosis)) break;
+								
+								Diagnosis thisDiagnosis = (Diagnosis)n.getNNNObject();
+								Diagnosis selectedDiagnosis = (Diagnosis)nnnObj;
+								
+								// Color positively correlated nodes blue
+								if (selectedDiagnosis.getCorrelatedDiagnoses().contains(thisDiagnosis))
+									color = Color.BLUE;
+								
+								// Color negatively correlated nodes red
+								if (selectedDiagnosis.getNegativelyCorrelatedDiagnoses().contains(thisDiagnosis))
+									color = Color.RED;
+							}
 							break;
 						case OUTCOME:
 							color = new Color(0.0f, 0.5f, 0.0f, 0.8f);
+							
+							// Color correlated Outcomes
+							if (AppController.getSelectedNodes().size() == 1)
+							{
+								// For now we can only handle selected diagnoses
+								NNNObject nnnObj = ((GraphNode)AppController.getSelectedNodes().get(0)).getNNNObject();
+								if (!(nnnObj instanceof Diagnosis)) break;
+								
+								Outcome thisOutcome = (Outcome)n.getNNNObject();
+								Diagnosis selectedDiagnosis = (Diagnosis)nnnObj;
+								
+								// Color positively correlated nodes blue
+								if (selectedDiagnosis.getCorrelatedOutcomes().contains(thisOutcome))
+									color = Color.BLUE;
+								
+								// Color negatively correlated nodes red
+								if (selectedDiagnosis.getNegativelyCorrelatedOutcomes().contains(thisOutcome))
+									color = Color.RED;
+							}
 							break;
 						case INTERVENTION:
 							color = new Color(0.5f, 0.0f, 0.0f, 0.8f);

@@ -40,7 +40,7 @@ public abstract class AppController {
 	
 	private static NNNGraph graphToDisplay;
 	//private static GraphNode currentNode;
-	private static List<GraphNode> selectedNodes;
+	private static List<GraphNode> selectedNodes = new ArrayList<GraphNode>();
 	
 	//***** PROPERTIES *****//
 	public static HashMap<Integer, Diagnosis> getDiagnoses() {
