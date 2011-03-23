@@ -363,9 +363,9 @@ public class NNNGraph {
 			}
 			
 			//for testing; remove:
-			for (Outcome o : diagnosis.getOutcomes()){
-				addOutcome(o);
-			}
+//			for (Outcome o : diagnosis.getOutcomes()){
+//				addOutcome(o);
+//			}
 		}
 	}
 	
@@ -411,7 +411,7 @@ public class NNNGraph {
 					}
 					
 					// For testing; remove:
-					addIntervention(i);
+					//addIntervention(i);
 				}
 			}
 			
