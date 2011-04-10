@@ -14,28 +14,23 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="LeftSideBar" min="-2" max="-2" attributes="1"/>
-                  <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                  <Component id="GraphParentPanel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="69" max="32767" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="GraphParentPanel" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                          <Component id="LeftSideBar" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
-                          <Component id="GraphParentPanel" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="LeftSideBar" alignment="0" pref="473" max="32767" attributes="1"/>
+                      <Component id="GraphParentPanel" alignment="0" min="-2" max="-2" attributes="1"/>
                   </Group>
-                  <EmptySpace pref="229" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -49,17 +44,11 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="CurrentSelectionLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="LeftSideBarAddvsSelectionSeparator" min="-2" pref="242" max="-2" attributes="0"/>
-                      <EmptySpace pref="25" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="CurrentSelectionTabbedPane" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
+                          <Component id="LeftSideBarAddvsSelectionSeparator" alignment="0" pref="254" max="32767" attributes="0"/>
+                          <Component id="CurrentSelectionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="AddDiagnosisPanel" alignment="0" min="-2" max="-2" attributes="1"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -75,8 +64,8 @@
                       <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                       <Component id="CurrentSelectionLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="CurrentSelectionTabbedPane" min="-2" pref="400" max="-2" attributes="0"/>
-                      <EmptySpace pref="75" max="32767" attributes="0"/>
+                      <Component id="CurrentSelectionTabbedPane" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -109,7 +98,7 @@
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="354" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="192" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
@@ -134,7 +123,7 @@
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="354" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="192" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
@@ -159,7 +148,7 @@
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="354" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="192" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
@@ -187,7 +176,7 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jTextField1" min="-2" pref="167" max="-2" attributes="0"/>
+                          <Component id="addDiagnosisTextField" min="-2" pref="167" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jButton1" min="-2" pref="71" max="-2" attributes="0"/>
                       </Group>
@@ -205,7 +194,7 @@
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="addDiagnosisTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -224,15 +213,15 @@
                     <Property name="name" type="java.lang.String" value="jLabel1" noResource="true"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField1">
+                <Component class="javax.swing.JTextField" name="addDiagnosisTextField">
                   <Properties>
-                    <Property name="text" type="java.lang.String" resourceKey="jTextField1.text"/>
+                    <Property name="text" type="java.lang.String" resourceKey="addDiagnosisTextField.text"/>
                     <Property name="alignmentX" type="float" value="0.0"/>
                     <Property name="alignmentY" type="float" value="0.0"/>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                       <Color id="Text Cursor"/>
                     </Property>
-                    <Property name="name" type="java.lang.String" value="jTextField1" noResource="true"/>
+                    <Property name="name" type="java.lang.String" value="addDiagnosisTextField" noResource="true"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="jButton1">
@@ -240,6 +229,9 @@
                     <Property name="text" type="java.lang.String" resourceKey="jButton1.text"/>
                     <Property name="name" type="java.lang.String" value="jButton1" noResource="true"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="AddDiagnosisSearch"/>
+                  </Events>
                 </Component>
                 <Container class="javax.swing.JScrollPane" name="jScrollPane1">
                   <Properties>
@@ -278,12 +270,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="266" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="531" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="204" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="414" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -302,7 +294,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="statusMessageLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="453" max="32767" attributes="0"/>
+                  <EmptySpace pref="682" max="32767" attributes="0"/>
                   <Component id="progressBar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="statusAnimationLabel" min="-2" max="-2" attributes="0"/>
@@ -381,6 +373,6 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,3,-37,0,0,2,-119"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,38,0,0,3,110"/>
   </AuxValues>
 </Form>

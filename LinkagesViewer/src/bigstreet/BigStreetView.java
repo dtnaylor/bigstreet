@@ -4,6 +4,7 @@
 
 package bigstreet;
 
+import bigstreet.controllers.AppController;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.SingleFrameApplication;
@@ -79,7 +80,7 @@ public class BigStreetView extends FrameView {
         LeftSideBarAddvsSelectionSeparator = new javax.swing.JSeparator();
         AddDiagnosisPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        addDiagnosisTextField = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jButton2 = new javax.swing.JButton();
@@ -107,7 +108,7 @@ public class BigStreetView extends FrameView {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 354, Short.MAX_VALUE)
+            .add(0, 192, Short.MAX_VALUE)
         );
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(bigstreet.BigStreetApp.class).getContext().getResourceMap(BigStreetView.class);
@@ -123,7 +124,7 @@ public class BigStreetView extends FrameView {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 354, Short.MAX_VALUE)
+            .add(0, 192, Short.MAX_VALUE)
         );
 
         CurrentSelectionTabbedPane.addTab(resourceMap.getString("jPanel3.TabConstraints.tabTitle"), jPanel3); // NOI18N
@@ -138,7 +139,7 @@ public class BigStreetView extends FrameView {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 354, Short.MAX_VALUE)
+            .add(0, 192, Short.MAX_VALUE)
         );
 
         CurrentSelectionTabbedPane.addTab(resourceMap.getString("jPanel5.TabConstraints.tabTitle"), jPanel5); // NOI18N
@@ -155,14 +156,19 @@ public class BigStreetView extends FrameView {
         jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jLabel1.setName("jLabel1"); // NOI18N
 
-        jTextField1.setText(resourceMap.getString("jTextField1.text")); // NOI18N
-        jTextField1.setAlignmentX(0.0F);
-        jTextField1.setAlignmentY(0.0F);
-        jTextField1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jTextField1.setName("jTextField1"); // NOI18N
+        addDiagnosisTextField.setText(resourceMap.getString("addDiagnosisTextField.text")); // NOI18N
+        addDiagnosisTextField.setAlignmentX(0.0F);
+        addDiagnosisTextField.setAlignmentY(0.0F);
+        addDiagnosisTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        addDiagnosisTextField.setName("addDiagnosisTextField"); // NOI18N
 
         jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
         jButton1.setName("jButton1"); // NOI18N
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AddDiagnosisSearch(evt);
+            }
+        });
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -177,7 +183,7 @@ public class BigStreetView extends FrameView {
         AddDiagnosisPanelLayout.setHorizontalGroup(
             AddDiagnosisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(AddDiagnosisPanelLayout.createSequentialGroup()
-                .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 167, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(addDiagnosisTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 167, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jButton1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 71, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
             .add(jLabel1)
@@ -192,7 +198,7 @@ public class BigStreetView extends FrameView {
                 .add(jLabel1)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(AddDiagnosisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(addDiagnosisTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jButton1))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -204,15 +210,11 @@ public class BigStreetView extends FrameView {
         LeftSideBar.setLayout(LeftSideBarLayout);
         LeftSideBarLayout.setHorizontalGroup(
             LeftSideBarLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(LeftSideBarLayout.createSequentialGroup()
-                .add(CurrentSelectionLabel)
-                .addContainerGap())
-            .add(LeftSideBarLayout.createSequentialGroup()
-                .add(LeftSideBarAddvsSelectionSeparator, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 242, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
-            .add(LeftSideBarLayout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, LeftSideBarLayout.createSequentialGroup()
                 .add(LeftSideBarLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, CurrentSelectionTabbedPane, 0, 0, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, LeftSideBarAddvsSelectionSeparator, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, CurrentSelectionLabel)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, AddDiagnosisPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -225,8 +227,8 @@ public class BigStreetView extends FrameView {
                 .add(2, 2, 2)
                 .add(CurrentSelectionLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(CurrentSelectionTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 400, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(75, Short.MAX_VALUE))
+                .add(CurrentSelectionTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         GraphParentPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -236,11 +238,11 @@ public class BigStreetView extends FrameView {
         GraphParentPanel.setLayout(GraphParentPanelLayout);
         GraphParentPanelLayout.setHorizontalGroup(
             GraphParentPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 266, Short.MAX_VALUE)
+            .add(0, 531, Short.MAX_VALUE)
         );
         GraphParentPanelLayout.setVerticalGroup(
             GraphParentPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 204, Short.MAX_VALUE)
+            .add(0, 414, Short.MAX_VALUE)
         );
 
         org.jdesktop.layout.GroupLayout mainPanelLayout = new org.jdesktop.layout.GroupLayout(mainPanel);
@@ -248,23 +250,20 @@ public class BigStreetView extends FrameView {
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(mainPanelLayout.createSequentialGroup()
-                .add(9, 9, 9)
+                .addContainerGap()
                 .add(LeftSideBar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(34, 34, 34)
-                .add(GraphParentPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(69, Short.MAX_VALUE))
+                .add(18, 18, 18)
+                .add(GraphParentPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(38, 38, 38))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
                 .add(mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(mainPanelLayout.createSequentialGroup()
-                        .add(10, 10, 10)
-                        .add(LeftSideBar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(mainPanelLayout.createSequentialGroup()
-                        .add(65, 65, 65)
-                        .add(GraphParentPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(229, Short.MAX_VALUE))
+                    .add(LeftSideBar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
+                    .add(GraphParentPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         statusPanel.setName("statusPanel"); // NOI18N
@@ -284,7 +283,7 @@ public class BigStreetView extends FrameView {
             .add(statusPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(statusMessageLabel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 453, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 682, Short.MAX_VALUE)
                 .add(progressBar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(statusAnimationLabel)
@@ -306,6 +305,10 @@ public class BigStreetView extends FrameView {
         setStatusBar(statusPanel);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void AddDiagnosisSearch(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddDiagnosisSearch
+        AppController.search(addDiagnosisTextField.getText());
+    }//GEN-LAST:event_AddDiagnosisSearch
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AddDiagnosisPanel;
     private javax.swing.JLabel CurrentSelectionLabel;
@@ -313,6 +316,7 @@ public class BigStreetView extends FrameView {
     private javax.swing.JPanel GraphParentPanel;
     private javax.swing.JPanel LeftSideBar;
     private javax.swing.JSeparator LeftSideBarAddvsSelectionSeparator;
+    private javax.swing.JTextField addDiagnosisTextField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -320,7 +324,6 @@ public class BigStreetView extends FrameView {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JProgressBar progressBar;
     private javax.swing.JLabel statusAnimationLabel;
