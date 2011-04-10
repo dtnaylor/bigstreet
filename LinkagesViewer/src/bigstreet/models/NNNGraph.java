@@ -1,4 +1,4 @@
-package edu.uiowa.nursing.models;
+package bigstreet.models;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -41,9 +41,9 @@ import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.ViewScalingControl;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
-import edu.uiowa.nursing.controllers.AppController;
-import edu.uiowa.nursing.views.NNNPickingGraphMousePlugin;
-import edu.uiowa.nursing.views.NNNVertexLabelRenderer;
+import bigstreet.controllers.AppController;
+import bigstreet.views.NNNPickingGraphMousePlugin;
+import bigstreet.views.NNNVertexLabelRenderer;
 
 public class NNNGraph {
 	//***** DATA MEMBERS *****//

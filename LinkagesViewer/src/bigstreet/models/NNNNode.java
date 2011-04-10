@@ -1,4 +1,4 @@
-//package edu.uiowa.nursing.models;
+//package bigstreet.models;
 //
 //import java.awt.Color;
 //import java.awt.event.MouseEvent;
@@ -8,7 +8,7 @@
 //
 //import edu.uci.ics.jung.graph.Graph;
 //import edu.uci.ics.jung.visualization.VisualizationViewer;
-//import edu.uiowa.nursing.controllers.AppController;
+//import bigstreet.controllers.AppController;
 //
 //public class NNNNode {// extends NNNGraphElement {
 //	// Static fields for handling assigning diagnosis selection colors

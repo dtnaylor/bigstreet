@@ -1,4 +1,4 @@
-package edu.uiowa.nursing.configuration;
+package bigstreet.configuration;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

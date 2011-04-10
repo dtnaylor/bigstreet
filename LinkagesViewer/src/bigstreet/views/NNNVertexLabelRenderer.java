@@ -1,4 +1,4 @@
-package edu.uiowa.nursing.views;
+package bigstreet.views;
 
 import java.awt.Color;
 import java.awt.Component;

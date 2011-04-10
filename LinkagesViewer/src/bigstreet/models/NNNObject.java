@@ -1,4 +1,4 @@
-package edu.uiowa.nursing.models;
+package bigstreet.models;
 
 public abstract class NNNObject {
 	

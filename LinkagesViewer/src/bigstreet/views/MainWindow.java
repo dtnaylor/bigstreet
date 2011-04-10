@@ -1,4 +1,4 @@
-package edu.uiowa.nursing.views;
+package bigstreet.views;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -32,12 +32,12 @@ import javax.swing.event.ChangeListener;
 import edu.uci.ics.jung.algorithms.layout.DAGLayout;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
-import edu.uiowa.nursing.Utilities;
-import edu.uiowa.nursing.controllers.AppController;
-import edu.uiowa.nursing.models.Diagnosis;
-import edu.uiowa.nursing.models.GraphNode;
-import edu.uiowa.nursing.models.NNNGraph;
-import edu.uiowa.nursing.models.NodeType;
+import bigstreet.Utilities;
+import bigstreet.controllers.AppController;
+import bigstreet.models.Diagnosis;
+import bigstreet.models.GraphNode;
+import bigstreet.models.NNNGraph;
+import bigstreet.models.NodeType;
 
 public class MainWindow extends JFrame {
 	// GUI elements
