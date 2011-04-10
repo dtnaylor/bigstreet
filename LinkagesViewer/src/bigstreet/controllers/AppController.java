@@ -1,4 +1,4 @@
-package edu.uiowa.nursing.controllers;
+package bigstreet.controllers;
 
 import java.awt.Dimension;
 import java.io.BufferedReader;
@@ -16,13 +16,13 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
-import edu.uiowa.nursing.models.Diagnosis;
-import edu.uiowa.nursing.models.GraphNode;
-import edu.uiowa.nursing.models.NNNGraph;
-import edu.uiowa.nursing.models.NodeType;
-import edu.uiowa.nursing.models.Outcome;
-import edu.uiowa.nursing.views.MainWindow;
-import edu.uiowa.nursing.configuration.*;
+import bigstreet.models.Diagnosis;
+import bigstreet.models.GraphNode;
+import bigstreet.models.NNNGraph;
+import bigstreet.models.NodeType;
+import bigstreet.models.Outcome;
+import bigstreet.views.MainWindow;
+import bigstreet.configuration.*;
 
 public abstract class AppController {
 

@@ -1,4 +1,4 @@
-package edu.uiowa.nursing.views;
+package bigstreet.views;
 
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
@@ -6,9 +6,9 @@ import java.awt.geom.Point2D;
 import edu.uci.ics.jung.algorithms.layout.GraphElementAccessor;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.PickingGraphMousePlugin;
-import edu.uiowa.nursing.models.GraphEdge;
-import edu.uiowa.nursing.models.GraphNode;
-import edu.uiowa.nursing.models.RenderMode;
+import bigstreet.models.GraphEdge;
+import bigstreet.models.GraphNode;
+import bigstreet.models.RenderMode;
 
 public class NNNPickingGraphMousePlugin extends PickingGraphMousePlugin<GraphNode, GraphEdge> {
 	public void mouseClicked(MouseEvent e)

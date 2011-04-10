@@ -1,4 +1,4 @@
-package edu.uiowa.nursing.models;
+package bigstreet.models;
 
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
@@ -7,7 +7,7 @@ import java.util.List;
 
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
-import edu.uiowa.nursing.controllers.AppController;
+import bigstreet.controllers.AppController;
 
 public class GraphNode {
 

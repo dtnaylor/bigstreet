@@ -1,4 +1,4 @@
-//package edu.uiowa.nursing.models;
+//package bigstreet.models;
 //
 //import java.awt.Color;
 //

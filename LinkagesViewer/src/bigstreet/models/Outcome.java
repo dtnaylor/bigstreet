@@ -1,4 +1,4 @@
-package edu.uiowa.nursing.models;
+package bigstreet.models;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,7 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.uiowa.nursing.configuration.DBConnection;
+import bigstreet.configuration.DBConnection;
 
 public class Outcome extends NNNObject {
 	//***** DATA MEMBERS *****//
