@@ -32,7 +32,7 @@ import javax.swing.event.ChangeListener;
 import edu.uci.ics.jung.algorithms.layout.DAGLayout;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
-import bigstreet.Utilities;
+//import bigstreet.Utilities;
 import bigstreet.controllers.AppController;
 import bigstreet.models.Diagnosis;
 import bigstreet.models.GraphNode;
@@ -234,7 +234,7 @@ public class MainWindow extends JFrame {
 	
 	public void displayNodeInfo(String text)
 	{
-		Utilities.wrapLabelText(lblNodeInfo, text);
+		//Utilities.wrapLabelText(lblNodeInfo, text);
 	}
 	
 	public void clear()

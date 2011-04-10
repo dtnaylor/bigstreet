@@ -4,6 +4,7 @@
 
 package bigstreet;
 
+import bigstreet.controllers.AppController;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
 
@@ -39,6 +40,7 @@ public class BigStreetApp extends SingleFrameApplication {
      * Main method launching the application.
      */
     public static void main(String[] args) {
+        AppController.startApp();
         launch(BigStreetApp.class, args);
     }
 }
