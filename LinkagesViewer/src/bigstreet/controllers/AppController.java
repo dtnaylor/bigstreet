@@ -142,35 +142,39 @@ public abstract class AppController {
 		graphToDisplay.saveScreenShot(path);
 	}
 	
-	public static void search(String text)
-	{
-		// Clear previous search results
-		searchResults.clear();
-		searchResultCodes.clear();
-		
-		try {
-			String query = "SELECT id, nanda_code, isnull(name_current,name_2005) as name, definition FROM DIAGNOSES WHERE NAME_CURRENT LIKE ? or NAME_2005 LIKE ?";
-			PreparedStatement search_ps = DBConnection.connection.prepareStatement(query);
-			search_ps.setString(1,"%"+text+"%");
-			search_ps.setString(2,"%"+text+"%");
-			ResultSet rs = search_ps.executeQuery();
-			while (rs.next()) {
-				searchResults.addElement(rs.getString("name"));
-				searchResultObjects.put(searchResults.size() - 1, new Diagnosis(
-																	rs.getInt("id"),
-																	rs.getString("name"),
-																	rs.getString("nanda_code"),
-																	rs.getString("definition")));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
+	public static DefaultListModel search(String text) {
+            // Clear previous search results
+            searchResults.clear();
+            searchResultObjects.clear();
+
+            try {
+                    String query = "SELECT id, nanda_code, isnull(name_current,name_2005) as name, definition FROM DIAGNOSES WHERE NAME_CURRENT LIKE ? or NAME_2005 LIKE ?";
+                    PreparedStatement search_ps = DBConnection.connection.prepareStatement(query);
+                    search_ps.setString(1,"%"+text+"%");
+                    search_ps.setString(2,"%"+text+"%");
+                    ResultSet rs = search_ps.executeQuery();
+                    while (rs.next()) {
+                            searchResults.addElement(rs.getString("name"));
+                            searchResultObjects.put(searchResults.size() - 1, new Diagnosis(
+                                rs.getInt("id"),
+                                rs.getString("name"),														rs.getString("nanda_code"),
+                                rs.getString("definition")));
+                    }
+            }
+            catch (SQLException e) {
+                    e.printStackTrace();
+                    System.exit(1);
+            }
+            return searchResults;
 	}
 	
 	public static void addDiagnosis(int searchResultIndex)
 	{
 		addDiagnosisToDisplay(searchResultObjects.get(searchResultIndex));
 	}
-	
+
+        public static HashMap<Integer, Diagnosis> get_searchResultObjects() {
+            return searchResultObjects;
+        }
+
 }

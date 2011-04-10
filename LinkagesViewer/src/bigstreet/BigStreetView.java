@@ -5,6 +5,7 @@
 package bigstreet;
 
 import bigstreet.controllers.AppController;
+import bigstreet.models.Diagnosis;
 import bigstreet.models.GraphNode;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import org.jdesktop.application.Action;
@@ -14,6 +15,8 @@ import org.jdesktop.application.FrameView;
 import org.jdesktop.application.TaskMonitor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import javax.swing.DefaultListModel;
 import javax.swing.Timer;
 import javax.swing.Icon;
 import javax.swing.JDialog;
@@ -86,8 +89,9 @@ public class BigStreetView extends FrameView {
         AddDiagnosisPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         addDiagnosisTextField = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        DiagnosisSearchButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
+        diagnosisSearchResults = new javax.swing.JList();
         jButton2 = new javax.swing.JButton();
         GraphParentPanel = new javax.swing.JPanel();
         statusPanel = new javax.swing.JPanel();
@@ -109,11 +113,11 @@ public class BigStreetView extends FrameView {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 233, Short.MAX_VALUE)
+            .add(0, 266, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 192, Short.MAX_VALUE)
+            .add(0, 276, Short.MAX_VALUE)
         );
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(bigstreet.BigStreetApp.class).getContext().getResourceMap(BigStreetView.class);
@@ -125,11 +129,11 @@ public class BigStreetView extends FrameView {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 233, Short.MAX_VALUE)
+            .add(0, 266, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 192, Short.MAX_VALUE)
+            .add(0, 276, Short.MAX_VALUE)
         );
 
         CurrentSelectionTabbedPane.addTab(resourceMap.getString("jPanel3.TabConstraints.tabTitle"), jPanel3); // NOI18N
@@ -140,11 +144,11 @@ public class BigStreetView extends FrameView {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 233, Short.MAX_VALUE)
+            .add(0, 266, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 192, Short.MAX_VALUE)
+            .add(0, 276, Short.MAX_VALUE)
         );
 
         CurrentSelectionTabbedPane.addTab(resourceMap.getString("jPanel5.TabConstraints.tabTitle"), jPanel5); // NOI18N
@@ -167,35 +171,48 @@ public class BigStreetView extends FrameView {
         addDiagnosisTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         addDiagnosisTextField.setName("addDiagnosisTextField"); // NOI18N
 
-        jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
-        jButton1.setName("jButton1"); // NOI18N
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        DiagnosisSearchButton.setText(resourceMap.getString("DiagnosisSearchButton.text")); // NOI18N
+        DiagnosisSearchButton.setName("DiagnosisSearchButton"); // NOI18N
+        DiagnosisSearchButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 AddDiagnosisSearch(evt);
             }
         });
+        DiagnosisSearchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DiagnosisSearchButtonActionPerformed(evt);
+            }
+        });
 
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createEtchedBorder());
         jScrollPane1.setName("jScrollPane1"); // NOI18N
+
+        diagnosisSearchResults.setName("diagnosisSearchResults"); // NOI18N
+        jScrollPane1.setViewportView(diagnosisSearchResults);
 
         jButton2.setText(resourceMap.getString("jButton2.text")); // NOI18N
         jButton2.setName("jButton2"); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout AddDiagnosisPanelLayout = new org.jdesktop.layout.GroupLayout(AddDiagnosisPanel);
         AddDiagnosisPanel.setLayout(AddDiagnosisPanelLayout);
         AddDiagnosisPanelLayout.setHorizontalGroup(
             AddDiagnosisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(AddDiagnosisPanelLayout.createSequentialGroup()
-                .add(addDiagnosisTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 167, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jButton1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 71, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-            .add(jLabel1)
-            .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
-            .add(AddDiagnosisPanelLayout.createSequentialGroup()
-                .add(jButton2)
-                .addContainerGap())
+                .add(AddDiagnosisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(jLabel1)
+                    .add(AddDiagnosisPanelLayout.createSequentialGroup()
+                        .add(addDiagnosisTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 167, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(DiagnosisSearchButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 71, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(AddDiagnosisPanelLayout.createSequentialGroup()
+                        .add(27, 27, 27)
+                        .add(jButton2))
+                    .add(jScrollPane1))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         AddDiagnosisPanelLayout.setVerticalGroup(
             AddDiagnosisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -204,11 +221,12 @@ public class BigStreetView extends FrameView {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(AddDiagnosisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(addDiagnosisTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jButton1))
+                    .add(DiagnosisSearchButton))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jButton2))
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 81, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jButton2)
+                .addContainerGap())
         );
 
         org.jdesktop.layout.GroupLayout LeftSideBarLayout = new org.jdesktop.layout.GroupLayout(LeftSideBar);
@@ -218,10 +236,10 @@ public class BigStreetView extends FrameView {
             .add(org.jdesktop.layout.GroupLayout.TRAILING, LeftSideBarLayout.createSequentialGroup()
                 .add(LeftSideBarLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, CurrentSelectionTabbedPane, 0, 0, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, LeftSideBarAddvsSelectionSeparator, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, CurrentSelectionLabel)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, AddDiagnosisPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, LeftSideBarAddvsSelectionSeparator, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 240, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
+            .add(AddDiagnosisPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         LeftSideBarLayout.setVerticalGroup(
             LeftSideBarLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -243,7 +261,7 @@ public class BigStreetView extends FrameView {
         GraphParentPanel.setLayout(GraphParentPanelLayout);
         GraphParentPanelLayout.setHorizontalGroup(
             GraphParentPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 531, Short.MAX_VALUE)
+            .add(0, 506, Short.MAX_VALUE)
         );
         GraphParentPanelLayout.setVerticalGroup(
             GraphParentPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -259,14 +277,16 @@ public class BigStreetView extends FrameView {
                 .add(LeftSideBar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(18, 18, 18)
                 .add(GraphParentPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(38, 38, 38))
+                .add(155, 155, 155))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(LeftSideBar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
+                    .add(mainPanelLayout.createSequentialGroup()
+                        .add(38, 38, 38)
+                        .add(LeftSideBar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE))
                     .add(GraphParentPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -288,7 +308,7 @@ public class BigStreetView extends FrameView {
             .add(statusPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(statusMessageLabel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 682, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 794, Short.MAX_VALUE)
                 .add(progressBar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(statusAnimationLabel)
@@ -311,18 +331,31 @@ public class BigStreetView extends FrameView {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddDiagnosisSearch(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddDiagnosisSearch
-        AppController.search(addDiagnosisTextField.getText());
+        
     }//GEN-LAST:event_AddDiagnosisSearch
+
+    private void DiagnosisSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DiagnosisSearchButtonActionPerformed
+        diagnosisSearchResults.setModel(AppController.search(addDiagnosisTextField.getText()));
+    }//GEN-LAST:event_DiagnosisSearchButtonActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String diagnosis_name = diagnosisSearchResults.getSelectedValue().toString();
+        Integer index = diagnosisSearchResults.getSelectedIndex();
+        HashMap<Integer, Diagnosis> diagnoses = AppController.get_searchResultObjects();
+        Diagnosis d = diagnoses.get(index);
+        AppController.addDiagnosisToDisplay(d);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AddDiagnosisPanel;
     private javax.swing.JLabel CurrentSelectionLabel;
     private javax.swing.JTabbedPane CurrentSelectionTabbedPane;
+    private javax.swing.JButton DiagnosisSearchButton;
     private javax.swing.JPanel GraphParentPanel;
     private javax.swing.JPanel LeftSideBar;
     private javax.swing.JSeparator LeftSideBarAddvsSelectionSeparator;
     private javax.swing.JTextField addDiagnosisTextField;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JList diagnosisSearchResults;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
@@ -353,10 +386,10 @@ public class BigStreetView extends FrameView {
     }
 
     public void update() {
-        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     public void setGraphView(VisualizationViewer vv) {
         GraphParentPanel.add(vv);
     }
+
 }
