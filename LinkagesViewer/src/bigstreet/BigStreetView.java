@@ -8,6 +8,7 @@ import bigstreet.controllers.AppController;
 import bigstreet.models.Diagnosis;
 import bigstreet.models.GraphNode;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
+import java.awt.BorderLayout;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.SingleFrameApplication;
@@ -261,11 +262,11 @@ public class BigStreetView extends FrameView {
         GraphParentPanel.setLayout(GraphParentPanelLayout);
         GraphParentPanelLayout.setHorizontalGroup(
             GraphParentPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 506, Short.MAX_VALUE)
+            .add(0, 648, Short.MAX_VALUE)
         );
         GraphParentPanelLayout.setVerticalGroup(
             GraphParentPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 414, Short.MAX_VALUE)
+            .add(0, 527, Short.MAX_VALUE)
         );
 
         org.jdesktop.layout.GroupLayout mainPanelLayout = new org.jdesktop.layout.GroupLayout(mainPanel);
@@ -276,19 +277,17 @@ public class BigStreetView extends FrameView {
                 .addContainerGap()
                 .add(LeftSideBar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(18, 18, 18)
-                .add(GraphParentPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(155, 155, 155))
+                .add(GraphParentPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(mainPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(mainPanelLayout.createSequentialGroup()
-                        .add(38, 38, 38)
-                        .add(LeftSideBar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE))
-                    .add(GraphParentPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(58, 58, 58)
+                .add(LeftSideBar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
                 .addContainerGap())
+            .add(mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(GraphParentPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         statusPanel.setName("statusPanel"); // NOI18N
@@ -377,6 +376,8 @@ public class BigStreetView extends FrameView {
 
     private JDialog aboutBox;
 
+    private VisualizationViewer graphView;
+
     public void displayNodeInfo(GraphNode node) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
@@ -386,10 +387,26 @@ public class BigStreetView extends FrameView {
     }
 
     public void update() {
+        // Remove last graph from window
+        if(graphView != null)
+                GraphParentPanel.remove(graphView);
+
+        // Add new graph to window
+        if(AppController.getGraphToDisplay() != null)
+        {
+                graphView = AppController.getGraphToDisplay().getView();
+                GraphParentPanel.add(graphView, BorderLayout.CENTER);
+        }
+
+
+        // Redraw window so graph shows up
+        GraphParentPanel.validate();
     }
 
     public void setGraphView(VisualizationViewer vv) {
-        GraphParentPanel.add(vv);
+        GraphParentPanel.setLayout(new BorderLayout());
+        graphView = vv;
+        GraphParentPanel.add(graphView, BorderLayout.CENTER);
     }
 
 }

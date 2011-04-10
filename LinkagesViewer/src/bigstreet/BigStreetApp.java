@@ -41,6 +41,6 @@ public class BigStreetApp extends SingleFrameApplication {
      */
     public static void main(String[] args) {
         AppController.startApp();
-        launch(BigStreetApp.class, args);
+        launch(BigStreetApp.class, args); 
     }
 }
