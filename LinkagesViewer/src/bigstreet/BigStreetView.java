@@ -4,6 +4,9 @@
 
 package bigstreet;
 
+import bigstreet.controllers.AppController;
+import bigstreet.models.GraphNode;
+import edu.uci.ics.jung.visualization.VisualizationViewer;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.SingleFrameApplication;
@@ -48,6 +51,9 @@ public class BigStreetView extends FrameView {
         idleIcon = resourceMap.getIcon("StatusBar.idleIcon");
         statusAnimationLabel.setIcon(idleIcon);
         progressBar.setVisible(false);
+
+        // Give AppController a handle on me
+        AppController.setMainWindow(this);
     }
 
     @Action
@@ -335,4 +341,20 @@ public class BigStreetView extends FrameView {
     private int busyIconIndex = 0;
 
     private JDialog aboutBox;
+
+    public void displayNodeInfo(GraphNode node) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public void displayNodeInfo(String string) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public void update() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public void setGraphView(VisualizationViewer vv) {
+        GraphParentPanel.add(vv);
+    }
 }

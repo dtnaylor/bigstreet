@@ -1,5 +1,6 @@
 package bigstreet.controllers;
 
+import bigstreet.BigStreetView;
 import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -30,7 +31,8 @@ public abstract class AppController {
 	public static Dimension WINDOW_SIZE = new Dimension(1024, 768);
 	public static Dimension GRAPH_SIZE = new Dimension(1024, 768);
 	
-	private static MainWindow mainWindow;
+	//private static MainWindow mainWindow;
+        private static BigStreetView mainWindow;
 	
 	private static HashMap<Integer, Diagnosis> diagnoses;
 	
@@ -43,6 +45,11 @@ public abstract class AppController {
 	private static List<GraphNode> selectedNodes = new ArrayList<GraphNode>();
 	
 	//***** PROPERTIES *****//
+        public static void setMainWindow(BigStreetView view) {
+            mainWindow = view;
+            mainWindow.setGraphView(graphToDisplay.getView());
+        }
+
 	public static HashMap<Integer, Diagnosis> getDiagnoses() {
 		return diagnoses;
 	}
@@ -94,13 +101,9 @@ public abstract class AppController {
 	
 
 	//***** METHODS *****//
-	public static void main(String[] args) {
+	public static void startApp() {
 		// Open connection to database
 		DBConnection.openConnection();
-
-		mainWindow = new MainWindow();
-		mainWindow.setVisible(true);
-		
 		graphToDisplay = new NNNGraph();
 	}
 	
