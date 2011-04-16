@@ -182,6 +182,11 @@ public class BigStreetView extends FrameView {
 
         addCorrelatedDiagnosisButton.setLabel(resourceMap.getString("addCorrelatedDiagnosisButton.label")); // NOI18N
         addCorrelatedDiagnosisButton.setName("addCorrelatedDiagnosisButton"); // NOI18N
+        addCorrelatedDiagnosisButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addCorrelatedDiagnosisButtonActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
         jLabel2.setName("jLabel2"); // NOI18N
@@ -485,10 +490,12 @@ public class BigStreetView extends FrameView {
     }//GEN-LAST:event_DiagnosisSearchButtonActionPerformed
 
     public void setCorrelatedDiagnosises(DefaultListModel correlatedDiagnoses) {
+        this.correlatedDiagnosesList.removeAll();
         this.correlatedDiagnosesList.setModel(correlatedDiagnoses);
     }
 
     public void setLinkedOutcomes(DefaultListModel linkedCorrelations) {
+        this.outcomesList.removeAll();
         this.outcomesList.setModel(linkedCorrelations);
     }
 
@@ -515,6 +522,10 @@ public class BigStreetView extends FrameView {
     private void openFileDialog_action(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileDialog_action
         AppController.loadSavedView(openFileDialog.getSelectedFile().getAbsolutePath());
     }//GEN-LAST:event_openFileDialog_action
+
+    private void addCorrelatedDiagnosisButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCorrelatedDiagnosisButtonActionPerformed
+        AppController.addDiagnosisToDisplay((Diagnosis) correlatedDiagnosesList.getSelectedValue());
+    }//GEN-LAST:event_addCorrelatedDiagnosisButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AddDiagnosisPanel;

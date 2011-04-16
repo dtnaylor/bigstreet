@@ -110,12 +110,14 @@ public abstract class AppController {
                 Diagnosis n = ((Diagnosis) node.getNNNObject());
 
                 // Set correlated diagnoses
+                correlatedDiagnoses.removeAllElements();
                 for (Diagnosis d : n.getCorrelatedDiagnoses())  {
                     correlatedDiagnoses.addElement(d);
                 }
                 mainWindow.setCorrelatedDiagnosises(correlatedDiagnoses);
 
                 // Set outcomes to be displayed..
+                correlatedOutcomes.removeAllElements();
                 for (Outcome o: n.getOutcomes()) {
                     correlatedOutcomes.addElement(o);
                 }
