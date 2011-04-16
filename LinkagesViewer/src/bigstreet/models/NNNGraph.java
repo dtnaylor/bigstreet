@@ -44,8 +44,9 @@ import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 import bigstreet.controllers.AppController;
 import bigstreet.views.NNNPickingGraphMousePlugin;
 import bigstreet.views.NNNVertexLabelRenderer;
+import java.io.Serializable;
 
-public class NNNGraph {
+public class NNNGraph implements Serializable {
 	//***** DATA MEMBERS *****//
 	private Graph<GraphNode, GraphEdge> g;
 	private Hashtable<String, GraphNode> diagnoses;

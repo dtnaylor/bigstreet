@@ -32,6 +32,7 @@ public class BigStreetView extends FrameView {
         super(app);
 
         initComponents();
+        this.setMenuBar(menuBar);
 
         // status bar initialization - message timeout, idle icon and busy animation, etc
         ResourceMap resourceMap = getResourceMap();
@@ -111,6 +112,16 @@ public class BigStreetView extends FrameView {
         statusMessageLabel = new javax.swing.JLabel();
         statusAnimationLabel = new javax.swing.JLabel();
         progressBar = new javax.swing.JProgressBar();
+        menuBar = new javax.swing.JMenuBar();
+        fileMenu = new javax.swing.JMenu();
+        saveMenuItem = new javax.swing.JMenuItem();
+        openMenuItem = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        exitMenuItem = new javax.swing.JMenuItem();
+        helpMenu = new javax.swing.JMenu();
+        aboutMenuItem = new javax.swing.JMenuItem();
+        openFileDialog = new javax.swing.JFileChooser();
+        saveFileDialog = new javax.swing.JFileChooser();
 
         mainPanel.setName("mainPanel"); // NOI18N
         mainPanel.setSize(new java.awt.Dimension(100, 100));
@@ -403,6 +414,64 @@ public class BigStreetView extends FrameView {
                 .add(3, 3, 3))
         );
 
+        menuBar.setName("menuBar"); // NOI18N
+
+        fileMenu.setText(resourceMap.getString("fileMenu.text")); // NOI18N
+        fileMenu.setName("fileMenu"); // NOI18N
+
+        saveMenuItem.setText(resourceMap.getString("saveMenuItem.text")); // NOI18N
+        saveMenuItem.setName("saveMenuItem"); // NOI18N
+        saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveMenuItem_click(evt);
+            }
+        });
+        fileMenu.add(saveMenuItem);
+
+        openMenuItem.setText(resourceMap.getString("openMenuItem.text")); // NOI18N
+        openMenuItem.setName("openMenuItem"); // NOI18N
+        openMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openMenuItem_click(evt);
+            }
+        });
+        fileMenu.add(openMenuItem);
+
+        jSeparator1.setName("jSeparator1"); // NOI18N
+        fileMenu.add(jSeparator1);
+
+        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(bigstreet.BigStreetApp.class).getContext().getActionMap(BigStreetView.class, this);
+        exitMenuItem.setAction(actionMap.get("quit")); // NOI18N
+        exitMenuItem.setText(resourceMap.getString("exitMenuItem.text")); // NOI18N
+        exitMenuItem.setName("exitMenuItem"); // NOI18N
+        fileMenu.add(exitMenuItem);
+
+        menuBar.add(fileMenu);
+
+        helpMenu.setText(resourceMap.getString("helpMenu.text")); // NOI18N
+        helpMenu.setName("helpMenu"); // NOI18N
+
+        aboutMenuItem.setAction(actionMap.get("showAboutBox")); // NOI18N
+        aboutMenuItem.setText(resourceMap.getString("aboutMenuItem.text")); // NOI18N
+        aboutMenuItem.setName("aboutMenuItem"); // NOI18N
+        helpMenu.add(aboutMenuItem);
+
+        menuBar.add(helpMenu);
+
+        openFileDialog.setName("openFileDialog"); // NOI18N
+        openFileDialog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openFileDialog_action(evt);
+            }
+        });
+
+        saveFileDialog.setName("saveFileDialog"); // NOI18N
+        saveFileDialog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveFileDialog_action(evt);
+            }
+        });
+
         setComponent(mainPanel);
         setStatusBar(statusPanel);
     }// </editor-fold>//GEN-END:initComponents
@@ -431,6 +500,22 @@ public class BigStreetView extends FrameView {
         AppController.addDiagnosisToDisplay(d);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void saveMenuItem_click(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItem_click
+        saveFileDialog.showSaveDialog(mainPanel);
+    }//GEN-LAST:event_saveMenuItem_click
+
+    private void openMenuItem_click(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItem_click
+        openFileDialog.showOpenDialog(mainPanel);
+    }//GEN-LAST:event_openMenuItem_click
+
+    private void saveFileDialog_action(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveFileDialog_action
+        AppController.saveCurrentView(saveFileDialog.getSelectedFile().getAbsolutePath());
+    }//GEN-LAST:event_saveFileDialog_action
+
+    private void openFileDialog_action(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileDialog_action
+        AppController.loadSavedView(openFileDialog.getSelectedFile().getAbsolutePath());
+    }//GEN-LAST:event_openFileDialog_action
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AddDiagnosisPanel;
     private javax.swing.JLabel CurrentSelectionLabel;
@@ -439,6 +524,7 @@ public class BigStreetView extends FrameView {
     private javax.swing.JPanel GraphParentPanel;
     private javax.swing.JPanel LeftSideBar;
     private javax.swing.JSeparator LeftSideBarAddvsSelectionSeparator;
+    private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JButton addCorrelatedDiagnosisButton;
     private javax.swing.JTextField addDiagnosisTextField;
     private javax.swing.JButton addOutcomeButton;
@@ -446,6 +532,9 @@ public class BigStreetView extends FrameView {
     private javax.swing.JLabel currentNodeNameLabel;
     private javax.swing.JTextArea currentSelectionDescriptionTextArea;
     private javax.swing.JList diagnosisSearchResults;
+    private javax.swing.JMenuItem exitMenuItem;
+    private javax.swing.JMenu fileMenu;
+    private javax.swing.JMenu helpMenu;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -457,9 +546,15 @@ public class BigStreetView extends FrameView {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JMenuBar menuBar;
+    private javax.swing.JFileChooser openFileDialog;
+    private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JList outcomesList;
     private javax.swing.JProgressBar progressBar;
+    private javax.swing.JFileChooser saveFileDialog;
+    private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JLabel statusAnimationLabel;
     private javax.swing.JLabel statusMessageLabel;
     private javax.swing.JPanel statusPanel;
