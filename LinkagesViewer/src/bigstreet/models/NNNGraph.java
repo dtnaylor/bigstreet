@@ -402,9 +402,9 @@ public class NNNGraph implements Serializable {
 			}
 			
 			//for testing; remove:
-			for (Outcome o : diagnosis.getOutcomes()){
-				addOutcome(o);
-			}
+			//for (Outcome o : diagnosis.getOutcomes()){
+			//	addOutcome(o);
+			//}
 		}
 	}
 	
@@ -450,7 +450,7 @@ public class NNNGraph implements Serializable {
 					}
 					
 					// For testing; remove:
-					addIntervention(i);
+					//addIntervention(i);
 				}
 			}
 			

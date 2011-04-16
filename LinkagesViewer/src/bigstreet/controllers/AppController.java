@@ -24,6 +24,7 @@ import bigstreet.models.NodeType;
 import bigstreet.models.Outcome;
 import bigstreet.views.MainWindow;
 import bigstreet.configuration.*;
+import bigstreet.models.Intervention;
 import bigstreet.models.NNNObject;
 import java.awt.geom.Point2D;
 import java.io.FileInputStream;
@@ -76,6 +77,16 @@ public abstract class AppController {
 	{
 		AppController.graphToDisplay.addDiagnosis(diagnosis);
 	}
+
+        public static void addOutcomeToDisplay(Outcome outcome)
+        {
+                AppController.graphToDisplay.addOutcome(outcome);
+        }
+
+        public static void addInterventionToDisplay(Intervention intervention)
+        {
+                AppController.graphToDisplay.addIntervention(intervention);
+        }
 	
 	public static void setSelectedNode(GraphNode node)
 	{
