@@ -55,9 +55,9 @@ public class NNNGraph {
 	//private List<Diagnosis> displayedDiagnoses;
 	//private List<Diagnosis> correlatedDiagnoses;
 	
-	VisualizationViewer<GraphNode,GraphEdge> vv;
-	DefaultModalGraphMouse graphMouse;
-	ViewScalingControl zoomControl;
+	transient VisualizationViewer<GraphNode,GraphEdge> vv;
+	transient DefaultModalGraphMouse graphMouse;
+	transient ViewScalingControl zoomControl;
 
 	//***** CONSTRUCTORS *****//
 	public NNNGraph()

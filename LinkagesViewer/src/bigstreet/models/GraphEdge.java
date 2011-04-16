@@ -1,8 +1,9 @@
 package bigstreet.models;
 
 import java.awt.Color;
+import java.io.Serializable;
 
-public class GraphEdge {
+public class GraphEdge implements Serializable {
 	//***** DATA MEMBERS *****//
 	private EdgeType type;
 	private RenderMode renderMode;

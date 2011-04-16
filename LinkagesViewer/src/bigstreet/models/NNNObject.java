@@ -1,6 +1,8 @@
 package bigstreet.models;
 
-public abstract class NNNObject {
+import java.io.Serializable;
+
+public abstract class NNNObject implements Serializable {
 	
 	//***** DATA MEMBERS *****//
 	protected Integer id; 

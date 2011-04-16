@@ -25,6 +25,11 @@ import bigstreet.models.Outcome;
 import bigstreet.views.MainWindow;
 import bigstreet.configuration.*;
 import bigstreet.models.NNNObject;
+import java.awt.geom.Point2D;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public abstract class AppController {
 
@@ -199,4 +204,48 @@ public abstract class AppController {
             return searchResultObjects;
         }
 
+        public static void saveCurrentView(String filename)
+        {
+        Object[] stateToSave = {graphToDisplay, GraphNode.getCurrentLocationInformation()};
+
+        FileOutputStream fos = null;
+        ObjectOutputStream out = null;
+        try
+        {
+            fos = new FileOutputStream(filename);
+            out = new ObjectOutputStream(fos);
+            out.writeObject(stateToSave);
+            out.close();
+        }
+        catch(IOException ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void loadSavedView(String filename)
+    {
+        Object[] savedState;
+
+        FileInputStream fis = null;
+        ObjectInputStream in = null;
+        try
+        {
+          fis = new FileInputStream(filename);
+          in = new ObjectInputStream(fis);
+          savedState = (Object[])in.readObject();
+          graphToDisplay = (NNNGraph)savedState[0];
+          GraphNode.setCurrentLocationInformation((Point2D[])savedState[1]);
+          mainWindow.update();
+          in.close();
+        }
+        catch(IOException ex)
+        {
+          ex.printStackTrace();
+        }
+        catch(ClassNotFoundException ex)
+        {
+          ex.printStackTrace();
+        }
+    }
 }

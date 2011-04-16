@@ -8,8 +8,9 @@ import java.util.List;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import bigstreet.controllers.AppController;
+import java.io.Serializable;
 
-public class GraphNode {
+public class GraphNode implements Serializable {
 
 	//***** STATIC *****//
 	private static double leftBuffer = 150, rightBuffer = 20;
@@ -37,6 +38,19 @@ public class GraphNode {
 		currentInterventionLoc = new Point2D.Double(interventionColumn1, currentInterventionLoc.getY() + interventionSpacing);
 		return currentInterventionLoc;
 	}
+
+        public static Point2D[] getCurrentLocationInformation()
+        {
+            Point2D[] locInfo = {currentDiagnosisLoc, currentOutcomeLoc, currentInterventionLoc};
+            return locInfo;
+        }
+
+        public static void setCurrentLocationInformation(Point2D[] locInfo)
+        {
+            currentDiagnosisLoc = locInfo[0];
+            currentOutcomeLoc = locInfo[1];
+            currentInterventionLoc = locInfo[2];
+        }
 	
 	
 	//***** DATA MEMBERS *****//
