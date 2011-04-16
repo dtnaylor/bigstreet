@@ -125,4 +125,9 @@ public class Outcome extends NNNObject {
 		
 		return interventions;
 	}
+
+        @Override
+        public String toString() {
+            return this.getName();
+        }
 }

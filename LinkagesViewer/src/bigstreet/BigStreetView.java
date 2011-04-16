@@ -83,8 +83,19 @@ public class BigStreetView extends FrameView {
         LeftSideBar = new javax.swing.JPanel();
         CurrentSelectionTabbedPane = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        currentSelectionDescriptionTextArea = new javax.swing.JTextArea();
+        currentNodeNameLabel = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        correlatedDiagnosesList = new javax.swing.JList();
+        addCorrelatedDiagnosisButton = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        outcomesList = new javax.swing.JList();
+        addOutcomeButton = new javax.swing.JButton();
         CurrentSelectionLabel = new javax.swing.JLabel();
         LeftSideBarAddvsSelectionSeparator = new javax.swing.JSeparator();
         AddDiagnosisPanel = new javax.swing.JPanel();
@@ -106,50 +117,124 @@ public class BigStreetView extends FrameView {
 
         LeftSideBar.setName("LeftSideBar"); // NOI18N
 
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(bigstreet.BigStreetApp.class).getContext().getResourceMap(BigStreetView.class);
+        CurrentSelectionTabbedPane.setFont(resourceMap.getFont("CurrentSelectionTabbedPane.font")); // NOI18N
         CurrentSelectionTabbedPane.setName("CurrentSelectionTabbedPane"); // NOI18N
 
         jPanel2.setName("jPanel2"); // NOI18N
+
+        jScrollPane2.setName("jScrollPane2"); // NOI18N
+
+        currentSelectionDescriptionTextArea.setBackground(resourceMap.getColor("currentSelectionDescriptionTextArea.background")); // NOI18N
+        currentSelectionDescriptionTextArea.setColumns(18);
+        currentSelectionDescriptionTextArea.setEditable(false);
+        currentSelectionDescriptionTextArea.setForeground(resourceMap.getColor("currentSelectionDescriptionTextArea.foreground")); // NOI18N
+        currentSelectionDescriptionTextArea.setLineWrap(true);
+        currentSelectionDescriptionTextArea.setRows(5);
+        currentSelectionDescriptionTextArea.setWrapStyleWord(true);
+        currentSelectionDescriptionTextArea.setBorder(null);
+        currentSelectionDescriptionTextArea.setName("currentSelectionDescriptionTextArea"); // NOI18N
+        jScrollPane2.setViewportView(currentSelectionDescriptionTextArea);
+
+        currentNodeNameLabel.setFont(resourceMap.getFont("currentNodeNameLabel.font")); // NOI18N
+        currentNodeNameLabel.setText(resourceMap.getString("currentNodeNameLabel.text")); // NOI18N
+        currentNodeNameLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        currentNodeNameLabel.setName("currentNodeNameLabel"); // NOI18N
 
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 266, Short.MAX_VALUE)
+            .add(jPanel2Layout.createSequentialGroup()
+                .add(currentNodeNameLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                .addContainerGap())
+            .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 276, Short.MAX_VALUE)
+            .add(jPanel2Layout.createSequentialGroup()
+                .add(currentNodeNameLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 197, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(bigstreet.BigStreetApp.class).getContext().getResourceMap(BigStreetView.class);
         CurrentSelectionTabbedPane.addTab(resourceMap.getString("jPanel2.TabConstraints.tabTitle"), jPanel2); // NOI18N
 
         jPanel3.setName("jPanel3"); // NOI18N
+
+        jScrollPane3.setName("jScrollPane3"); // NOI18N
+
+        correlatedDiagnosesList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        correlatedDiagnosesList.setName("correlatedDiagnosesList"); // NOI18N
+        jScrollPane3.setViewportView(correlatedDiagnosesList);
+
+        addCorrelatedDiagnosisButton.setLabel(resourceMap.getString("addCorrelatedDiagnosisButton.label")); // NOI18N
+        addCorrelatedDiagnosisButton.setName("addCorrelatedDiagnosisButton"); // NOI18N
+
+        jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
+        jLabel2.setName("jLabel2"); // NOI18N
 
         org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 266, Short.MAX_VALUE)
+            .add(jPanel3Layout.createSequentialGroup()
+                .add(jLabel2)
+                .addContainerGap(104, Short.MAX_VALUE))
+            .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+            .add(jPanel3Layout.createSequentialGroup()
+                .add(addCorrelatedDiagnosisButton)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 276, Short.MAX_VALUE)
+            .add(jPanel3Layout.createSequentialGroup()
+                .add(jLabel2)
+                .add(7, 7, 7)
+                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 163, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(addCorrelatedDiagnosisButton)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         CurrentSelectionTabbedPane.addTab(resourceMap.getString("jPanel3.TabConstraints.tabTitle"), jPanel3); // NOI18N
 
         jPanel5.setName("jPanel5"); // NOI18N
 
+        jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
+        jLabel3.setName("jLabel3"); // NOI18N
+
+        jScrollPane4.setName("jScrollPane4"); // NOI18N
+
+        outcomesList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        outcomesList.setName("outcomesList"); // NOI18N
+        jScrollPane4.setViewportView(outcomesList);
+
+        addOutcomeButton.setLabel(resourceMap.getString("addOutcomeButton.label")); // NOI18N
+        addOutcomeButton.setName("addOutcomeButton"); // NOI18N
+
         org.jdesktop.layout.GroupLayout jPanel5Layout = new org.jdesktop.layout.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 266, Short.MAX_VALUE)
+            .add(jPanel5Layout.createSequentialGroup()
+                .add(jLabel3)
+                .addContainerGap(129, Short.MAX_VALUE))
+            .add(jScrollPane4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+            .add(jPanel5Layout.createSequentialGroup()
+                .add(addOutcomeButton)
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 276, Short.MAX_VALUE)
+            .add(jPanel5Layout.createSequentialGroup()
+                .add(jLabel3)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 161, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(addOutcomeButton)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         CurrentSelectionTabbedPane.addTab(resourceMap.getString("jPanel5.TabConstraints.tabTitle"), jPanel5); // NOI18N
@@ -202,18 +287,15 @@ public class BigStreetView extends FrameView {
         AddDiagnosisPanel.setLayout(AddDiagnosisPanelLayout);
         AddDiagnosisPanelLayout.setHorizontalGroup(
             AddDiagnosisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jLabel1)
             .add(AddDiagnosisPanelLayout.createSequentialGroup()
-                .add(AddDiagnosisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(jLabel1)
-                    .add(AddDiagnosisPanelLayout.createSequentialGroup()
-                        .add(addDiagnosisTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 167, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(DiagnosisSearchButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 71, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(AddDiagnosisPanelLayout.createSequentialGroup()
-                        .add(27, 27, 27)
-                        .add(jButton2))
-                    .add(jScrollPane1))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .add(addDiagnosisTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 167, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(DiagnosisSearchButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 71, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .add(jScrollPane1)
+            .add(AddDiagnosisPanelLayout.createSequentialGroup()
+                .add(jButton2)
+                .addContainerGap())
         );
         AddDiagnosisPanelLayout.setVerticalGroup(
             AddDiagnosisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -225,34 +307,31 @@ public class BigStreetView extends FrameView {
                     .add(DiagnosisSearchButton))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 81, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(jButton2)
-                .addContainerGap())
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jButton2))
         );
 
         org.jdesktop.layout.GroupLayout LeftSideBarLayout = new org.jdesktop.layout.GroupLayout(LeftSideBar);
         LeftSideBar.setLayout(LeftSideBarLayout);
         LeftSideBarLayout.setHorizontalGroup(
             LeftSideBarLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, LeftSideBarLayout.createSequentialGroup()
-                .add(LeftSideBarLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, CurrentSelectionTabbedPane, 0, 0, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, CurrentSelectionLabel)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, LeftSideBarAddvsSelectionSeparator, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 240, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-            .add(AddDiagnosisPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .add(LeftSideBarLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                .add(AddDiagnosisPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(LeftSideBarAddvsSelectionSeparator, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 240, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(CurrentSelectionLabel))
+            .add(CurrentSelectionTabbedPane, 0, 0, Short.MAX_VALUE)
         );
         LeftSideBarLayout.setVerticalGroup(
             LeftSideBarLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(LeftSideBarLayout.createSequentialGroup()
                 .add(AddDiagnosisPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(4, 4, 4)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(LeftSideBarAddvsSelectionSeparator, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(2, 2, 2)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(CurrentSelectionLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(CurrentSelectionTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(CurrentSelectionTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 294, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         GraphParentPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -262,11 +341,11 @@ public class BigStreetView extends FrameView {
         GraphParentPanel.setLayout(GraphParentPanelLayout);
         GraphParentPanelLayout.setHorizontalGroup(
             GraphParentPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 648, Short.MAX_VALUE)
+            .add(0, 693, Short.MAX_VALUE)
         );
         GraphParentPanelLayout.setVerticalGroup(
             GraphParentPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 527, Short.MAX_VALUE)
+            .add(0, 585, Short.MAX_VALUE)
         );
 
         org.jdesktop.layout.GroupLayout mainPanelLayout = new org.jdesktop.layout.GroupLayout(mainPanel);
@@ -277,17 +356,16 @@ public class BigStreetView extends FrameView {
                 .addContainerGap()
                 .add(LeftSideBar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(18, 18, 18)
-                .add(GraphParentPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(GraphParentPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(mainPanelLayout.createSequentialGroup()
-                .add(58, 58, 58)
-                .add(LeftSideBar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
-                .addContainerGap())
-            .add(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(GraphParentPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(LeftSideBar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(GraphParentPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         statusPanel.setName("statusPanel"); // NOI18N
@@ -307,7 +385,7 @@ public class BigStreetView extends FrameView {
             .add(statusPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(statusMessageLabel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 794, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 819, Short.MAX_VALUE)
                 .add(progressBar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(statusAnimationLabel)
@@ -337,6 +415,14 @@ public class BigStreetView extends FrameView {
         diagnosisSearchResults.setModel(AppController.search(addDiagnosisTextField.getText()));
     }//GEN-LAST:event_DiagnosisSearchButtonActionPerformed
 
+    public void setCorrelatedDiagnosises(DefaultListModel correlatedDiagnoses) {
+        this.correlatedDiagnosesList.setModel(correlatedDiagnoses);
+    }
+
+    public void setLinkedOutcomes(DefaultListModel linkedCorrelations) {
+        this.outcomesList.setModel(linkedCorrelations);
+    }
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String diagnosis_name = diagnosisSearchResults.getSelectedValue().toString();
         Integer index = diagnosisSearchResults.getSelectedIndex();
@@ -353,15 +439,26 @@ public class BigStreetView extends FrameView {
     private javax.swing.JPanel GraphParentPanel;
     private javax.swing.JPanel LeftSideBar;
     private javax.swing.JSeparator LeftSideBarAddvsSelectionSeparator;
+    private javax.swing.JButton addCorrelatedDiagnosisButton;
     private javax.swing.JTextField addDiagnosisTextField;
+    private javax.swing.JButton addOutcomeButton;
+    private javax.swing.JList correlatedDiagnosesList;
+    private javax.swing.JLabel currentNodeNameLabel;
+    private javax.swing.JTextArea currentSelectionDescriptionTextArea;
     private javax.swing.JList diagnosisSearchResults;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JList outcomesList;
     private javax.swing.JProgressBar progressBar;
     private javax.swing.JLabel statusAnimationLabel;
     private javax.swing.JLabel statusMessageLabel;
@@ -377,6 +474,18 @@ public class BigStreetView extends FrameView {
     private JDialog aboutBox;
 
     private VisualizationViewer graphView;
+
+    //public void setSelectedNodeInfo(GraphNode node) {
+    //    this.CurrentSelectionInfoTextPane.setText(node.getDescription());
+    //}
+
+    public void setSelectedNodeName(GraphNode node) {
+        this.currentNodeNameLabel.setText(node.getName());
+    }
+
+    public void setSelectedNodeDescription(GraphNode node) {
+        this.currentSelectionDescriptionTextArea.setText(node.getDescription());
+    }
 
     public void displayNodeInfo(GraphNode node) {
         throw new UnsupportedOperationException("Not yet implemented");

@@ -24,6 +24,7 @@ import bigstreet.models.NodeType;
 import bigstreet.models.Outcome;
 import bigstreet.views.MainWindow;
 import bigstreet.configuration.*;
+import bigstreet.models.NNNObject;
 
 public abstract class AppController {
 
@@ -37,6 +38,9 @@ public abstract class AppController {
 	private static HashMap<Integer, Diagnosis> diagnoses;
 	
 	public static DefaultListModel searchResults = new DefaultListModel();
+        public static DefaultListModel correlatedDiagnoses = new DefaultListModel();
+        public static DefaultListModel correlatedOutcomes = new DefaultListModel();
+
 	private static HashMap<Integer, Integer> searchResultCodes = new HashMap<Integer, Integer>();
 	private static HashMap<Integer, Diagnosis> searchResultObjects = new HashMap<Integer, Diagnosis>();
 	
@@ -82,7 +86,25 @@ public abstract class AppController {
 		selectedNodes.clear();
 		selectedNodes.add(node);
 		node.setSelected(true);
-		mainWindow.displayNodeInfo(node);
+                //AppController.mainWindow.setSelectedNodeInfo(node);
+		mainWindow.setSelectedNodeName(node);
+                mainWindow.setSelectedNodeDescription(node);
+
+
+                Diagnosis n = ((Diagnosis) node.getNNNObject());
+
+                // Set correlated diagnoses
+                for (Diagnosis d : n.getCorrelatedDiagnoses())  {
+                    correlatedDiagnoses.addElement(d);
+                }
+                mainWindow.setCorrelatedDiagnosises(correlatedDiagnoses);
+
+                // Set outcomes to be displayed..
+                for (Outcome o: n.getOutcomes()) {
+                    correlatedOutcomes.addElement(o);
+                }
+                mainWindow.setLinkedOutcomes(correlatedOutcomes);
+
 	}
 	
 	public static void addSelectedNode(GraphNode node)
@@ -173,7 +195,7 @@ public abstract class AppController {
 		addDiagnosisToDisplay(searchResultObjects.get(searchResultIndex));
 	}
 
-        public static HashMap<Integer, Diagnosis> get_searchResultObjects() {
+            public static HashMap<Integer, Diagnosis> get_searchResultObjects() {
             return searchResultObjects;
         }
 

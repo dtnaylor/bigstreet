@@ -37,7 +37,7 @@ public class Diagnosis extends NNNObject {
 			pulling an empty record set from the database server
 			a couple of extra times -- we wouldn't get *bad* data.
 		*/
-		if (this.outcomes.size() == 0) {
+		if (this.outcomes.isEmpty()) {
 			try {
 				String query = new StringBuffer()
 					.append("SELECT id, noc_code, isnull(name_current,name_2005) as name, definition FROM [dbo].[outcomes] o ")
@@ -182,4 +182,9 @@ public class Diagnosis extends NNNObject {
 	{
 		return ((Diagnosis)obj).getName().trim().equals(name.trim());// && ((Diagnosis)obj).getCode() == code;
 	}
+
+        @Override
+        public String toString() {
+            return this.getName();
+        }
 }
