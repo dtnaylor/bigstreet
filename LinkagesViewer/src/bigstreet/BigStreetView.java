@@ -8,6 +8,7 @@ import bigstreet.controllers.AppController;
 import bigstreet.models.Diagnosis;
 import bigstreet.models.GraphNode;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
+import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import java.awt.BorderLayout;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.ResourceMap;
@@ -17,11 +18,15 @@ import org.jdesktop.application.TaskMonitor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ResourceBundle;
+import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.Timer;
 import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 
 /**
  * The application's main frame.
@@ -118,10 +123,15 @@ public class BigStreetView extends FrameView {
         openMenuItem = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         exitMenuItem = new javax.swing.JMenuItem();
+        viewMenu = new javax.swing.JMenu();
+        moveGraphMenuItem = new javax.swing.JRadioButtonMenuItem();
+        moveNodeMenuItem = new javax.swing.JRadioButtonMenuItem();
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
         openFileDialog = new javax.swing.JFileChooser();
         saveFileDialog = new javax.swing.JFileChooser();
+        addLinkedNodePopupMenu = new javax.swing.JPopupMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         mainPanel.setName("mainPanel"); // NOI18N
         mainPanel.setSize(new java.awt.Dimension(100, 100));
@@ -458,6 +468,30 @@ public class BigStreetView extends FrameView {
 
         menuBar.add(fileMenu);
 
+        viewMenu.setText(resourceMap.getString("viewMenu.text")); // NOI18N
+        viewMenu.setName("viewMenu"); // NOI18N
+
+        moveGraphMenuItem.setSelected(true);
+        moveGraphMenuItem.setText(resourceMap.getString("moveGraphMenuItem.text")); // NOI18N
+        moveGraphMenuItem.setName("moveGraphMenuItem"); // NOI18N
+        moveGraphMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                moveGraphMenuItem_clicked(evt);
+            }
+        });
+        viewMenu.add(moveGraphMenuItem);
+
+        moveNodeMenuItem.setText(resourceMap.getString("moveNodeMenuItem.text")); // NOI18N
+        moveNodeMenuItem.setName("moveNodeMenuItem"); // NOI18N
+        moveNodeMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                moveNodeMenuItem_clicked(evt);
+            }
+        });
+        viewMenu.add(moveNodeMenuItem);
+
+        menuBar.add(viewMenu);
+
         helpMenu.setText(resourceMap.getString("helpMenu.text")); // NOI18N
         helpMenu.setName("helpMenu"); // NOI18N
 
@@ -481,6 +515,12 @@ public class BigStreetView extends FrameView {
                 saveFileDialog_action(evt);
             }
         });
+
+        addLinkedNodePopupMenu.setName("addLinkedNodePopupMenu"); // NOI18N
+
+        jMenuItem1.setText(resourceMap.getString("jMenuItem1.text")); // NOI18N
+        jMenuItem1.setName("jMenuItem1"); // NOI18N
+        addLinkedNodePopupMenu.add(jMenuItem1);
 
         setComponent(mainPanel);
         setStatusBar(statusPanel);
@@ -537,6 +577,14 @@ public class BigStreetView extends FrameView {
         DiagnosisSearchButtonActionPerformed(evt);
     }//GEN-LAST:event_searchField_return
 
+    private void moveGraphMenuItem_clicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveGraphMenuItem_clicked
+        AppController.setMouseMode(ModalGraphMouse.Mode.TRANSFORMING);
+    }//GEN-LAST:event_moveGraphMenuItem_clicked
+
+    private void moveNodeMenuItem_clicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveNodeMenuItem_clicked
+        AppController.setMouseMode(ModalGraphMouse.Mode.PICKING);
+    }//GEN-LAST:event_moveNodeMenuItem_clicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AddDiagnosisPanel;
     private javax.swing.JLabel CurrentSelectionLabel;
@@ -548,6 +596,7 @@ public class BigStreetView extends FrameView {
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JButton addCorrelatedDiagnosisButton;
     private javax.swing.JTextField addDiagnosisTextField;
+    private javax.swing.JPopupMenu addLinkedNodePopupMenu;
     private javax.swing.JButton addOutcomeButton;
     private javax.swing.JList correlatedDiagnosesList;
     private javax.swing.JLabel currentNodeNameLabel;
@@ -560,6 +609,7 @@ public class BigStreetView extends FrameView {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
@@ -570,6 +620,8 @@ public class BigStreetView extends FrameView {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JRadioButtonMenuItem moveGraphMenuItem;
+    private javax.swing.JRadioButtonMenuItem moveNodeMenuItem;
     private javax.swing.JFileChooser openFileDialog;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JList outcomesList;
@@ -579,6 +631,7 @@ public class BigStreetView extends FrameView {
     private javax.swing.JLabel statusAnimationLabel;
     private javax.swing.JLabel statusMessageLabel;
     private javax.swing.JPanel statusPanel;
+    private javax.swing.JMenu viewMenu;
     // End of variables declaration//GEN-END:variables
 
     private final Timer messageTimer;
@@ -634,4 +687,41 @@ public class BigStreetView extends FrameView {
         GraphParentPanel.add(graphView, BorderLayout.CENTER);
     }
 
+    public void setMouseMode(ModalGraphMouse.Mode mode)
+    {
+        switch(mode)
+        {
+            case TRANSFORMING:
+                moveGraphMenuItem.setSelected(true);
+                moveNodeMenuItem.setSelected(false);
+                break;
+            case PICKING:
+                moveGraphMenuItem.setSelected(false);
+                moveNodeMenuItem.setSelected(true);
+                break;
+        }
+    }
+
+    public void showPopupMenu(int x, int y, List<String> nodeNames)
+    {
+        addLinkedNodePopupMenu.removeAll();
+
+        for (String s : nodeNames)
+        {
+            JMenuItem menuItem = new JMenuItem(s);
+            menuItem.setAction(new popupMenuItem_click());
+            addLinkedNodePopupMenu.add(menuItem);
+        }
+
+        addLinkedNodePopupMenu.show(GraphParentPanel, x, y);
+    }
+
+    private class popupMenuItem_click extends AbstractAction
+    {
+
+        public void actionPerformed(ActionEvent e) {
+            String nodeName = ((JMenuItem)e.getSource()).getText();
+            System.out.println(nodeName);
+        }
+    }
 }

@@ -151,18 +151,10 @@ public class GraphNode implements Serializable {
 	{
 		if (e.getButton() == MouseEvent.BUTTON3)  // Right click
 		{
-//			// Toggle whether or not this node is selected
-//			visible = !visible;
-//			
-//			final VisualizationViewer<NNNNode,NNNEdge> vv =
-//	            (VisualizationViewer<NNNNode,NNNEdge>)e.getSource();
-//			
-//			Graph<NNNNode, NNNEdge> g = vv.getGraphLayout().getGraph();
-//			
-//			if(visible)
-//				makeVisible(g);
-//			else
-//				makeInvisible(g);
+                    //Show popup menu of linked nodes to add to graph
+                    if(getType() == NodeType.DIAGNOSIS ||
+                            getType() == NodeType.OUTCOME)
+                        AppController.showPopupMenu(e, this);
 		} 
 		else if (e.getButton() == MouseEvent.BUTTON1){  // Left click
 			if (e.isShiftDown())

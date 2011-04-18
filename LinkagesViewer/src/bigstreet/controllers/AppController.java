@@ -26,6 +26,7 @@ import bigstreet.views.MainWindow;
 import bigstreet.configuration.*;
 import bigstreet.models.Intervention;
 import bigstreet.models.NNNObject;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -49,6 +50,8 @@ public abstract class AppController {
 
 	private static HashMap<Integer, Integer> searchResultCodes = new HashMap<Integer, Integer>();
 	private static HashMap<Integer, Diagnosis> searchResultObjects = new HashMap<Integer, Diagnosis>();
+
+        private static HashMap<String, NNNObject> popupMenuNodes = new HashMap<String, NNNObject>();
 	
 	private static NNNGraph graphToDisplay;
 	//private static GraphNode currentNode;
@@ -155,6 +158,7 @@ public abstract class AppController {
 	public static void setMouseMode(ModalGraphMouse.Mode mode)
 	{
 		graphToDisplay.setMouseMode(mode);
+                mainWindow.setMouseMode(mode);
 	}
 	
 	public static void zoomIn()
@@ -260,5 +264,52 @@ public abstract class AppController {
         {
           ex.printStackTrace();
         }
+    }
+
+    public static void showPopupMenu(MouseEvent e, GraphNode n)
+    {
+        popupMenuNodes.clear();
+        List<String> nodeNames = new ArrayList<String>();
+
+        if (n.getType() == NodeType.DIAGNOSIS)
+        {
+            for (Outcome o : ((Diagnosis)n.getNNNObject()).getOutcomes())
+            {
+                popupMenuNodes.put(o.getName(), o);
+                nodeNames.add(o.getName());
+            }
+        }
+        else if (n.getType() == NodeType.OUTCOME)
+        {
+            for (Intervention i : ((Outcome)n.getNNNObject()).getMajorInterventions())
+            {
+                popupMenuNodes.put(i.getName(), i);
+                nodeNames.add(i.getName());
+            }
+            for (Intervention i : ((Outcome)n.getNNNObject()).getSuggestedInterventions())
+            {
+                popupMenuNodes.put(i.getName(), i);
+                nodeNames.add(i.getName());
+            }
+            for (Intervention i : ((Outcome)n.getNNNObject()).getOptionalInterventions())
+            {
+                popupMenuNodes.put(i.getName(), i);
+                nodeNames.add(i.getName());
+            }
+        }
+
+        mainWindow.showPopupMenu(e.getX(), e.getY(), nodeNames);
+    }
+
+    public static void addNodeFromPopupMenu(String nodeName)
+    {
+        NNNObject nnnObj = popupMenuNodes.get(nodeName);
+
+        if(nnnObj == null)
+            return;
+        else if (nnnObj instanceof Outcome)
+            addOutcomeToDisplay((Outcome)nnnObj);
+        else if (nnnObj instanceof Intervention)
+            addInterventionToDisplay((Intervention)nnnObj);
     }
 }
