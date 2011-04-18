@@ -69,6 +69,8 @@
           <SubComponents>
             <Container class="javax.swing.JTabbedPane" name="CurrentSelectionTabbedPane">
               <Properties>
+                <Property name="autoscrolls" type="boolean" value="true"/>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="font" type="java.awt.Font" resourceKey="CurrentSelectionTabbedPane.font"/>
                 <Property name="name" type="java.lang.String" value="CurrentSelectionTabbedPane" noResource="true"/>
               </Properties>
@@ -165,11 +167,11 @@
                               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                               <EmptySpace pref="104" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPane3" alignment="0" pref="239" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="addCorrelatedDiagnosisButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
+                          <Component id="jScrollPane3" alignment="0" pref="239" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -177,10 +179,9 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
-                              <Component id="jScrollPane3" min="-2" pref="163" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jScrollPane3" pref="187" max="32767" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="addCorrelatedDiagnosisButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="26" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -239,37 +240,29 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="129" max="32767" attributes="0"/>
-                          </Group>
-                          <Component id="jScrollPane4" alignment="0" pref="239" max="32767" attributes="0"/>
+                          <Component id="OutcomeFilterComboBox" alignment="0" pref="239" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="addOutcomeButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
+                          <Component id="jScrollPane4" alignment="0" pref="239" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane4" min="-2" pref="161" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                              <Component id="OutcomeFilterComboBox" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jScrollPane4" min="-2" pref="154" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="addOutcomeButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="27" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JLabel" name="jLabel3">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" resourceKey="jLabel3.text"/>
-                        <Property name="name" type="java.lang.String" value="jLabel3" noResource="true"/>
-                      </Properties>
-                    </Component>
                     <Container class="javax.swing.JScrollPane" name="jScrollPane4">
                       <Properties>
                         <Property name="name" type="java.lang.String" value="jScrollPane4" noResource="true"/>
@@ -296,6 +289,21 @@
                         <Property name="label" type="java.lang.String" resourceKey="addOutcomeButton.label"/>
                         <Property name="name" type="java.lang.String" value="addOutcomeButton" noResource="true"/>
                       </Properties>
+                    </Component>
+                    <Component class="javax.swing.JComboBox" name="OutcomeFilterComboBox">
+                      <Properties>
+                        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                          <StringArray count="3">
+                            <StringItem index="0" value="Linked Outcomes"/>
+                            <StringItem index="1" value="Correlated Outcomes"/>
+                            <StringItem index="2" value="All Outcomes"/>
+                          </StringArray>
+                        </Property>
+                        <Property name="name" type="java.lang.String" value="OutcomeFilterComboBox" noResource="true"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OutcomeFilterComboBoxActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>

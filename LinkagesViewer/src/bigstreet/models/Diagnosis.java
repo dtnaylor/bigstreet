@@ -37,6 +37,7 @@ public class Diagnosis extends NNNObject {
 			pulling an empty record set from the database server
 			a couple of extra times -- we wouldn't get *bad* data.
 		*/
+                this.outcomes.clear();
 		if (this.outcomes.isEmpty()) {
 			try {
 				String query = new StringBuffer()
@@ -62,6 +63,36 @@ public class Diagnosis extends NNNObject {
 		}
 		return this.outcomes;
 	}
+        
+        public List<Outcome> getCorrelatedOutcomes()
+	{
+                this.outcomes.clear();
+		if (this.outcomes.isEmpty()) {
+			try {
+				String query = new StringBuffer()
+					.append("SELECT id, noc_code, isnull(name_current,name_2005) as name, definition FROM [dbo].[outcomes] o ")
+					.append("JOIN [diagnosis_outcome_correlations] do ")
+					.append("ON o.id = do.outcome_id ")
+					.append("WHERE do.diagnosis_id=")					
+					.append(this.id.toString())
+                                        .append(" AND correlation > 0")
+					.toString();
+				
+				ResultSet rs = DBConnection.connection.createStatement().executeQuery(query);
+				while (rs.next()) 
+					this.outcomes.add(new Outcome(rs.getInt("id"),
+											  this.id,
+											  rs.getString("name"),
+											  rs.getString("noc_code"),
+											  rs.getString("definition"))); 
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
+		}
+		return this.outcomes;
+	}
+
 	
 	public void addOutcome(Outcome outcome)
 	{
@@ -128,30 +159,6 @@ public class Diagnosis extends NNNObject {
 //			}
 		}
 		return negativelyCorrelatedDiagnoses;
-	}
-	
-	// TODO: implement
-	public List<Outcome> getCorrelatedOutcomes() {
-		//If we haven't already pulled this info from the DB, get it now
-		if (correlatedOutcomes == null) {
-			correlatedOutcomes = new ArrayList<Outcome>();
-//			try {
-//				String query = "SELECT id, nanda_code, isnull(name_current,name_2005) as name, definition FROM diagnoses d join correlations_between_diagnoses cbd on d.id = cbd.diagnosis_id_b WHERE cbd.diagnosis_id_a = ? order by correlation desc";
-//				PreparedStatement search_ps = DBConnection.connection.prepareStatement(query);
-//				search_ps.setInt(1, this.id);
-//				ResultSet rs = search_ps.executeQuery();
-//				while (rs.next()) {
-//					correlatedOutcomes.add(new Diagnosis(rs.getInt("id"),
-//														  rs.getString("name"),
-//														  rs.getString("nanda_code"),
-//														  rs.getString("definition")));
-//				}
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//				System.exit(1);
-//			}
-		}
-		return correlatedOutcomes;
 	}
 	
 	// TODO: implement

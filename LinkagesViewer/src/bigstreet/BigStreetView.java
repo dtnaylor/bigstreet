@@ -98,10 +98,10 @@ public class BigStreetView extends FrameView {
         addCorrelatedDiagnosisButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         outcomesList = new javax.swing.JList();
         addOutcomeButton = new javax.swing.JButton();
+        OutcomeFilterComboBox = new javax.swing.JComboBox();
         CurrentSelectionLabel = new javax.swing.JLabel();
         LeftSideBarAddvsSelectionSeparator = new javax.swing.JSeparator();
         AddDiagnosisPanel = new javax.swing.JPanel();
@@ -138,6 +138,8 @@ public class BigStreetView extends FrameView {
 
         LeftSideBar.setName("LeftSideBar"); // NOI18N
 
+        CurrentSelectionTabbedPane.setAutoscrolls(true);
+        CurrentSelectionTabbedPane.setEnabled(false);
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(bigstreet.BigStreetApp.class).getContext().getResourceMap(BigStreetView.class);
         CurrentSelectionTabbedPane.setFont(resourceMap.getFont("CurrentSelectionTabbedPane.font")); // NOI18N
         CurrentSelectionTabbedPane.setName("CurrentSelectionTabbedPane"); // NOI18N
@@ -208,28 +210,24 @@ public class BigStreetView extends FrameView {
             .add(jPanel3Layout.createSequentialGroup()
                 .add(jLabel2)
                 .addContainerGap(104, Short.MAX_VALUE))
-            .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
             .add(jPanel3Layout.createSequentialGroup()
                 .add(addCorrelatedDiagnosisButton)
                 .addContainerGap())
+            .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel3Layout.createSequentialGroup()
                 .add(jLabel2)
                 .add(7, 7, 7)
-                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 163, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(addCorrelatedDiagnosisButton)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(addCorrelatedDiagnosisButton))
         );
 
         CurrentSelectionTabbedPane.addTab(resourceMap.getString("jPanel3.TabConstraints.tabTitle"), jPanel3); // NOI18N
 
         jPanel5.setName("jPanel5"); // NOI18N
-
-        jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
-        jLabel3.setName("jLabel3"); // NOI18N
 
         jScrollPane4.setName("jScrollPane4"); // NOI18N
 
@@ -240,27 +238,34 @@ public class BigStreetView extends FrameView {
         addOutcomeButton.setLabel(resourceMap.getString("addOutcomeButton.label")); // NOI18N
         addOutcomeButton.setName("addOutcomeButton"); // NOI18N
 
+        OutcomeFilterComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Linked Outcomes", "Correlated Outcomes", "All Outcomes" }));
+        OutcomeFilterComboBox.setName("OutcomeFilterComboBox"); // NOI18N
+        OutcomeFilterComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OutcomeFilterComboBoxActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout jPanel5Layout = new org.jdesktop.layout.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel5Layout.createSequentialGroup()
-                .add(jLabel3)
-                .addContainerGap(129, Short.MAX_VALUE))
-            .add(jScrollPane4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+            .add(OutcomeFilterComboBox, 0, 239, Short.MAX_VALUE)
             .add(jPanel5Layout.createSequentialGroup()
                 .add(addOutcomeButton)
                 .addContainerGap())
+            .add(jScrollPane4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel5Layout.createSequentialGroup()
-                .add(jLabel3)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 161, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(16, 16, 16)
+                .add(OutcomeFilterComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 154, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(addOutcomeButton)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         CurrentSelectionTabbedPane.addTab(resourceMap.getString("jPanel5.TabConstraints.tabTitle"), jPanel5); // NOI18N
@@ -585,6 +590,11 @@ public class BigStreetView extends FrameView {
         AppController.setMouseMode(ModalGraphMouse.Mode.PICKING);
     }//GEN-LAST:event_moveNodeMenuItem_clicked
 
+    private void OutcomeFilterComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OutcomeFilterComboBoxActionPerformed
+        String selected = (String) OutcomeFilterComboBox.getSelectedItem();
+        AppController.setOutcomesForSelectedDiagnosis(((Diagnosis) AppController.getLastSelectedNode().getNNNObject()),selected);
+    }//GEN-LAST:event_OutcomeFilterComboBoxActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AddDiagnosisPanel;
     private javax.swing.JLabel CurrentSelectionLabel;
@@ -593,6 +603,7 @@ public class BigStreetView extends FrameView {
     private javax.swing.JPanel GraphParentPanel;
     private javax.swing.JPanel LeftSideBar;
     private javax.swing.JSeparator LeftSideBarAddvsSelectionSeparator;
+    private javax.swing.JComboBox OutcomeFilterComboBox;
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JButton addCorrelatedDiagnosisButton;
     private javax.swing.JTextField addDiagnosisTextField;
@@ -608,7 +619,6 @@ public class BigStreetView extends FrameView {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -662,6 +672,10 @@ public class BigStreetView extends FrameView {
 
     public void displayNodeInfo(String string) {
         throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public void enableCurrentSelectedNodePanel() {
+        CurrentSelectionTabbedPane.enable();
     }
 
     public void update() {

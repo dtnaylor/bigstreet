@@ -108,7 +108,7 @@ public abstract class AppController {
                 //AppController.mainWindow.setSelectedNodeInfo(node);
 		mainWindow.setSelectedNodeName(node);
                 mainWindow.setSelectedNodeDescription(node);
-
+                mainWindow.enableCurrentSelectedNodePanel();
 
                 Diagnosis n = ((Diagnosis) node.getNNNObject());
 
@@ -117,16 +117,27 @@ public abstract class AppController {
                 for (Diagnosis d : n.getCorrelatedDiagnoses())  {
                     correlatedDiagnoses.addElement(d);
                 }
-                mainWindow.setCorrelatedDiagnosises(correlatedDiagnoses);
 
+                mainWindow.setCorrelatedDiagnosises(correlatedDiagnoses);
                 // Set outcomes to be displayed..
-                correlatedOutcomes.removeAllElements();
-                for (Outcome o: n.getOutcomes()) {
-                    correlatedOutcomes.addElement(o);
-                }
-                mainWindow.setLinkedOutcomes(correlatedOutcomes);
+                AppController.setOutcomesForSelectedDiagnosis(n, "linked");
 
 	}
+
+        public static void setOutcomesForSelectedDiagnosis(Diagnosis n, String filter) {
+                correlatedOutcomes.removeAllElements();
+                if (filter.equals("linked") || filter.equals("all")) {
+                    for (Outcome o: n.getOutcomes()) {
+                        correlatedOutcomes.addElement(o);
+                    }
+                    mainWindow.setLinkedOutcomes(correlatedOutcomes);
+                } else if (filter.equals("correlated") || filter.equals("all")) {
+                    for (Outcome o: n.getCorrelatedOutcomes()) {
+                        correlatedOutcomes.addElement(o);
+                    }
+                }
+        }
+
 	
 	public static void addSelectedNode(GraphNode node)
 	{
@@ -141,7 +152,12 @@ public abstract class AppController {
 	public static List<GraphNode> getSelectedNodes() {
 		return selectedNodes;
 	}
-	
+
+        public static GraphNode getLastSelectedNode() {
+            return selectedNodes.get(selectedNodes.size()-1);
+        }
+
+
 
 	//***** METHODS *****//
 	public static void startApp() {
@@ -217,7 +233,7 @@ public abstract class AppController {
 		addDiagnosisToDisplay(searchResultObjects.get(searchResultIndex));
 	}
 
-            public static HashMap<Integer, Diagnosis> get_searchResultObjects() {
+        public static HashMap<Integer, Diagnosis> get_searchResultObjects() {
             return searchResultObjects;
         }
 
