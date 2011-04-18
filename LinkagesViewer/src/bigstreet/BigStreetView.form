@@ -369,6 +369,9 @@
                     </Property>
                     <Property name="name" type="java.lang.String" value="addDiagnosisTextField" noResource="true"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchField_return"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="DiagnosisSearchButton">
                   <Properties>

@@ -272,6 +272,11 @@ public class BigStreetView extends FrameView {
         addDiagnosisTextField.setAlignmentY(0.0F);
         addDiagnosisTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         addDiagnosisTextField.setName("addDiagnosisTextField"); // NOI18N
+        addDiagnosisTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchField_return(evt);
+            }
+        });
 
         DiagnosisSearchButton.setText(resourceMap.getString("DiagnosisSearchButton.text")); // NOI18N
         DiagnosisSearchButton.setName("DiagnosisSearchButton"); // NOI18N
@@ -526,6 +531,11 @@ public class BigStreetView extends FrameView {
     private void addCorrelatedDiagnosisButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCorrelatedDiagnosisButtonActionPerformed
         AppController.addDiagnosisToDisplay((Diagnosis) correlatedDiagnosesList.getSelectedValue());
     }//GEN-LAST:event_addCorrelatedDiagnosisButtonActionPerformed
+
+    private void searchField_return(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchField_return
+        // Pretend someone clicked "Search"
+        DiagnosisSearchButtonActionPerformed(evt);
+    }//GEN-LAST:event_searchField_return
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AddDiagnosisPanel;
