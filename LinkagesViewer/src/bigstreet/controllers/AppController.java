@@ -297,16 +297,19 @@ public abstract class AppController {
         }
         else if (n.getType() == NodeType.OUTCOME)
         {
+            nodeNames.add("MAJOR");
             for (Intervention i : ((Outcome)n.getNNNObject()).getMajorInterventions())
             {
                 popupMenuNodes.put(i.getName(), i);
                 nodeNames.add(i.getName());
             }
+            nodeNames.add("SUGGESTED");
             for (Intervention i : ((Outcome)n.getNNNObject()).getSuggestedInterventions())
             {
                 popupMenuNodes.put(i.getName(), i);
                 nodeNames.add(i.getName());
             }
+            nodeNames.add("OPTIONAL");
             for (Intervention i : ((Outcome)n.getNNNObject()).getOptionalInterventions())
             {
                 popupMenuNodes.put(i.getName(), i);

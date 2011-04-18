@@ -10,6 +10,8 @@ import bigstreet.models.GraphNode;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.MenuItem;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.SingleFrameApplication;
@@ -27,6 +29,8 @@ import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
+import javax.swing.JSeparator;
+import javax.swing.MenuElement;
 
 /**
  * The application's main frame.
@@ -718,16 +722,39 @@ public class BigStreetView extends FrameView {
 
     public void showPopupMenu(int x, int y, List<String> nodeNames)
     {
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(bigstreet.BigStreetApp.class).getContext().getResourceMap(BigStreetView.class);
         addLinkedNodePopupMenu.removeAll();
 
         for (String s : nodeNames)
         {
+            if(s.equals("SUGGESTED") || s.equals("OPTIONAL"))
+            {
+                addLinkedNodePopupMenu.add((new JSeparator()));
+            }
+
             JMenuItem menuItem = new JMenuItem(s);
+            menuItem.setName(s);
             menuItem.setAction(new popupMenuItem_click());
+            
+
+            if(s.equals("MAJOR") || s.equals("SUGGESTED")
+                    || s.equals("OPTIONAL"))
+            {
+                menuItem.setEnabled(false);
+            }
+
             addLinkedNodePopupMenu.add(menuItem);
+        }
+        
+        // Netbeans is being dumb so we have to loop through them
+        // and set their names again. Who knows why.
+        for (MenuElement e : addLinkedNodePopupMenu.getSubElements())
+        {
+            ((JMenuItem)e).setText(((JMenuItem)e).getName());
         }
 
         addLinkedNodePopupMenu.show(GraphParentPanel, x, y);
+        
     }
 
     private class popupMenuItem_click extends AbstractAction
@@ -735,7 +762,7 @@ public class BigStreetView extends FrameView {
 
         public void actionPerformed(ActionEvent e) {
             String nodeName = ((JMenuItem)e.getSource()).getText();
-            System.out.println(nodeName);
+            AppController.addNodeFromPopupMenu(nodeName);
         }
     }
 }
