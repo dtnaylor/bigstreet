@@ -29,6 +29,7 @@ import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
+import javax.swing.JSeparator;
 import javax.swing.MenuElement;
 
 /**
@@ -712,9 +713,22 @@ public class BigStreetView extends FrameView {
 
         for (String s : nodeNames)
         {
+            if(s.equals("SUGGESTED") || s.equals("OPTIONAL"))
+            {
+                addLinkedNodePopupMenu.add((new JSeparator()));
+            }
+
             JMenuItem menuItem = new JMenuItem(s);
             menuItem.setName(s);
             menuItem.setAction(new popupMenuItem_click());
+            
+
+            if(s.equals("MAJOR") || s.equals("SUGGESTED")
+                    || s.equals("OPTIONAL"))
+            {
+                menuItem.setEnabled(false);
+            }
+
             addLinkedNodePopupMenu.add(menuItem);
         }
         
