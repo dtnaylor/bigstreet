@@ -120,18 +120,19 @@ public abstract class AppController {
 
                 mainWindow.setCorrelatedDiagnosises(correlatedDiagnoses);
                 // Set outcomes to be displayed..
-                AppController.setOutcomesForSelectedDiagnosis(n, "linked");
+                AppController.setOutcomesForSelectedDiagnosis(n, "Linked Outcomes");
 
 	}
 
         public static void setOutcomesForSelectedDiagnosis(Diagnosis n, String filter) {
                 correlatedOutcomes.removeAllElements();
-                if (filter.equals("linked") || filter.equals("all")) {
+                if (filter.equals("Linked Outcomes") || filter.equals("All Outcomes")) {
                     for (Outcome o: n.getOutcomes()) {
                         correlatedOutcomes.addElement(o);
                     }
                     mainWindow.setLinkedOutcomes(correlatedOutcomes);
-                } else if (filter.equals("correlated") || filter.equals("all")) {
+                }
+                if (filter.equals("Correlated Outcomes") || filter.equals("All Outcomes")) {
                     for (Outcome o: n.getCorrelatedOutcomes()) {
                         correlatedOutcomes.addElement(o);
                     }

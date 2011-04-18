@@ -46,6 +46,7 @@ public class Diagnosis extends NNNObject {
 					.append("ON o.id = do.outcome_id ")
 					.append("WHERE do.diagnosis_id=")					
 					.append(this.id.toString())
+                                        .append(" ORDER BY NAME")
 					.toString();
 				
 				ResultSet rs = DBConnection.connection.createStatement().executeQuery(query);
@@ -76,6 +77,7 @@ public class Diagnosis extends NNNObject {
 					.append("WHERE do.diagnosis_id=")					
 					.append(this.id.toString())
                                         .append(" AND correlation > 0")
+                                        .append(" ORDER By correlation DESC")
 					.toString();
 				
 				ResultSet rs = DBConnection.connection.createStatement().executeQuery(query);

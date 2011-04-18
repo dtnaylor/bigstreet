@@ -289,6 +289,9 @@
                         <Property name="label" type="java.lang.String" resourceKey="addOutcomeButton.label"/>
                         <Property name="name" type="java.lang.String" value="addOutcomeButton" noResource="true"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addOutcomeButtonActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JComboBox" name="OutcomeFilterComboBox">
                       <Properties>

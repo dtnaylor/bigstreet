@@ -7,6 +7,7 @@ package bigstreet;
 import bigstreet.controllers.AppController;
 import bigstreet.models.Diagnosis;
 import bigstreet.models.GraphNode;
+import bigstreet.models.Outcome;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import java.awt.BorderLayout;
@@ -241,6 +242,11 @@ public class BigStreetView extends FrameView {
 
         addOutcomeButton.setLabel(resourceMap.getString("addOutcomeButton.label")); // NOI18N
         addOutcomeButton.setName("addOutcomeButton"); // NOI18N
+        addOutcomeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addOutcomeButtonActionPerformed(evt);
+            }
+        });
 
         OutcomeFilterComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Linked Outcomes", "Correlated Outcomes", "All Outcomes" }));
         OutcomeFilterComboBox.setName("OutcomeFilterComboBox"); // NOI18N
@@ -596,8 +602,14 @@ public class BigStreetView extends FrameView {
 
     private void OutcomeFilterComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OutcomeFilterComboBoxActionPerformed
         String selected = (String) OutcomeFilterComboBox.getSelectedItem();
+        System.out.println(selected);
         AppController.setOutcomesForSelectedDiagnosis(((Diagnosis) AppController.getLastSelectedNode().getNNNObject()),selected);
     }//GEN-LAST:event_OutcomeFilterComboBoxActionPerformed
+
+    private void addOutcomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addOutcomeButtonActionPerformed
+        Outcome selected_outcome = (Outcome) this.outcomesList.getSelectedValue();
+        AppController.addOutcomeToDisplay(selected_outcome);
+    }//GEN-LAST:event_addOutcomeButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AddDiagnosisPanel;
