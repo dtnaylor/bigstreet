@@ -424,7 +424,7 @@ public class NNNGraph implements Serializable {
 			for (Object obj : diagnoses.values()){
 				GraphNode diagnosisNode = (GraphNode)obj;
 				for (Outcome o : ((Diagnosis)diagnosisNode.getNNNObject()).getOutcomes()){
-					if (o.code == outcome.code){
+					if (o.code.equals(outcome.code)){
 						RenderMode renderMode;
 						if (diagnosisNode.getSelected())
 							renderMode = RenderMode.NORMAL;
