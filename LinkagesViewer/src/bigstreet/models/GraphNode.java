@@ -152,15 +152,13 @@ public class GraphNode implements Serializable {
 		if (e.getButton() == MouseEvent.BUTTON3)  // Right click
 		{
                     //Show popup menu of linked nodes to add to graph
-                    if(getType() == NodeType.DIAGNOSIS ||
-                            getType() == NodeType.OUTCOME)
-                        AppController.showPopupMenu(e, this);
+                    AppController.showPopupMenu(e, this);
 		} 
-		else if (e.getButton() == MouseEvent.BUTTON1){  // Left click
+		//else if (e.getButton() == MouseEvent.BUTTON1){  // Left click
 			if (e.isShiftDown())
 				AppController.addSelectedNode(this);
 			else
 				AppController.setSelectedNode(this);
-		}
+		//}
 	}
 }

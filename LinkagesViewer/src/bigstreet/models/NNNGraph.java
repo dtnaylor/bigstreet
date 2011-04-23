@@ -463,48 +463,85 @@ public class NNNGraph implements Serializable {
 	
 	public void addIntervention(Intervention intervention)
 	{
-		if (!interventions.containsKey(intervention.code))
-		{
-			// Add node to graph
-			GraphNode newNode = new GraphNode(intervention);
-			interventions.put(intervention.code, newNode);
-			
-			g.addVertex(newNode);
-			AppController.graphUpdated();
-			
-			// Check to see if intervention should be connected
-			// to any outcomes already present in the graph
-			for (Object obj : outcomes.values()){
-				GraphNode outcomeNode = (GraphNode)obj;
-				for (NNNObject nnnObj : outcomeNode.getNNNObjects()){
-					Outcome o = (Outcome)nnnObj;
-					for (EdgeType t : EdgeType.values())
-					{
-						if(t == EdgeType.OUTCOME) continue; //We only want interventions
-						
-						for (Intervention i : o.getInterventions(t))
-						{
-							if (i.code == intervention.code){
-								RenderMode renderMode;
-								if (outcomeNode.getSelected())
-									renderMode = RenderMode.NORMAL;
-								else
-									renderMode = RenderMode.GHOSTED;
-								
-								g.addEdge(new GraphEdge(t, renderMode, outcomeNode, newNode), outcomeNode, newNode);
-							}
-						}
-					}
-				}
-			}
-			
-		}
-		else
-		{
-			// necessary?
-			((GraphNode)interventions.get(intervention.code)).addNNNObject(intervention);
-		}
+            if (!interventions.containsKey(intervention.code))
+            {
+                // Add node to graph
+                GraphNode newNode = new GraphNode(intervention);
+                interventions.put(intervention.code, newNode);
+
+                g.addVertex(newNode);
+                AppController.graphUpdated();
+
+                // Check to see if intervention should be connected
+                // to any outcomes already present in the graph
+                for (Object obj : outcomes.values()){
+                    GraphNode outcomeNode = (GraphNode)obj;
+                    for (NNNObject nnnObj : outcomeNode.getNNNObjects()){
+                        Outcome o = (Outcome)nnnObj;
+                        for (EdgeType t : EdgeType.values())
+                        {
+                            if(t == EdgeType.OUTCOME) continue; //We only want interventions
+
+                            for (Intervention i : o.getInterventions(t))
+                            {
+                                if (i.code.equals(intervention.code)){
+                                    RenderMode renderMode;
+                                    if (outcomeNode.getSelected())
+                                        renderMode = RenderMode.NORMAL;
+                                    else
+                                        renderMode = RenderMode.GHOSTED;
+
+                                    g.addEdge(new GraphEdge(t, renderMode, outcomeNode, newNode), outcomeNode, newNode);
+
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+            else
+            {
+                // necessary?
+                ((GraphNode)interventions.get(intervention.code)).addNNNObject(intervention);
+            }
 	}
+
+        public void removeNode(GraphNode node)
+        {
+            for (GraphNode successor : g.getSuccessors(node))
+            {
+                // Make sure we don't leave any orphaned nodes
+                if (g.getPredecessorCount(successor) == 1)
+                {
+                    // The node we're removing is this successor's only
+                    // parent; it will be orphaned, so we'll remove it too
+                    removeNode(successor);
+                }
+            }
+
+            // Remove node's incomeing & outgoing edges
+            List<GraphEdge> edgesToRemove = new ArrayList<GraphEdge>();
+            for (GraphEdge edge : g.getInEdges(node))
+                edgesToRemove.add(edge);
+            for (GraphEdge edge : g.getOutEdges(node))
+                edgesToRemove.add(edge);
+            for (GraphEdge edge : edgesToRemove)
+                g.removeEdge(edge);
+
+
+            // Remove the node itself
+            g.removeVertex(node);
+            if(node.getType() == NodeType.DIAGNOSIS)
+                diagnoses.remove(node.getCode());
+            else if (node.getType() == NodeType.OUTCOME)
+                outcomes.remove(node.getCode());
+            else if (node.getType() == NodeType.INTERVENTION)
+                interventions.remove(node.getCode());
+
+            // Update the display
+            AppController.graphUpdated();
+        }
 	
 	
 //	private void oldaddDiagnosis(Diagnosis diagnosis)
