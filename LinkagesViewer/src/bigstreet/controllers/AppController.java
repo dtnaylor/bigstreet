@@ -109,18 +109,24 @@ public abstract class AppController {
 		mainWindow.setSelectedNodeName(node);
                 mainWindow.setSelectedNodeDescription(node);
                 mainWindow.enableCurrentSelectedNodePanel();
-
-                Diagnosis n = ((Diagnosis) node.getNNNObject());
-
-                // Set correlated diagnoses
-                correlatedDiagnoses.removeAllElements();
-                for (Diagnosis d : n.getCorrelatedDiagnoses())  {
-                    correlatedDiagnoses.addElement(d);
+                mainWindow.clearCurrentSelectionTabs();
+                String type = node.getNNNObject().getClass().getName();
+                System.out.println(type);
+                if (type.equals("bigstreet.models.Diagnosis")) {
+                    mainWindow.addTabsForDiagnosis();
+                    Diagnosis n = ((Diagnosis) node.getNNNObject());
+                    // populate correlated Diagnoses
+                    correlatedDiagnoses.removeAllElements();
+                    for (Diagnosis d : n.getCorrelatedDiagnoses())  {
+                        correlatedDiagnoses.addElement(d);
+                    }
+                    mainWindow.setCorrelatedDiagnosises(correlatedDiagnoses);
+                    AppController.setOutcomesForSelectedDiagnosis(n, "Linked Outcomes");
+                } else if (type.equals("bigstreet.models.Outcome")) {
+                    mainWindow.addTabsForOutcome();
+                } else {
+                    mainWindow.addTabsForIntervention();
                 }
-
-                mainWindow.setCorrelatedDiagnosises(correlatedDiagnoses);
-                // Set outcomes to be displayed..
-                AppController.setOutcomesForSelectedDiagnosis(n, "Linked Outcomes");
 
 	}
 
