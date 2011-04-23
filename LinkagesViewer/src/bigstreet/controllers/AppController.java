@@ -158,6 +158,14 @@ public abstract class AppController {
             return selectedNodes.get(selectedNodes.size()-1);
         }
 
+        public static void removeSelectedNodes()
+        {
+            for (GraphNode node : selectedNodes)
+            {
+                graphToDisplay.removeNode(node);
+            }
+        }
+
 
 
 	//***** METHODS *****//

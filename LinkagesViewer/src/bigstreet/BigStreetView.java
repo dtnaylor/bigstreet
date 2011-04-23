@@ -736,9 +736,16 @@ public class BigStreetView extends FrameView {
 
     public void showPopupMenu(int x, int y, List<String> nodeNames)
     {
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(bigstreet.BigStreetApp.class).getContext().getResourceMap(BigStreetView.class);
         addLinkedNodePopupMenu.removeAll();
 
+        // Add "remove this node" option
+        JMenuItem menuItem = new JMenuItem("Remove");
+        menuItem.setName("Remove");
+        menuItem.setAction(new removeNodePopupMenuItem_click());
+        addLinkedNodePopupMenu.add(menuItem);
+        if (nodeNames.size() > 0) addLinkedNodePopupMenu.add((new JSeparator()));
+        
+        // Add names of linked nodes that can be added
         for (String s : nodeNames)
         {
             if(s.equals("SUGGESTED") || s.equals("OPTIONAL"))
@@ -746,7 +753,7 @@ public class BigStreetView extends FrameView {
                 addLinkedNodePopupMenu.add((new JSeparator()));
             }
 
-            JMenuItem menuItem = new JMenuItem(s);
+            menuItem = new JMenuItem(s);
             menuItem.setName(s);
             menuItem.setAction(new popupMenuItem_click());
             
@@ -777,6 +784,14 @@ public class BigStreetView extends FrameView {
         public void actionPerformed(ActionEvent e) {
             String nodeName = ((JMenuItem)e.getSource()).getText();
             AppController.addNodeFromPopupMenu(nodeName);
+        }
+    }
+
+    private class removeNodePopupMenuItem_click extends AbstractAction
+    {
+
+        public void actionPerformed(ActionEvent e) {
+            AppController.removeSelectedNodes();
         }
     }
 }

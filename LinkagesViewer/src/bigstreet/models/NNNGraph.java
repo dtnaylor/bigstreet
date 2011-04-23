@@ -505,6 +505,42 @@ public class NNNGraph implements Serializable {
 			((GraphNode)interventions.get(intervention.code)).addNNNObject(intervention);
 		}
 	}
+
+        public void removeNode(GraphNode node)
+        {
+            for (GraphNode successor : g.getSuccessors(node))
+            {
+                // Make sure we don't leave any orphaned nodes
+                if (g.getPredecessorCount(successor) == 1)
+                {
+                    // The node we're removing is this successor's only
+                    // parent; it will be orphaned, so we'll remove it too
+                    removeNode(successor);
+                }
+            }
+
+            // Remove node's incomeing & outgoing edges
+            List<GraphEdge> edgesToRemove = new ArrayList<GraphEdge>();
+            for (GraphEdge edge : g.getInEdges(node))
+                edgesToRemove.add(edge);
+            for (GraphEdge edge : g.getOutEdges(node))
+                edgesToRemove.add(edge);
+            for (GraphEdge edge : edgesToRemove)
+                g.removeEdge(edge);
+
+
+            // Remove the node itself
+            g.removeVertex(node);
+            if(node.getType() == NodeType.DIAGNOSIS)
+                diagnoses.remove(node.getCode());
+            else if (node.getType() == NodeType.OUTCOME)
+                outcomes.remove(node.getCode());
+            else if (node.getType() == NodeType.INTERVENTION)
+                interventions.remove(node.getCode());
+
+            // Update the display
+            AppController.graphUpdated();
+        }
 	
 	
 //	private void oldaddDiagnosis(Diagnosis diagnosis)
