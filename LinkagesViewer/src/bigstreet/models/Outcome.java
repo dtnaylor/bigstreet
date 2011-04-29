@@ -124,10 +124,35 @@ public class Outcome extends NNNObject {
 		}
 		
 		return interventions;
+    }
+
+   @Override
+   public String toString() {
+       return this.getName();
+   }
+
+/*public List<Outcome> getCorrelatedOutcomes() {
+	List<Outcome> outcomes = new ArrayList<Outcome>();
+
+	String sql = new StringBuffer()
+		.append("SELECT id, noc_code, isnull(name_current,name_2005), definition ")
+		.append("FROM [dbo].[outcomes] o JOIN [dbo].[outcome_outcome_correlations] c")
+		.append("ON c.outcome_id_b = o.id ")
+		.append("WHERE c.outcome_id_a = " + id).toString();
+
+	try {
+		ResultSet rs = DBConnection.connection.createStatement().executeQuery(sql);
+		while (rs.next()) {
+			// public Outcome(int id, int parentID, String name, String code, String definition)
+			outcomes.add(new Outcome(
+						rs.getInteger("id"),
+						rs.get
+		}
+	} catch (SQLException e) {
+		e.printStackTrace();
 	}
 
-        @Override
-        public String toString() {
-            return this.getName();
-        }
+	return outcomes;
+}*/
+
 }
