@@ -8,6 +8,7 @@ import java.util.List;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import bigstreet.controllers.AppController;
+import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import java.io.Serializable;
 
 public class GraphNode implements Serializable {
@@ -160,5 +161,11 @@ public class GraphNode implements Serializable {
 			else
 				AppController.setSelectedNode(this);
 		//}
+	}
+
+        public void mouseReleased(MouseEvent e)
+	{
+            if(AppController.getMouseMode() == ModalGraphMouse.Mode.PICKING)
+                location = e.getPoint();
 	}
 }

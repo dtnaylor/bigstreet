@@ -33,4 +33,27 @@ public class NNNPickingGraphMousePlugin extends PickingGraphMousePlugin<GraphNod
 	        }
 	    }
 	}
+
+        public void mouseReleased(MouseEvent e)
+	{
+		super.mouseReleased(e);
+
+		final VisualizationViewer<GraphNode,GraphEdge> vv =
+            (VisualizationViewer<GraphNode,GraphEdge>)e.getSource();
+
+		Point2D p = e.getPoint();
+
+	    GraphElementAccessor<GraphNode,GraphEdge> pickSupport = vv.getPickSupport();
+	    if(pickSupport != null) {
+	        final GraphNode v = pickSupport.getVertex(vv.getGraphLayout(), p.getX(), p.getY());
+	        if(v != null) {
+	        	v.mouseReleased(e);
+	        } else {
+	            final GraphEdge edge = pickSupport.getEdge(vv.getGraphLayout(), p.getX(), p.getY());
+	            if(edge != null) {
+	            	//edge.setRenderMode(RenderMode.SELECTED);
+	            }
+	        }
+	    }
+	}
 }

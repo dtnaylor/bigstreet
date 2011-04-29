@@ -54,6 +54,7 @@ public abstract class AppController {
         private static HashMap<String, NNNObject> popupMenuNodes = new HashMap<String, NNNObject>();
 	
 	private static NNNGraph graphToDisplay;
+        private static ModalGraphMouse.Mode mouseMode = ModalGraphMouse.Mode.TRANSFORMING;
 	//private static GraphNode currentNode;
 	private static List<GraphNode> selectedNodes = new ArrayList<GraphNode>();
 	
@@ -190,6 +191,12 @@ public abstract class AppController {
 	{
 		graphToDisplay.setMouseMode(mode);
                 mainWindow.setMouseMode(mode);
+                mouseMode = mode;
+	}
+
+        public static ModalGraphMouse.Mode getMouseMode()
+	{
+		return mouseMode;
 	}
 	
 	public static void zoomIn()
