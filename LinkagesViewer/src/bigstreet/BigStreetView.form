@@ -853,6 +853,37 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="moveNodeMenuItem_clicked"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="jSeparator2" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="zoomInMenuItem">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Meta+EQUALS"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" resourceKey="zoomInMenuItem.icon"/>
+                <Property name="text" type="java.lang.String" resourceKey="zoomInMenuItem.text"/>
+                <Property name="name" type="java.lang.String" value="zoomInMenuItem" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="zoomInMenuItem_click"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="zoomOutMenuItem">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Meta+MINUS"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" resourceKey="zoomOutMenuItem.icon"/>
+                <Property name="text" type="java.lang.String" resourceKey="zoomOutMenuItem.text"/>
+                <Property name="name" type="java.lang.String" value="zoomOutMenuItem" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="zoomOutMenuItem_click"/>
+              </Events>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="helpMenu">

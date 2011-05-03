@@ -158,6 +158,9 @@ public class BigStreetView extends FrameView {
         viewMenu = new javax.swing.JMenu();
         moveGraphMenuItem = new javax.swing.JRadioButtonMenuItem();
         moveNodeMenuItem = new javax.swing.JRadioButtonMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        zoomInMenuItem = new javax.swing.JMenuItem();
+        zoomOutMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
         openFileDialog = new javax.swing.JFileChooser();
@@ -665,6 +668,31 @@ public class BigStreetView extends FrameView {
         });
         viewMenu.add(moveNodeMenuItem);
 
+        jSeparator2.setName("jSeparator2"); // NOI18N
+        viewMenu.add(jSeparator2);
+
+        zoomInMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_EQUALS, java.awt.event.InputEvent.META_MASK));
+        zoomInMenuItem.setIcon(resourceMap.getIcon("zoomInMenuItem.icon")); // NOI18N
+        zoomInMenuItem.setText(resourceMap.getString("zoomInMenuItem.text")); // NOI18N
+        zoomInMenuItem.setName("zoomInMenuItem"); // NOI18N
+        zoomInMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                zoomInMenuItem_click(evt);
+            }
+        });
+        viewMenu.add(zoomInMenuItem);
+
+        zoomOutMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_MINUS, java.awt.event.InputEvent.META_MASK));
+        zoomOutMenuItem.setIcon(resourceMap.getIcon("zoomOutMenuItem.icon")); // NOI18N
+        zoomOutMenuItem.setText(resourceMap.getString("zoomOutMenuItem.text")); // NOI18N
+        zoomOutMenuItem.setName("zoomOutMenuItem"); // NOI18N
+        zoomOutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                zoomOutMenuItem_click(evt);
+            }
+        });
+        viewMenu.add(zoomOutMenuItem);
+
         menuBar.add(viewMenu);
 
         helpMenu.setText(resourceMap.getString("helpMenu.text")); // NOI18N
@@ -772,6 +800,14 @@ public class BigStreetView extends FrameView {
         AppController.addOutcomeToDisplay(selected_outcome);
     }//GEN-LAST:event_addOutcomeButtonActionPerformed
 
+    private void zoomInMenuItem_click(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zoomInMenuItem_click
+        AppController.zoomIn();
+    }//GEN-LAST:event_zoomInMenuItem_click
+
+    private void zoomOutMenuItem_click(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zoomOutMenuItem_click
+        AppController.zoomOut();
+    }//GEN-LAST:event_zoomOutMenuItem_click
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AddDiagnosisPanel;
     private javax.swing.JLabel CurrentSelectionLabel;
@@ -820,6 +856,7 @@ public class BigStreetView extends FrameView {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JRadioButtonMenuItem moveGraphMenuItem;
@@ -834,6 +871,8 @@ public class BigStreetView extends FrameView {
     private javax.swing.JLabel statusMessageLabel;
     private javax.swing.JPanel statusPanel;
     private javax.swing.JMenu viewMenu;
+    private javax.swing.JMenuItem zoomInMenuItem;
+    private javax.swing.JMenuItem zoomOutMenuItem;
     // End of variables declaration//GEN-END:variables
 
     private final Timer messageTimer;
