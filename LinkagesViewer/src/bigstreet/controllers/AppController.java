@@ -47,6 +47,7 @@ public abstract class AppController {
 	public static DefaultListModel searchResults = new DefaultListModel();
         public static DefaultListModel correlatedDiagnoses = new DefaultListModel();
         public static DefaultListModel correlatedOutcomes = new DefaultListModel();
+        public static DefaultListModel correlatedInterventions = new DefaultListModel();
 
 	private static HashMap<Integer, Integer> searchResultCodes = new HashMap<Integer, Integer>();
 	private static HashMap<Integer, Diagnosis> searchResultObjects = new HashMap<Integer, Diagnosis>();
@@ -106,13 +107,11 @@ public abstract class AppController {
 		selectedNodes.clear();
 		selectedNodes.add(node);
 		node.setSelected(true);
-                //AppController.mainWindow.setSelectedNodeInfo(node);
 		mainWindow.setSelectedNodeName(node);
                 mainWindow.setSelectedNodeDescription(node);
                 mainWindow.enableCurrentSelectedNodePanel();
                 mainWindow.clearCurrentSelectionTabs();
                 String type = node.getNNNObject().getClass().getName();
-                System.out.println(type);
                 if (type.equals("bigstreet.models.Diagnosis")) {
                     mainWindow.addTabsForDiagnosis();
                     Diagnosis n = ((Diagnosis) node.getNNNObject());
@@ -123,8 +122,12 @@ public abstract class AppController {
                     }
                     mainWindow.setCorrelatedDiagnosises(correlatedDiagnoses);
                     AppController.setOutcomesForSelectedDiagnosis(n, "Linked Outcomes");
+
                 } else if (type.equals("bigstreet.models.Outcome")) {
                     mainWindow.addTabsForOutcome();
+                    Outcome o = ((Outcome) node.getNNNObject());
+                    AppController.setInterventionsForSelectedOutcome(o, mainWindow.getCurrentLinkedInterventionsComboBoxValue());
+
                 } else {
                     mainWindow.addTabsForIntervention();
                 }
@@ -144,6 +147,28 @@ public abstract class AppController {
                         correlatedOutcomes.addElement(o);
                     }
                 }
+        }
+
+        public static void setInterventionsForSelectedOutcome(Outcome o, String filter) {
+            correlatedInterventions.removeAllElements();
+            if (filter.equals("Major Interventions")) {
+                for (Intervention i: o.getMajorInterventions()) {
+                    correlatedInterventions.addElement(i);
+                }
+            } else if (filter.equals("Suggested Interventions")) {
+                for (Intervention i: o.getSuggestedInterventions()) {
+                    correlatedInterventions.addElement(i);
+                }
+            } else if (filter.equals("Optional Interventions")) {
+                for (Intervention i: o.getOptionalInterventions()) {
+                    correlatedInterventions.addElement(i);
+                }
+            } else if (filter.equals("Correlated Interventions")) {
+                for (Intervention i: o.getCorrelatedInterventions()) {
+                    correlatedInterventions.addElement(i);
+                }
+            }
+            mainWindow.setLinkedInterventions(correlatedInterventions);
         }
 
 	

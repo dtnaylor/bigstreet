@@ -126,6 +126,34 @@ public class Outcome extends NNNObject {
 		return interventions;
     }
 
+   public List<Intervention> getCorrelatedInterventions() {
+       List<Intervention> interventions = new ArrayList<Intervention>();
+       String sql = new StringBuffer()
+               .append("SELECT isnull(name_current,name_2005) as name, nic_code, definition ")
+               .append("FROM dbo.interventions i JOIN dbo.diagnosis_outcome_intervention_correlations c ")
+               .append("ON c.intervention_id = i.id ")
+               .append("WHERE c.outcome_id = " + id + " ")
+               .append("AND c.diagnosis_id = " + parentID + " ")
+               .append("ORDER BY CORRELATION DESC").toString();
+       System.out.println(sql);
+
+	try {
+		ResultSet rs = DBConnection.connection.createStatement().executeQuery(sql);
+		while (rs.next()) {
+			// Intervention(int id, String name, String code, String definition)
+			interventions.add(new Intervention(
+						rs.getInt("id"),
+						rs.getString("name"),
+                                                rs.getString("nic_code"),
+                                                rs.getString("definition")));
+		}
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+       return interventions;
+
+   }
+
    @Override
    public String toString() {
        return this.getName();

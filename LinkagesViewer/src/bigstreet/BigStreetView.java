@@ -7,6 +7,7 @@ package bigstreet;
 import bigstreet.controllers.AppController;
 import bigstreet.models.Diagnosis;
 import bigstreet.models.GraphNode;
+import bigstreet.models.Intervention;
 import bigstreet.models.Outcome;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
@@ -93,6 +94,9 @@ public class BigStreetView extends FrameView {
         BigStreetApp.getApplication().show(aboutBox);
     }
 
+    public String getCurrentLinkedInterventionsComboBoxValue() {
+        return ((String) this.interventionTypeComboBox.getSelectedItem());
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -120,10 +124,10 @@ public class BigStreetView extends FrameView {
         addOutcomeButton = new javax.swing.JButton();
         OutcomeFilterComboBox = new javax.swing.JComboBox();
         jPanel1 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox();
+        interventionTypeComboBox = new javax.swing.JComboBox();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
-        jButton3 = new javax.swing.JButton();
+        linkedInterventions = new javax.swing.JList();
+        addLinkedInterventionButton = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -315,41 +319,47 @@ public class BigStreetView extends FrameView {
         jPanel1.setName("jPanel1"); // NOI18N
         jPanel1.setRequestFocusEnabled(false);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setName("jComboBox1"); // NOI18N
+        interventionTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Major Interventions", "Suggested Interventions", "Optional Interventions", "Correlated Interventions" }));
+        interventionTypeComboBox.setName("interventionTypeComboBox"); // NOI18N
+        interventionTypeComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                interventionTypeComboBoxActionPerformed(evt);
+            }
+        });
 
         jScrollPane6.setName("jScrollPane6"); // NOI18N
 
-        jList2.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jList2.setName("jList2"); // NOI18N
-        jScrollPane6.setViewportView(jList2);
+        linkedInterventions.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        linkedInterventions.setName("linkedInterventions"); // NOI18N
+        jScrollPane6.setViewportView(linkedInterventions);
 
-        jButton3.setText(resourceMap.getString("jButton3.text")); // NOI18N
-        jButton3.setName("jButton3"); // NOI18N
+        addLinkedInterventionButton.setText(resourceMap.getString("addLinkedInterventionButton.text")); // NOI18N
+        addLinkedInterventionButton.setName("addLinkedInterventionButton"); // NOI18N
+        addLinkedInterventionButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addLinkedInterventionButtonActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jComboBox1, 0, 239, Short.MAX_VALUE)
+            .add(interventionTypeComboBox, 0, 239, Short.MAX_VALUE)
             .add(jScrollPane6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
             .add(jPanel1Layout.createSequentialGroup()
-                .add(jButton3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 137, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(addLinkedInterventionButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 137, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(102, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(interventionTypeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(jButton3))
+                .add(addLinkedInterventionButton))
         );
 
         CurrentSelectionTabbedPane.addTab(resourceMap.getString("jPanel1.TabConstraints.tabTitle"), jPanel1); // NOI18N
@@ -439,7 +449,7 @@ public class BigStreetView extends FrameView {
 
         CurrentSelectionTabbedPane.addTab(resourceMap.getString("jPanel6.TabConstraints.tabTitle"), jPanel6); // NOI18N
 
-        CurrentSelectionTabbedPane.setSelectedIndex(1);
+        CurrentSelectionTabbedPane.setSelectedIndex(3);
 
         CurrentSelectionLabel.setText(resourceMap.getString("CurrentSelectionLabel.text")); // NOI18N
         CurrentSelectionLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -748,6 +758,11 @@ public class BigStreetView extends FrameView {
         this.outcomesList.setModel(linkedCorrelations);
     }
 
+    public void setLinkedInterventions(DefaultListModel linkedInterventions) {
+        this.linkedInterventions.removeAll();
+        this.linkedInterventions.setModel(linkedInterventions);
+    }
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String diagnosis_name = diagnosisSearchResults.getSelectedValue().toString();
         Integer index = diagnosisSearchResults.getSelectedIndex();
@@ -791,7 +806,6 @@ public class BigStreetView extends FrameView {
 
     private void OutcomeFilterComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OutcomeFilterComboBoxActionPerformed
         String selected = (String) OutcomeFilterComboBox.getSelectedItem();
-        System.out.println(selected);
         AppController.setOutcomesForSelectedDiagnosis(((Diagnosis) AppController.getLastSelectedNode().getNNNObject()),selected);
     }//GEN-LAST:event_OutcomeFilterComboBoxActionPerformed
 
@@ -808,6 +822,15 @@ public class BigStreetView extends FrameView {
         AppController.zoomOut();
     }//GEN-LAST:event_zoomOutMenuItem_click
 
+    private void interventionTypeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_interventionTypeComboBoxActionPerformed
+        String current_value = (String) this.interventionTypeComboBox.getSelectedItem();
+        AppController.setInterventionsForSelectedOutcome(((Outcome) AppController.getLastSelectedNode().getNNNObject()), current_value);
+    }//GEN-LAST:event_interventionTypeComboBoxActionPerformed
+
+    private void addLinkedInterventionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLinkedInterventionButtonActionPerformed
+        AppController.addInterventionToDisplay((Intervention) this.linkedInterventions.getSelectedValue());
+    }//GEN-LAST:event_addLinkedInterventionButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AddDiagnosisPanel;
     private javax.swing.JLabel CurrentSelectionLabel;
@@ -820,6 +843,7 @@ public class BigStreetView extends FrameView {
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JButton addCorrelatedDiagnosisButton;
     private javax.swing.JTextField addDiagnosisTextField;
+    private javax.swing.JButton addLinkedInterventionButton;
     private javax.swing.JPopupMenu addLinkedNodePopupMenu;
     private javax.swing.JButton addOutcomeButton;
     private javax.swing.JList correlatedDiagnosesList;
@@ -829,17 +853,15 @@ public class BigStreetView extends FrameView {
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JComboBox interventionTypeComboBox;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JList jList1;
-    private javax.swing.JList jList2;
     private javax.swing.JList jList3;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
@@ -857,6 +879,7 @@ public class BigStreetView extends FrameView {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JList linkedInterventions;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JRadioButtonMenuItem moveGraphMenuItem;
@@ -895,12 +918,12 @@ public class BigStreetView extends FrameView {
     }
 
     public void addTabsForOutcome() {
-        this.CurrentSelectionTabbedPane.addTab("Outcomes",jPanel4);
+        //this.CurrentSelectionTabbedPane.addTab("Outcomes",jPanel4);
         this.CurrentSelectionTabbedPane.addTab("Interventions",jPanel1);
     }
 
     public void addTabsForIntervention() {
-        this.CurrentSelectionTabbedPane.addTab("Interventions",jPanel6);
+        //this.CurrentSelectionTabbedPane.addTab("Interventions",jPanel6);
     }
 
     public void setSelectedNodeName(GraphNode node) {
