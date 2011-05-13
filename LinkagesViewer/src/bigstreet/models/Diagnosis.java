@@ -196,4 +196,24 @@ public class Diagnosis extends NNNObject {
         public String toString() {
             return this.getName();
         }
+
+    @Override
+    public List<NNNObject> getPositivelyCorrelatedObjects() {
+        List<NNNObject> positivelyCorrelatedObjects = new ArrayList<NNNObject>();
+
+        positivelyCorrelatedObjects.addAll(getCorrelatedDiagnoses());
+        positivelyCorrelatedObjects.addAll(getCorrelatedOutcomes());
+
+        return positivelyCorrelatedObjects;
+    }
+
+    @Override
+    public List<NNNObject> getNegativelyCorrelatedObjects() {
+        List<NNNObject> positivelyCorrelatedObjects = new ArrayList<NNNObject>();
+
+        positivelyCorrelatedObjects.addAll(getNegativelyCorrelatedDiagnoses());
+        positivelyCorrelatedObjects.addAll(getNegativelyCorrelatedOutcomes());
+
+        return positivelyCorrelatedObjects;
+    }
 }

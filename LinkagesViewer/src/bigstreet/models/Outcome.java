@@ -159,6 +159,16 @@ public class Outcome extends NNNObject {
        return this.getName();
    }
 
+    @Override
+    public List<NNNObject> getPositivelyCorrelatedObjects() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<NNNObject> getNegativelyCorrelatedObjects() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 /*public List<Outcome> getCorrelatedOutcomes() {
 	List<Outcome> outcomes = new ArrayList<Outcome>();
 

@@ -1,5 +1,7 @@
 package bigstreet.models;
 
+import java.util.List;
+
 public class Intervention extends NNNObject {
 	//***** DATA MEMBERS *****//
 
@@ -18,5 +20,15 @@ public class Intervention extends NNNObject {
         public String toString() {
             return this.getName();
         }
+
+    @Override
+    public List<NNNObject> getPositivelyCorrelatedObjects() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<NNNObject> getNegativelyCorrelatedObjects() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
 }
