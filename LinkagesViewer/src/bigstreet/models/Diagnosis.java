@@ -121,7 +121,7 @@ public class Diagnosis extends NNNObject {
 		if (correlatedDiagnoses == null) {
 			correlatedDiagnoses = new ArrayList<Diagnosis>();
 			try {
-				String query = "SELECT id, nanda_code, isnull(name_current,name_2005) as name, definition FROM diagnoses d join correlations_between_diagnoses cbd on d.id = cbd.diagnosis_id_b WHERE cbd.diagnosis_id_a = ? order by correlation desc";
+				String query = "SELECT id, nanda_code, isnull(name_current,name_2005) as name, definition FROM diagnoses d join correlations_between_diagnoses cbd on d.id = cbd.diagnosis_id_b WHERE cbd.diagnosis_id_a = ? AND correlation > 0 order by correlation desc";
 				PreparedStatement search_ps = DBConnection.connection.prepareStatement(query);
 				search_ps.setInt(1, this.id);
 				ResultSet rs = search_ps.executeQuery();
@@ -139,26 +139,25 @@ public class Diagnosis extends NNNObject {
 		return correlatedDiagnoses;
 	}
 	
-	//TODO: finish implementing! does same thing as getCorrelatedDiagnoses()
 	public List<Diagnosis> getNegativelyCorrelatedDiagnoses() {
 		//If we haven't already pulled this info from the DB, get it now
 		if (negativelyCorrelatedDiagnoses == null) {
 			negativelyCorrelatedDiagnoses = new ArrayList<Diagnosis>();
-//			try {
-//				String query = "SELECT id, nanda_code, isnull(name_current,name_2005) as name, definition FROM diagnoses d join correlations_between_diagnoses cbd on d.id = cbd.diagnosis_id_b WHERE cbd.diagnosis_id_a = ? order by correlation desc";
-//				PreparedStatement search_ps = DBConnection.connection.prepareStatement(query);
-//				search_ps.setInt(1, this.id);
-//				ResultSet rs = search_ps.executeQuery();
-//				while (rs.next()) {
-//					negativelyCorrelatedDiagnoses.add(new Diagnosis(rs.getInt("id"),
-//														  rs.getString("name"),
-//														  rs.getString("nanda_code"),
-//														  rs.getString("definition")));
-//				}
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//				System.exit(1);
-//			}
+			try {
+				String query = "SELECT id, nanda_code, isnull(name_current,name_2005) as name, definition FROM diagnoses d join correlations_between_diagnoses cbd on d.id = cbd.diagnosis_id_b WHERE cbd.diagnosis_id_a = ? AND correlation < 0 order by correlation desc";
+				PreparedStatement search_ps = DBConnection.connection.prepareStatement(query);
+				search_ps.setInt(1, this.id);
+				ResultSet rs = search_ps.executeQuery();
+				while (rs.next()) {
+					negativelyCorrelatedDiagnoses.add(new Diagnosis(rs.getInt("id"),
+														  rs.getString("name"),
+														  rs.getString("nanda_code"),
+														  rs.getString("definition")));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
 		}
 		return negativelyCorrelatedDiagnoses;
 	}
@@ -168,21 +167,28 @@ public class Diagnosis extends NNNObject {
 		//If we haven't already pulled this info from the DB, get it now
 		if (negativelyCorrelatedOutcomes == null) {
 			negativelyCorrelatedOutcomes = new ArrayList<Outcome>();
-//			try {
-//				String query = "SELECT id, nanda_code, isnull(name_current,name_2005) as name, definition FROM diagnoses d join correlations_between_diagnoses cbd on d.id = cbd.diagnosis_id_b WHERE cbd.diagnosis_id_a = ? order by correlation desc";
-//				PreparedStatement search_ps = DBConnection.connection.prepareStatement(query);
-//				search_ps.setInt(1, this.id);
-//				ResultSet rs = search_ps.executeQuery();
-//				while (rs.next()) {
-//					negativelyCorrelatedOutcomes.add(new Diagnosis(rs.getInt("id"),
-//														  rs.getString("name"),
-//														  rs.getString("nanda_code"),
-//														  rs.getString("definition")));
-//				}
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//				System.exit(1);
-//			}
+                        try {
+				String query = new StringBuffer()
+					.append("SELECT id, noc_code, isnull(name_current,name_2005) as name, definition FROM [dbo].[outcomes] o ")
+					.append("JOIN [diagnosis_outcome_correlations] do ")
+					.append("ON o.id = do.outcome_id ")
+					.append("WHERE do.diagnosis_id=")
+					.append(this.id.toString())
+                                        .append(" AND correlation < 0")
+                                        .append(" ORDER By correlation DESC")
+					.toString();
+
+				ResultSet rs = DBConnection.connection.createStatement().executeQuery(query);
+				while (rs.next())
+					this.outcomes.add(new Outcome(rs.getInt("id"),
+											  this.id,
+											  rs.getString("name"),
+											  rs.getString("noc_code"),
+											  rs.getString("definition")));
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
 		}
 		return negativelyCorrelatedOutcomes;
 	}
@@ -209,11 +215,11 @@ public class Diagnosis extends NNNObject {
 
     @Override
     public List<NNNObject> getNegativelyCorrelatedObjects() {
-        List<NNNObject> positivelyCorrelatedObjects = new ArrayList<NNNObject>();
+        List<NNNObject> negativelyCorrelatedObjects = new ArrayList<NNNObject>();
 
-        positivelyCorrelatedObjects.addAll(getNegativelyCorrelatedDiagnoses());
-        positivelyCorrelatedObjects.addAll(getNegativelyCorrelatedOutcomes());
+        negativelyCorrelatedObjects.addAll(getNegativelyCorrelatedDiagnoses());
+        negativelyCorrelatedObjects.addAll(getNegativelyCorrelatedOutcomes());
 
-        return positivelyCorrelatedObjects;
+        return negativelyCorrelatedObjects;
     }
 }

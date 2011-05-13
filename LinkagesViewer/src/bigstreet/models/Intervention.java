@@ -1,5 +1,6 @@
 package bigstreet.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Intervention extends NNNObject {
@@ -23,12 +24,20 @@ public class Intervention extends NNNObject {
 
     @Override
     public List<NNNObject> getPositivelyCorrelatedObjects() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<NNNObject> positivelyCorrelatedObjects = new ArrayList<NNNObject>();
+
+
+
+        return positivelyCorrelatedObjects;
     }
 
     @Override
     public List<NNNObject> getNegativelyCorrelatedObjects() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<NNNObject> negativelyCorrelatedObjects = new ArrayList<NNNObject>();
+
+        
+
+        return negativelyCorrelatedObjects;
     }
 
 }
