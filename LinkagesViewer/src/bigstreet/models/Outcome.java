@@ -129,7 +129,7 @@ public class Outcome extends NNNObject {
    public List<Intervention> getCorrelatedInterventions() {
        List<Intervention> interventions = new ArrayList<Intervention>();
        String sql = new StringBuffer()
-               .append("SELECT isnull(name_current,name_2005) as name, nic_code, definition ")
+               .append("SELECT id, isnull(name_current,name_2005) as name, nic_code, definition ")
                .append("FROM dbo.interventions i JOIN dbo.diagnosis_outcome_intervention_correlations c ")
                .append("ON c.intervention_id = i.id ")
                .append("WHERE c.outcome_id = " + id + " ")
