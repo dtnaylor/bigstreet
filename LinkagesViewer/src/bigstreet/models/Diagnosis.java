@@ -193,10 +193,6 @@ public class Diagnosis extends NNNObject {
 		return negativelyCorrelatedOutcomes;
 	}
 	
-	public boolean equals(Object obj)
-	{
-		return ((Diagnosis)obj).getName().trim().equals(name.trim());// && ((Diagnosis)obj).getCode() == code;
-	}
 
         @Override
         public String toString() {
