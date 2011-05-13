@@ -14,6 +14,9 @@ public class Outcome extends NNNObject {
 	private List<Intervention> majorInterventions;
 	private List<Intervention> suggestedInterventions;
 	private List<Intervention> optionalInterventions;
+
+        private List<Intervention> correlatedInterventions;
+	private List<Intervention> negativelyCorrelatedInterventions;
 	
 	//***** CONSTRUCTORS *****//
 	public Outcome(int id, int parentID, String name, String code, String definition)
@@ -134,6 +137,36 @@ public class Outcome extends NNNObject {
                .append("ON c.intervention_id = i.id ")
                .append("WHERE c.outcome_id = " + id + " ")
                .append("AND c.diagnosis_id = " + parentID + " ")
+               .append("AND correlation > 0")
+               .append("ORDER BY CORRELATION DESC").toString();
+       System.out.println(sql);
+
+	try {
+		ResultSet rs = DBConnection.connection.createStatement().executeQuery(sql);
+		while (rs.next()) {
+			// Intervention(int id, String name, String code, String definition)
+			interventions.add(new Intervention(
+						rs.getInt("id"),
+						rs.getString("name"),
+                                                rs.getString("nic_code"),
+                                                rs.getString("definition")));
+		}
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+       return interventions;
+
+   }
+
+   public List<Intervention> getNegativelyCorrelatedInterventions() {
+       List<Intervention> interventions = new ArrayList<Intervention>();
+       String sql = new StringBuffer()
+               .append("SELECT id, isnull(name_current,name_2005) as name, nic_code, definition ")
+               .append("FROM dbo.interventions i JOIN dbo.diagnosis_outcome_intervention_correlations c ")
+               .append("ON c.intervention_id = i.id ")
+               .append("WHERE c.outcome_id = " + id + " ")
+               .append("AND c.diagnosis_id = " + parentID + " ")
+               .append("AND correlation < 0")
                .append("ORDER BY CORRELATION DESC").toString();
        System.out.println(sql);
 
@@ -161,12 +194,20 @@ public class Outcome extends NNNObject {
 
     @Override
     public List<NNNObject> getPositivelyCorrelatedObjects() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<NNNObject> correlatedObjects = new ArrayList<NNNObject>();
+        for (Intervention i : getCorrelatedInterventions()) {
+            correlatedObjects.add((NNNObject) i);
+        }
+        return correlatedObjects;
     }
 
     @Override
     public List<NNNObject> getNegativelyCorrelatedObjects() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<NNNObject> correlatedObjects = new ArrayList<NNNObject>();
+        for (Intervention i : getNegativelyCorrelatedInterventions()) {
+            correlatedObjects.add((NNNObject) i);
+        }
+        return correlatedObjects;
     }
 
 /*public List<Outcome> getCorrelatedOutcomes() {
