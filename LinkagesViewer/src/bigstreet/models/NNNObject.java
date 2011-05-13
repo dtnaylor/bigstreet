@@ -1,6 +1,7 @@
 package bigstreet.models;
 
 import java.io.Serializable;
+import java.util.List;
 
 public abstract class NNNObject implements Serializable {
 	
@@ -29,4 +30,7 @@ public abstract class NNNObject implements Serializable {
 	public int getNumberOfCorrelatedNodes() {
 		return 0;
 	}
+
+        public abstract List<NNNObject> getPositivelyCorrelatedObjects();
+        public abstract List<NNNObject> getNegativelyCorrelatedObjects();
 }
