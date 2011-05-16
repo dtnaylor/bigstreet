@@ -3,7 +3,7 @@ package bigstreet.models;
 import java.io.Serializable;
 import java.util.List;
 
-public abstract class NNNObject implements Serializable {
+public abstract class NNNObject implements Serializable, Comparable {
 	
 	//***** DATA MEMBERS *****//
 	protected Integer id; 
@@ -34,8 +34,11 @@ public abstract class NNNObject implements Serializable {
         public abstract List<NNNObject> getPositivelyCorrelatedObjects();
         public abstract List<NNNObject> getNegativelyCorrelatedObjects();
 
-        public boolean equals(Object obj)
-	{
-		return ((NNNObject)obj).getName().trim().equals(name.trim());// && ((Diagnosis)obj).getCode() == code;
+        public boolean equals(Object obj){
+            return ((NNNObject)obj).getName().trim().equals(name.trim());// && ((Diagnosis)obj).getCode() == code;
 	}
+
+        public int compareTo(Object o) {
+            return this.getName().compareTo(((NNNObject) o).getName());
+        }
 }

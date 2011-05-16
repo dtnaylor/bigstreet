@@ -32,6 +32,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Collections;
 
 public abstract class AppController {
 
@@ -136,17 +137,25 @@ public abstract class AppController {
 
         public static void setOutcomesForSelectedDiagnosis(Diagnosis n, String filter) {
                 correlatedOutcomes.removeAllElements();
+                ArrayList<Outcome> outcomesToSort = new ArrayList<Outcome>();
+                
                 if (filter.equals("Linked Outcomes") || filter.equals("All Outcomes")) {
                     for (Outcome o: n.getOutcomes()) {
-                        correlatedOutcomes.addElement(o);
+                        outcomesToSort.add(o);
                     }
-                    mainWindow.setLinkedOutcomes(correlatedOutcomes);
                 }
                 if (filter.equals("Correlated Outcomes") || filter.equals("All Outcomes")) {
                     for (Outcome o: n.getCorrelatedOutcomes()) {
-                        correlatedOutcomes.addElement(o);
+                        if (!outcomesToSort.contains(o)) {
+                            outcomesToSort.add(o);
+                        }
                     }
                 }
+                Collections.sort(((List) outcomesToSort));
+                for (Outcome o: outcomesToSort) {
+                    correlatedOutcomes.addElement(o);
+                }
+                mainWindow.setLinkedOutcomes(correlatedOutcomes);
         }
 
         public static void setInterventionsForSelectedOutcome(Outcome o, String filter) {
