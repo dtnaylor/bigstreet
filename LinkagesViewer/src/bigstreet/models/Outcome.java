@@ -91,15 +91,15 @@ public class Outcome extends NNNObject {
 				break;
 			case OPTIONAL_INTERVENTION:
 				typeString = "optional";
-				break;
+                                    break;
 		}
 		
 		// Get major interventions
 		List<Intervention> interventions = new ArrayList<Intervention>();
 		
 		String sql = new StringBuffer()
-			.append("SELECT id, isnull(name_current,name_2005) as name, nic_code, [definition], [type] ")
-			.append("FROM [dbo].[interventions] i JOIN [dbo].[diagnosis_outcome_interventions] doi ")
+			.append("SELECT id, name, nic_code, definition, type ")
+			.append("FROM interventions i JOIN diagnosis_outcome_interventions doi ")
 			.append("ON i.id = doi.intervention_id ")
 			.append("WHERE diagnosis_id = " + parentID + " and outcome_id = " + id + " and [type] = '" + typeString + "'")
 			.toString();
@@ -132,7 +132,7 @@ public class Outcome extends NNNObject {
    public List<Intervention> getCorrelatedInterventions() {
        List<Intervention> interventions = new ArrayList<Intervention>();
        String sql = new StringBuffer()
-               .append("SELECT id, isnull(name_current,name_2005) as name, nic_code, definition ")
+               .append("SELECT id, name, nic_code, definition ")
                .append("FROM dbo.interventions i JOIN dbo.diagnosis_outcome_intervention_correlations c ")
                .append("ON c.intervention_id = i.id ")
                .append("WHERE c.outcome_id = " + id + " ")
@@ -161,12 +161,12 @@ public class Outcome extends NNNObject {
    public List<Intervention> getNegativelyCorrelatedInterventions() {
        List<Intervention> interventions = new ArrayList<Intervention>();
        String sql = new StringBuffer()
-               .append("SELECT id, isnull(name_current,name_2005) as name, nic_code, definition ")
-               .append("FROM dbo.interventions i JOIN dbo.diagnosis_outcome_intervention_correlations c ")
+               .append("SELECT id, name, nic_code, definition ")
+               .append("FROM interventions i JOIN diagnosis_outcome_intervention_correlations c ")
                .append("ON c.intervention_id = i.id ")
                .append("WHERE c.outcome_id = " + id + " ")
                .append("AND c.diagnosis_id = " + parentID + " ")
-               .append("AND correlation < 0")
+               .append("AND correlation < 0 ")
                .append("ORDER BY CORRELATION DESC").toString();
        System.out.println(sql);
 

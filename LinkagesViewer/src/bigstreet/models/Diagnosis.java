@@ -41,7 +41,7 @@ public class Diagnosis extends NNNObject {
 		if (this.outcomes.isEmpty()) {
 			try {
 				String query = new StringBuffer()
-					.append("SELECT id, noc_code, isnull(name_current,name_2005) as name, definition FROM [dbo].[outcomes] o ")
+					.append("SELECT id, noc_code, name, definition FROM outcomes o ")
 					.append("JOIN diagnosis_outcomes do ")
 					.append("ON o.id = do.outcome_id ")
 					.append("WHERE do.diagnosis_id=")					
@@ -71,8 +71,8 @@ public class Diagnosis extends NNNObject {
 		if (this.outcomes.isEmpty()) {
 			try {
 				String query = new StringBuffer()
-					.append("SELECT id, noc_code, isnull(name_current,name_2005) as name, definition FROM [dbo].[outcomes] o ")
-					.append("JOIN [diagnosis_outcome_correlations] do ")
+					.append("SELECT id, noc_code, name, definition FROM outcomes o ")
+					.append("JOIN diagnosis_outcome_correlations do ")
 					.append("ON o.id = do.outcome_id ")
 					.append("WHERE do.diagnosis_id=")					
 					.append(this.id.toString())
@@ -121,7 +121,7 @@ public class Diagnosis extends NNNObject {
 		if (correlatedDiagnoses == null) {
 			correlatedDiagnoses = new ArrayList<Diagnosis>();
 			try {
-				String query = "SELECT id, nanda_code, isnull(name_current,name_2005) as name, definition FROM diagnoses d join correlations_between_diagnoses cbd on d.id = cbd.diagnosis_id_b WHERE cbd.diagnosis_id_a = ? AND correlation > 0 order by correlation desc";
+				String query = "SELECT id, nanda_code, name, definition FROM diagnoses d join correlations_between_diagnoses cbd on d.id = cbd.diagnosis_id_b WHERE cbd.diagnosis_id_a = ? AND correlation > 0 order by correlation desc";
 				PreparedStatement search_ps = DBConnection.connection.prepareStatement(query);
 				search_ps.setInt(1, this.id);
 				ResultSet rs = search_ps.executeQuery();
@@ -144,7 +144,7 @@ public class Diagnosis extends NNNObject {
 		if (negativelyCorrelatedDiagnoses == null) {
 			negativelyCorrelatedDiagnoses = new ArrayList<Diagnosis>();
 			try {
-				String query = "SELECT id, nanda_code, isnull(name_current,name_2005) as name, definition FROM diagnoses d join correlations_between_diagnoses cbd on d.id = cbd.diagnosis_id_b WHERE cbd.diagnosis_id_a = ? AND correlation < 0 order by correlation desc";
+				String query = "SELECT id, nanda_code, name, definition FROM diagnoses d join correlations_between_diagnoses cbd on d.id = cbd.diagnosis_id_b WHERE cbd.diagnosis_id_a = ? AND correlation < 0 order by correlation desc";
 				PreparedStatement search_ps = DBConnection.connection.prepareStatement(query);
 				search_ps.setInt(1, this.id);
 				ResultSet rs = search_ps.executeQuery();
@@ -169,8 +169,8 @@ public class Diagnosis extends NNNObject {
 			negativelyCorrelatedOutcomes = new ArrayList<Outcome>();
                         try {
 				String query = new StringBuffer()
-					.append("SELECT id, noc_code, isnull(name_current,name_2005) as name, definition FROM [dbo].[outcomes] o ")
-					.append("JOIN [diagnosis_outcome_correlations] do ")
+					.append("SELECT id, noc_code, name, definition FROM outcomes o ")
+					.append("JOIN diagnosis_outcome_correlations do ")
 					.append("ON o.id = do.outcome_id ")
 					.append("WHERE do.diagnosis_id=")
 					.append(this.id.toString())

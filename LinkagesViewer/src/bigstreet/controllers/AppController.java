@@ -264,10 +264,9 @@ public abstract class AppController {
             searchResultObjects.clear();
 
             try {
-                    String query = "SELECT id, nanda_code, isnull(name_current,name_2005) as name, definition FROM DIAGNOSES WHERE NAME_CURRENT LIKE ? or NAME_2005 LIKE ?";
+                    String query = "SELECT id, nanda_code, name, definition FROM diagnoses WHERE name LIKE ?";
                     PreparedStatement search_ps = DBConnection.connection.prepareStatement(query);
                     search_ps.setString(1,"%"+text+"%");
-                    search_ps.setString(2,"%"+text+"%");
                     ResultSet rs = search_ps.executeQuery();
                     while (rs.next()) {
                             searchResults.addElement(rs.getString("name"));
