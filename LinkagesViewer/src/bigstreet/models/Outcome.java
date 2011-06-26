@@ -92,6 +92,8 @@ public class Outcome extends NNNObject {
 			case OPTIONAL_INTERVENTION:
 				typeString = "optional";
                                     break;
+                        default:
+                            throw new RuntimeException("Invalid intervention type: " + type.toString());
 		}
 		
 		// Get major interventions

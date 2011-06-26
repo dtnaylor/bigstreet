@@ -161,6 +161,8 @@ public class NNNGraph implements Serializable {
 		final Stroke suggestedInterventionEdgeStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f);
 		final float optionalInterventionDash[] = {10.0f};
 		final Stroke optionalInterventionEdgeStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, optionalInterventionDash, 0.0f);
+                final float correlatedDash[] = {2.0f};
+		final Stroke correlatedEdgeStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, correlatedDash, 0.0f);
 		
 		
 		Transformer<GraphEdge, Stroke> edgeStrokeTransformer = 
@@ -176,6 +178,8 @@ public class NNNGraph implements Serializable {
 							return suggestedInterventionEdgeStroke;
 						case OPTIONAL_INTERVENTION:
 							return optionalInterventionEdgeStroke;
+                                                case CORRELATED:
+                                                        return correlatedEdgeStroke;
 						default:
 							return defaultEdgeStroke;
 					}
@@ -397,24 +401,37 @@ public class NNNGraph implements Serializable {
 			// to any diagnoses already present in the graph
 			for (Object obj : diagnoses.values()){
 				GraphNode diagnosisNode = (GraphNode)obj;
-				for (Outcome o : ((Diagnosis)diagnosisNode.getNNNObject()).getOutcomes()){
-					if (o.code.equals(outcome.code)){
-						RenderMode renderMode;
-						if (diagnosisNode.getSelected())
-							renderMode = RenderMode.NORMAL;
-						else
-							renderMode = RenderMode.GHOSTED;
-						
-						g.addEdge(new GraphEdge(EdgeType.OUTCOME, renderMode, diagnosisNode, newNode), diagnosisNode, newNode);
-					}
-				}
+                                
+
+                                //If the diagnosis and outcome are linked in the book,
+                                //add an edge
+                                boolean linked = false;
+                                for (Outcome o : ((Diagnosis)diagnosisNode.getNNNObject()).getOutcomes()){
+                                    if (o.code.equals(outcome.code)){
+                                            linked = true;
+                                        
+                                            RenderMode renderMode;
+                                            if (diagnosisNode.getSelected())
+                                                    renderMode = RenderMode.NORMAL;
+                                            else
+                                                    renderMode = RenderMode.GHOSTED;
+
+                                            g.addEdge(new GraphEdge(EdgeType.OUTCOME, renderMode, diagnosisNode, newNode), diagnosisNode, newNode);
+                                    }
+                                }
+                                // Otherwise, if this diagnosis is selected, add an edge
+                                // whether this outcome is linked or not
+                                if (!linked && diagnosisNode.equals(AppController.getSelectedNodes().get(0)))
+                                {
+                                    g.addEdge(new GraphEdge(EdgeType.CORRELATED, RenderMode.NORMAL, diagnosisNode, newNode), diagnosisNode, newNode);
+                                }
 			}
 			
 			// Check to see if outcome should be connected
 			// to any interventions already present in the graph
 			for (EdgeType t : EdgeType.values())
 			{
-				if(t == EdgeType.OUTCOME) continue; //We only want interventions
+				if(t == EdgeType.OUTCOME || t == EdgeType.CORRELATED) continue; //We only want interventions
 				
 				for (Intervention i : outcome.getInterventions(t))
 				{
@@ -452,24 +469,39 @@ public class NNNGraph implements Serializable {
                     GraphNode outcomeNode = (GraphNode)obj;
                     for (NNNObject nnnObj : outcomeNode.getNNNObjects()){
                         Outcome o = (Outcome)nnnObj;
-                        for (EdgeType t : EdgeType.values())
-                        {
-                            if(t == EdgeType.OUTCOME) continue; //We only want interventions
+                        
 
-                            for (Intervention i : o.getInterventions(t))
+                            // If intervention is linked to outcome, draw an edge
+                            boolean linked = false;
+                            for (EdgeType t : EdgeType.values())
                             {
-                                if (i.code.equals(intervention.code)){
-                                    RenderMode renderMode;
-                                    if (outcomeNode.getSelected())
-                                        renderMode = RenderMode.NORMAL;
-                                    else
-                                        renderMode = RenderMode.GHOSTED;
+                                if(t == EdgeType.OUTCOME || t == EdgeType.CORRELATED) continue; //We only want interventions
 
-                                    g.addEdge(new GraphEdge(t, renderMode, outcomeNode, newNode), outcomeNode, newNode);
+                                for (Intervention i : o.getInterventions(t))
+                                {
+                                    if (i.code.equals(intervention.code)){
+                                        linked = true;
+                                        
+                                        RenderMode renderMode;
+                                        if (outcomeNode.getSelected())
+                                            renderMode = RenderMode.NORMAL;
+                                        else
+                                            renderMode = RenderMode.GHOSTED;
 
+                                        g.addEdge(new GraphEdge(t, renderMode, outcomeNode, newNode), outcomeNode, newNode);
+
+                                    }
                                 }
                             }
-                        }
+                            
+                            // Otherwise, if this outcome is selected, add an edge
+                            // whether this intervention is linked or not (the
+                            // intervention must be correlated)
+                            if (!linked && outcomeNode.equals(AppController.getSelectedNodes().get(0)))
+                            {
+                                
+                                g.addEdge(new GraphEdge(EdgeType.CORRELATED, RenderMode.NORMAL, outcomeNode, newNode), outcomeNode, newNode);
+                            }
                     }
                 }
 
