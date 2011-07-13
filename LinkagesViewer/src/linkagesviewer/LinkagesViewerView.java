@@ -915,6 +915,7 @@ public class LinkagesViewerView extends FrameView {
     public void addTabsForDiagnosis() {
         this.CurrentSelectionTabbedPane.addTab("Diagnoses",jPanel3);
         this.CurrentSelectionTabbedPane.addTab("Outcomes",jPanel5);
+        this.OutcomeFilterComboBox.setSelectedIndex(0);
     }
 
     public void addTabsForOutcome() {

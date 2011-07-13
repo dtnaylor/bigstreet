@@ -135,7 +135,7 @@ public class Outcome extends NNNObject {
        List<Intervention> interventions = new ArrayList<Intervention>();
        String sql = new StringBuffer()
                .append("SELECT id, name, nic_code, definition ")
-               .append("FROM dbo.interventions i JOIN dbo.diagnosis_outcome_intervention_correlations c ")
+               .append("FROM interventions i JOIN diagnosis_outcome_intervention_correlations c ")
                .append("ON c.intervention_id = i.id ")
                .append("WHERE c.outcome_id = " + id + " ")
                .append("AND c.diagnosis_id = " + parentID + " ")

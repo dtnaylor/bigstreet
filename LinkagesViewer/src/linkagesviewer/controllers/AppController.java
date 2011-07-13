@@ -113,7 +113,8 @@ public abstract class AppController {
                 mainWindow.enableCurrentSelectedNodePanel();
                 mainWindow.clearCurrentSelectionTabs();
                 String type = node.getNNNObject().getClass().getName();
-                if (type.equals("bigstreet.models.Diagnosis")) {
+                //if (type.equals("bigstreet.models.Diagnosis")) {
+                if (node.getNNNObject() instanceof Diagnosis) {
                     mainWindow.addTabsForDiagnosis();
                     Diagnosis n = ((Diagnosis) node.getNNNObject());
                     // populate correlated Diagnoses
@@ -124,7 +125,7 @@ public abstract class AppController {
                     mainWindow.setCorrelatedDiagnosises(correlatedDiagnoses);
                     AppController.setOutcomesForSelectedDiagnosis(n, "Linked Outcomes");
 
-                } else if (type.equals("bigstreet.models.Outcome")) {
+                } else if (node.getNNNObject() instanceof Outcome) {
                     mainWindow.addTabsForOutcome();
                     Outcome o = ((Outcome) node.getNNNObject());
                     AppController.setInterventionsForSelectedOutcome(o, mainWindow.getCurrentLinkedInterventionsComboBoxValue());
