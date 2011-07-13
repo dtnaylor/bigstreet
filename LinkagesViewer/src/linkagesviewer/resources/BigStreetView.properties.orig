@@ -1,0 +1,55 @@
+showAboutBox.Action.text = About...
+showAboutBox.Action.shortDescription = Show the application's information dialog
+
+# status bar resources
+
+StatusBar.messageTimeout = 5000
+StatusBar.busyAnimationRate = 30
+StatusBar.idleIcon = busyicons/idle-icon.png
+StatusBar.busyIcons[0]  = busyicons/busy-icon0.png
+StatusBar.busyIcons[1]  = busyicons/busy-icon1.png
+StatusBar.busyIcons[2]  = busyicons/busy-icon2.png
+StatusBar.busyIcons[3]  = busyicons/busy-icon3.png
+StatusBar.busyIcons[4]  = busyicons/busy-icon4.png
+StatusBar.busyIcons[5]  = busyicons/busy-icon5.png
+StatusBar.busyIcons[6]  = busyicons/busy-icon6.png
+StatusBar.busyIcons[7]  = busyicons/busy-icon7.png
+StatusBar.busyIcons[8]  = busyicons/busy-icon8.png
+StatusBar.busyIcons[9]  = busyicons/busy-icon9.png
+StatusBar.busyIcons[10] = busyicons/busy-icon10.png
+StatusBar.busyIcons[11] = busyicons/busy-icon11.png
+StatusBar.busyIcons[12] = busyicons/busy-icon12.png
+StatusBar.busyIcons[13] = busyicons/busy-icon13.png
+StatusBar.busyIcons[14] = busyicons/busy-icon14.png
+jLabel1.text=Add a Diagnosis
+jButton2.text=Add
+jPanel3.TabConstraints.tabTitle=Diagnoses
+jPanel2.TabConstraints.tabTitle=Info
+jPanel5.TabConstraints.tabTitle=Outcomes
+CurrentSelectionLabel.text=Current Selection
+addDiagnosisTextField.text=
+DiagnosisSearchButton.text=Search
+<<<<<<< HEAD
+helpMenu.text=Help
+aboutMenuItem.text=About...
+fileMenu.text=File
+exitMenuItem.text=Exit
+saveMenuItem.text=Save View...
+openMenuItem.text=Open View...
+=======
+jButton1.text=jButton1
+currentNodeNameLabel.text=No node currently selected.
+#NOI18N
+currentSelectionDescriptionTextArea.background=238, 238, 238
+#NOI18N
+currentSelectionDescriptionTextArea.foreground=0, 0, 0
+#NOI18N
+currentNodeNameLabel.font=Lucida Grande-Bold-14
+#NOI18N
+CurrentSelectionTabbedPane.font=Lucida Grande-Plain-13
+jLabel2.text=Correlated Diagnoses
+jLabel3.text=Linked Outcomes
+jButton3.text=jButton3
+addCorrelatedDiagnosisButton.label=Add Diagnosis
+addOutcomeButton.label=Add Outcome
+>>>>>>> e7161f6640d1d56c8240afa6d455e8ec221d438d
